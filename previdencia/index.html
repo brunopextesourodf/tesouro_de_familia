@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador IR - Previdência Privada</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            height: 8px;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .step-subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .option-card {
+            background: #f8f9fa;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .option-card.selected {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+        }
+
+        .option-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .option-card p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            opacity: 0.8;
+        }
+
+        .option-card.selected p {
+            opacity: 1;
+        }
+
+        .option-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+
+        .input-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .input-group input, .input-group select {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .result-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+        }
+
+        .result-card h4 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #e74c3c;
+            margin-top: 15px;
+            padding-top: 20px;
+            border-top: 2px solid #3498db;
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .summary-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .validation-alert {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .footer {
+            background: #ecf0f1;
+            padding: 20px 30px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 Simulador de Imposto de Renda</h1>
+            <p>Previdência Privada - Simulação Personalizada</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content">
+            <!-- STEP 1: Tipo de Previdência -->
+            <div class="step active" id="step1">
+                <h2 class="step-title">Tipo da sua Previdência</h2>
+                <p class="step-subtitle">Primeiro, precisamos saber que tipo de plano de previdência você possui:</p>
+                
+                <div class="options-grid">
+                    <div class="option-card" data-value="pgbl" data-type="tipoPrevidencia">
+                        <span class="option-icon">📈</span>
+                        <h3>PGBL</h3>
+                        <p>Plano Gerador de Benefício Livre. Ideal para quem faz declaração completa e contribui para INSS/RPPS. Permite dedução de até 12% da renda bruta anual.</p>
+                    </div>
+                    <div class="option-card" data-value="vgbl" data-type="tipoPrevidencia">
+                        <span class="option-icon">💰</span>
+                        <h3>VGBL</h3>
+                        <p>Vida Gerador de Benefício Livre. Ideal para declaração simplificada ou quem já atingiu o limite de dedução do PGBL. IR incide apenas sobre rendimentos.</p>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <div></div>
+                    <button class="btn btn-primary" id="nextStep1" disabled>Próximo</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Tipo de Tabela -->
+            <div class="step" id="step2">
+                <h2 class="step-title">Tabela de Tributação</h2>
+                <p class="step-subtitle">Qual tabela de imposto seu plano utiliza?</p>
+                
+                <div class="options-grid">
+                    <div class="option-card" data-value="progressiva" data-type="tipoTabela">
+                        <span class="option-icon">📊</span>
+                        <h3>Progressiva</h3>
+                        <p>Alíquotas de 0% a 27,5%, como seu salário. IR retido na fonte é de 15% (antecipação). O valor entra no ajuste anual do IR.</p>
+                    </div>
+                    <div class="option-card" data-value="regressiva" data-type="tipoTabela">
+                        <span class="option-icon">⏳</span>
+                        <h3>Regressiva</h3>
+                        <p>Alíquotas decrescentes com o tempo (35% a 10%). IR retido na fonte é definitivo. Não entra no ajuste anual.</p>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-secondary" id="backStep2">Voltar</button>
+                    <button class="btn btn-primary" id="nextStep2" disabled>Próximo</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: Tipo de Declaração (só para progressiva) -->
+            <div class="step" id="step3">
+                <h2 class="step-title">Tipo de Declaração IR</h2>
+                <p class="step-subtitle">Como você declara seu Imposto de Renda?</p>
+                
+                <div class="options-grid">
+                    <div class="option-card" data-value="completa" data-type="tipoDeclaracao">
+                        <span class="option-icon">📋</span>
+                        <h3>Declaração Completa</h3>
+                        <p>Você discrimina gastos com saúde, educação, dependentes, etc. Permite maior controle sobre as deduções.</p>
+                    </div>
+                    <div class="option-card" data-value="simplificada" data-type="tipoDeclaracao">
+                        <span class="option-icon">⚡</span>
+                        <h3>Declaração Simplificada</h3>
+                        <p>Usa desconto padrão de 20% da renda (máximo R$ 16.754,34). Mais prática, mas pode ser menos vantajosa.</p>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-secondary" id="backStep3">Voltar</button>
+                    <button class="btn btn-primary" id="nextStep3" disabled>Simular</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: Dados para Simulação -->
+            <div class="step" id="step4">
+                <h2 class="step-title">Dados para Simulação</h2>
+                <p class="step-subtitle">Agora vamos simular seu cenário específico:</p>
+
+                <div class="summary-card" id="scenarioSummary">
+                    <!-- Será preenchido via JavaScript -->
+                </div>
+
+                <div class="input-section">
+                    <h3>💰 Dados Financeiros</h3>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="salarioAnual">Salário/Renda Anual (R$)</label>
+                            <input type="number" id="salarioAnual" placeholder="Ex: 120000" value="120000">
+                        </div>
+                        <div class="input-group" id="despesasGroup">
+                            <label for="despesasDedutiveis">Despesas Dedutíveis (R$)</label>
+                            <input type="number" id="despesasDedutiveis" placeholder="Ex: 15000" value="15000">
+                            <small style="color: #7f8c8d; margin-top: 5px;">Saúde, educação, previdência oficial, etc.</small>
+                        </div>
+                        <div class="input-group" id="dependentesGroup">
+                            <label for="numDependentes">Número de Dependentes</label>
+                            <input type="number" id="numDependentes" placeholder="Ex: 2" value="0" min="0">
+                            <small style="color: #7f8c8d; margin-top: 5px;">R$ 2.275,08 de dedução por dependente (2024)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-section" id="saldosSection">
+                    <!-- Será preenchido conforme o tipo -->
+                </div>
+
+                <div class="validation-alert" id="validationAlert">
+                    <span id="validationText"></span>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-secondary" id="backStep4">Voltar</button>
+                    <button class="btn btn-primary" id="calcularBtn">Calcular Imposto</button>
+                </div>
+            </div>
+
+            <!-- STEP 5: Resultado -->
+            <div class="step" id="step5">
+                <h2 class="step-title">Resultado da Simulação</h2>
+                <p class="step-subtitle">Aqui está o cálculo do seu imposto:</p>
+
+                <div id="resultContent">
+                    <!-- Será preenchido via JavaScript -->
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-secondary" id="novaSimulacao">Nova Simulação</button>
+                    <button class="btn btn-primary" id="backStep5">Ajustar Dados</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💡 Esta simulação é apenas orientativa. Para casos complexos, consulte sempre um contador especializado.</p>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let currentStep = 1;
+        const maxSteps = 5;
+        const userChoices = {};
+
+        // Tabela Progressiva IR 2024
+        const tabelaProgressiva = [
+            { limite: 24511.92, aliquota: 0, parcela: 0 },
+            { limite: 33919.80, aliquota: 7.5, parcela: 1837.98 },
+            { limite: 45012.60, aliquota: 15, parcela: 4364.51 },
+            { limite: 66069.00, aliquota: 22.5, parcela: 7747.66 },
+            { limite: Infinity, aliquota: 27.5, parcela: 11051.91 }
+        ];
+
+        // Funções auxiliares
+        function updateProgress() {
+            const progress = (currentStep / maxSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function showStep() {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            updateProgress();
+        }
+
+        function selectOption(type, value, element) {
+            element.parentNode.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            userChoices[type] = value;
+            
+            const nextBtn = document.querySelector(`#nextStep${currentStep}`);
+            if (nextBtn) nextBtn.disabled = false;
+        }
+
+        function setupDataStep() {
+            const summary = document.getElementById('scenarioSummary');
+            const tipoPrevidencia = userChoices.tipoPrevidencia.toUpperCase();
+            const tipoTabela = userChoices.tipoTabela.charAt(0).toUpperCase() + userChoices.tipoTabela.slice(1);
+            const tipoDeclaracao = userChoices.tipoDeclaracao !== 'n/a' ? 
+                userChoices.tipoDeclaracao.charAt(0).toUpperCase() + userChoices.tipoDeclaracao.slice(1) : '';
+            
+            summary.innerHTML = `
+                <h3>🎯 Seu Cenário</h3>
+                <p>${tipoPrevidencia} + Tabela ${tipoTabela}${tipoDeclaracao ? ` + Declaração ${tipoDeclaracao}` : ''}</p>
+            `;
+
+            const saldosSection = document.getElementById('saldosSection');
+            const despesasGroup = document.getElementById('despesasGroup');
+            const dependentesGroup = document.getElementById('dependentesGroup');
+
+            if (userChoices.tipoTabela === 'progressiva') {
+                if (userChoices.tipoDeclaracao === 'simplificada') {
+                    despesasGroup.style.display = 'none';
+                    dependentesGroup.style.display = 'none';
+                } else {
+                    despesasGroup.style.display = 'block';
+                    dependentesGroup.style.display = 'block';
+                }
+
+                if (userChoices.tipoPrevidencia === 'pgbl') {
+                    saldosSection.innerHTML = `
+                        <h3>📊 Dados da Previdência</h3>
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="valorTotal">Valor Total do Saque Anual (R$)</label>
+                                <input type="number" id="valorTotal" placeholder="Ex: 200000" value="200000">
+                                <small style="color: #7f8c8d; margin-top: 5px;">No PGBL o IR incide sobre o valor total</small>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    saldosSection.innerHTML = `
+                        <h3>📊 Dados da Previdência</h3>
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="valorTotal">Valor Total do Saque Anual (R$)</label>
+                                <input type="number" id="valorTotal" placeholder="Ex: 200000" value="200000">
+                            </div>
+                            <div class="input-group">
+                                <label for="rendimentos">Rendimentos/Lucro (R$)</label>
+                                <input type="number" id="rendimentos" placeholder="Ex: 80000" value="80000">
+                                <small style="color: #7f8c8d; margin-top: 5px;">No VGBL o IR incide apenas sobre os rendimentos</small>
+                            </div>
+                        </div>
+                    `;
+                }
+            } else {
+                despesasGroup.style.display = 'none';
+                dependentesGroup.style.display = 'none';
+                
+                if (userChoices.tipoPrevidencia === 'pgbl') {
+                    saldosSection.innerHTML = `
+                        <h3>💰 Saldos por Tempo de Aporte</h3>
+                        <p style="margin-bottom: 20px; color: #7f8c8d; font-style: italic;">
+                            Informe quanto você tem em cada faixa de tempo (regra PEPS). No PGBL o IR incide sobre o valor total:
+                        </p>
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="saldo35">Até 2 anos (35%)</label>
+                                <input type="number" id="saldo35" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo30">2 a 4 anos (30%)</label>
+                                <input type="number" id="saldo30" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo25">4 a 6 anos (25%)</label>
+                                <input type="number" id="saldo25" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo20">6 a 8 anos (20%)</label>
+                                <input type="number" id="saldo20" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo15">8 a 10 anos (15%)</label>
+                                <input type="number" id="saldo15" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo10">Mais de 10 anos (10%)</label>
+                                <input type="number" id="saldo10" placeholder="R$ 200000" value="200000">
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    saldosSection.innerHTML = `
+                        <h3>💰 Saldos por Tempo de Aporte</h3>
+                        <p style="margin-bottom: 20px; color: #7f8c8d; font-style: italic;">
+                            Informe quanto você tem em cada faixa de tempo (regra PEPS). No VGBL o IR incide apenas sobre os rendimentos:
+                        </p>
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="saldo35">Até 2 anos (35%)</label>
+                                <input type="number" id="saldo35" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo30">2 a 4 anos (30%)</label>
+                                <input type="number" id="saldo30" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo25">4 a 6 anos (25%)</label>
+                                <input type="number" id="saldo25" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo20">6 a 8 anos (20%)</label>
+                                <input type="number" id="saldo20" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo15">8 a 10 anos (15%)</label>
+                                <input type="number" id="saldo15" placeholder="R$ 0" value="0">
+                            </div>
+                            <div class="input-group">
+                                <label for="saldo10">Mais de 10 anos (10%)</label>
+                                <input type="number" id="saldo10" placeholder="R$ 200000" value="200000">
+                            </div>
+                        </div>
+                        <div class="input-grid" style="margin-top: 20px;">
+                            <div class="input-group">
+                                <label for="rendimentos">Rendimentos/Lucro Total (R$)</label>
+                                <input type="number" id="rendimentos" placeholder="Ex: 80000" value="80000">
+                                <small style="color: #7f8c8d; margin-top: 5px;">Apenas este valor será tributado no VGBL</small>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Funções de cálculo
+        function formatarMoeda(valor) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(valor);
+        }
+
+        function calcularIRProgressivo(rendaTributavel) {
+            let faixa = tabelaProgressiva.find(f => rendaTributavel <= f.limite);
+            if (!faixa) faixa = tabelaProgressiva[tabelaProgressiva.length - 1];
+            
+            const imposto = (rendaTributavel * faixa.aliquota / 100) - faixa.parcela;
+            return Math.max(0, imposto);
+        }
+
+        function calcularIRRetidoSalario(salarioBruto) {
+            const salarioMensal = salarioBruto / 12;
+            const inss = Math.min(salarioMensal * 0.14, 1218.27); // Teto INSS 2024: R$ 7.786,02 * 14%
+            const baseSalario = salarioMensal - inss;
+            
+            let irMensal = 0;
+            if (baseSalario > 4664.68) {
+                irMensal = (baseSalario * 0.275) - 869.36;
+            } else if (baseSalario > 3751.05) {
+                irMensal = (baseSalario * 0.225) - 636.13;
+            } else if (baseSalario > 2826.65) {
+                irMensal = (baseSalario * 0.15) - 354.80;
+            } else if (baseSalario > 2112.00) {
+                irMensal = (baseSalario * 0.075) - 158.40;
+            }
+            
+            return Math.max(0, irMensal * 12);
+        }
+
+        function calcularAliquotaRegressiva() {
+            const saldo35 = parseFloat(document.getElementById('saldo35')?.value) || 0;
+            const saldo30 = parseFloat(document.getElementById('saldo30')?.value) || 0;
+            const saldo25 = parseFloat(document.getElementById('saldo25')?.value) || 0;
+            const saldo20 = parseFloat(document.getElementById('saldo20')?.value) || 0;
+            const saldo15 = parseFloat(document.getElementById('saldo15')?.value) || 0;
+            const saldo10 = parseFloat(document.getElementById('saldo10')?.value) || 0;
+            
+            const valorTotal = saldo35 + saldo30 + saldo25 + saldo20 + saldo15 + saldo10;
+            
+            if (valorTotal === 0) return 10;
+            
+            const impostoTotal = (saldo35 * 0.35) + (saldo30 * 0.30) + (saldo25 * 0.25) + 
+                               (saldo20 * 0.20) + (saldo15 * 0.15) + (saldo10 * 0.10);
+            
+            return (impostoTotal / valorTotal) * 100;
+        }
+
+        function calcularSaqueMaximoSemDARF(salarioAnual, despesasDedutiveis, irRetidoSalario) {
+            let saqueMaximo = 0;
+            
+            for (let teste = 1000; teste <= 2000000; teste += 1000) {
+                let rendaTributavelTeste, impostoTotalTeste, irRetidoTeste, darvTeste;
+                
+                if (userChoices.tipoPrevidencia === 'pgbl') {
+                    rendaTributavelTeste = Math.max(0, salarioAnual + teste - despesasDedutiveis);
+                    irRetidoTeste = teste * 0.15;
+                } else {
+                    const rendimentos = parseFloat(document.getElementById('rendimentos')?.value) || 0;
+                    const valorTotal = parseFloat(document.getElementById('valorTotal')?.value) || 1;
+                    const proporcaoRendimentos = rendimentos / valorTotal;
+                    const rendimentosTeste = teste * proporcaoRendimentos;
+                    
+                    rendaTributavelTeste = Math.max(0, salarioAnual + rendimentosTeste - despesasDedutiveis);
+                    irRetidoTeste = rendimentosTeste * 0.15;
+                }
+                
+                impostoTotalTeste = calcularIRProgressivo(rendaTributavelTeste);
+                const totalIRRetidoTeste = irRetidoSalario + irRetidoTeste;
+                darvTeste = Math.max(0, impostoTotalTeste - totalIRRetidoTeste);
+                
+                if (darvTeste > 0) {
+                    break;
+                }
+                saqueMaximo = teste;
+            }
+            
+            return saqueMaximo;
+        }
+
+        function calcular() {
+            currentStep = 5;
+            showStep();
+
+            const salarioAnual = parseFloat(document.getElementById('salarioAnual').value) || 0;
+            let valorTotal, rendimentos = 0, despesasDedutiveis = 0;
+            
+            if (userChoices.tipoTabela === 'progressiva') {
+                valorTotal = parseFloat(document.getElementById('valorTotal').value) || 0;
+                
+                if (userChoices.tipoPrevidencia === 'vgbl') {
+                    rendimentos = parseFloat(document.getElementById('rendimentos').value) || 0;
+                    
+                    if (rendimentos > valorTotal) {
+                        alert('Os rendimentos não podem ser maiores que o valor total acumulado!');
+                        return;
+                    }
+                }
+                
+                if (userChoices.tipoDeclaracao === 'completa') {
+                    despesasDedutiveis = parseFloat(document.getElementById('despesasDedutiveis').value) || 0;
+                    const numDependentes = parseInt(document.getElementById('numDependentes').value) || 0;
+                    const deducaoDependentes = numDependentes * 2275.08;
+                    despesasDedutiveis += deducaoDependentes;
+                } else {
+                    despesasDedutiveis = Math.min(salarioAnual * 0.20, 16754.34);
+                }
+            } else {
+                const saldo35 = parseFloat(document.getElementById('saldo35').value) || 0;
+                const saldo30 = parseFloat(document.getElementById('saldo30').value) || 0;
+                const saldo25 = parseFloat(document.getElementById('saldo25').value) || 0;
+                const saldo20 = parseFloat(document.getElementById('saldo20').value) || 0;
+                const saldo15 = parseFloat(document.getElementById('saldo15').value) || 0;
+                const saldo10 = parseFloat(document.getElementById('saldo10').value) || 0;
+                valorTotal = saldo35 + saldo30 + saldo25 + saldo20 + saldo15 + saldo10;
+                
+                if (userChoices.tipoPrevidencia === 'vgbl') {
+                    rendimentos = parseFloat(document.getElementById('rendimentos').value) || 0;
+                    
+                    if (rendimentos > valorTotal) {
+                        alert('Os rendimentos não podem ser maiores que o valor total acumulado!');
+                        return;
+                    }
+                }
+            }
+
+            let resultado = {};
+
+            if (userChoices.tipoTabela === 'progressiva') {
+                resultado = calcularProgressiva(salarioAnual, valorTotal, rendimentos, despesasDedutiveis);
+            } else {
+                resultado = calcularRegressiva(valorTotal, rendimentos);
+            }
+
+            exibirResultado(resultado);
+        }
+
+        function calcularProgressiva(salarioAnual, valorTotal, rendimentos, despesasDedutiveis) {
+            const irRetidoSalario = calcularIRRetidoSalario(salarioAnual);
+            const numDependentes = parseInt(document.getElementById('numDependentes')?.value) || 0;
+            const despesasOriginais = parseFloat(document.getElementById('despesasDedutiveis')?.value) || 0;
+            
+            const saqueMaximo = calcularSaqueMaximoSemDARF(salarioAnual, despesasDedutiveis, irRetidoSalario);
+            
+            let baseCalculo, irRetidoPrevidencia;
+            
+            if (userChoices.tipoPrevidencia === 'pgbl') {
+                baseCalculo = valorTotal;
+                irRetidoPrevidencia = valorTotal * 0.15;
+                const rendaTributavelTotal = Math.max(0, salarioAnual + valorTotal - despesasDedutiveis);
+                const impostoTotal = calcularIRProgressivo(rendaTributavelTotal);
+                const totalIRRetido = irRetidoSalario + irRetidoPrevidencia;
+                const darv = Math.max(0, impostoTotal - totalIRRetido);
+                
+                return {
+                    tipo: `PGBL + Progressiva (${userChoices.tipoDeclaracao})`,
+                    rendaTributavel: rendaTributavelTotal,
+                    despesasUsadas: userChoices.tipoDeclaracao === 'completa' ? despesasOriginais : despesasDedutiveis,
+                    dependentes: numDependentes,
+                    irRetidoSalario: irRetidoSalario,
+                    baseCalculo: baseCalculo,
+                    irRetidoPrevidencia: irRetidoPrevidencia,
+                    darv: darv,
+                    impostoTotal: irRetidoPrevidencia + darv,
+                    saqueMaximoSemDARF: saqueMaximo
+                };
+            } else {
+                baseCalculo = rendimentos;
+                irRetidoPrevidencia = rendimentos * 0.15;
+                const rendaTributavelTotal = Math.max(0, salarioAnual + rendimentos - despesasDedutiveis);
+                const impostoTotal = calcularIRProgressivo(rendaTributavelTotal);
+                const totalIRRetido = irRetidoSalario + irRetidoPrevidencia;
+                const darv = Math.max(0, impostoTotal - totalIRRetido);
+                
+                return {
+                    tipo: `VGBL + Progressiva (${userChoices.tipoDeclaracao})`,
+                    rendaTributavel: rendaTributavelTotal,
+                    despesasUsadas: userChoices.tipoDeclaracao === 'completa' ? despesasOriginais : despesasDedutiveis,
+                    dependentes: numDependentes,
+                    irRetidoSalario: irRetidoSalario,
+                    baseCalculo: baseCalculo,
+                    irRetidoPrevidencia: irRetidoPrevidencia,
+                    darv: darv,
+                    impostoTotal: irRetidoPrevidencia + darv,
+                    saqueMaximoSemDARF: saqueMaximo
+                };
+            }
+        }
+
+        function calcularRegressiva(valorTotal, rendimentos) {
+            const aliquotaMedia = calcularAliquotaRegressiva();
+            
+            let baseCalculo, impostoTotal;
+            
+            if (userChoices.tipoPrevidencia === 'pgbl') {
+                baseCalculo = valorTotal;
+                impostoTotal = valorTotal * (aliquotaMedia / 100);
+                
+                return {
+                    tipo: 'PGBL + Regressiva',
+                    baseCalculo: baseCalculo,
+                    aliquota: aliquotaMedia,
+                    irRetidoPrevidencia: impostoTotal,
+                    darv: 0,
+                    impostoTotal: impostoTotal
+                };
+            } else {
+                baseCalculo = rendimentos;
+                impostoTotal = rendimentos * (aliquotaMedia / 100);
+                
+                return {
+                    tipo: 'VGBL + Regressiva',
+                    baseCalculo: baseCalculo,
+                    aliquota: aliquotaMedia,
+                    irRetidoPrevidencia: impostoTotal,
+                    darv: 0,
+                    impostoTotal: impostoTotal
+                };
+            }
+        }
+
+        function exibirResultado(resultado) {
+            const resultContent = document.getElementById('resultContent');
+            
+            if (userChoices.tipoTabela === 'progressiva') {
+                resultContent.innerHTML = `
+                    <div class="result-card">
+                        <h4>💰 ${resultado.tipo}</h4>
+                        <div class="result-row">
+                            <span>Renda Tributável Total:</span>
+                            <span class="result-value">${formatarMoeda(resultado.rendaTributavel)}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>Despesas Dedutíveis:</span>
+                            <span class="result-value">${formatarMoeda(resultado.despesasUsadas)}</span>
+                        </div>
+                        ${resultado.dependentes > 0 ? `
+                        <div class="result-row">
+                            <span>Dependentes (${resultado.dependentes}):</span>
+                            <span class="result-value">${formatarMoeda(resultado.dependentes * 2275.08)}</span>
+                        </div>` : ''}
+                        <div class="result-row">
+                            <span>IR Retido do Salário:</span>
+                            <span class="result-value">${formatarMoeda(resultado.irRetidoSalario)}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>Base de Cálculo Previdência:</span>
+                            <span class="result-value">${formatarMoeda(resultado.baseCalculo)}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>IR Retido Previdência (15%):</span>
+                            <span class="result-value">${formatarMoeda(resultado.irRetidoPrevidencia)}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>DARF a Pagar no Ajuste:</span>
+                            <span class="result-value">${formatarMoeda(resultado.darv)}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>💰 IMPOSTO TOTAL DA PREVIDÊNCIA:</span>
+                            <span class="result-value">${formatarMoeda(resultado.impostoTotal)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <h3>📊 Resumo</h3>
+                        <p><strong>Imposto efetivo sobre o saque:</strong> ${((resultado.impostoTotal / resultado.baseCalculo) * 100).toFixed(2)}%</p>
+                        ${resultado.darv > 0 ? 
+                            `<p style="margin-top: 10px;">⚠️ <strong>Atenção:</strong> Você terá DARF de ${formatarMoeda(resultado.darv)} para pagar no ajuste anual.</p>
+                             <p style="margin-top: 10px;">💡 <strong>Dica:</strong> Para não pagar DARF, o saque máximo seria de ${formatarMoeda(resultado.saqueMaximoSemDARF)}.</p>` :
+                            `<p style="margin-top: 10px;">✅ <strong>Boa notícia:</strong> Não haverá DARF adicional no ajuste anual.</p>
+                             <p style="margin-top: 10px;">💡 <strong>Limite sem DARF:</strong> Você pode sacar até ${formatarMoeda(resultado.saqueMaximoSemDARF)} sem gerar DARF.</p>`
+                        }
+                    </div>
+                `;
+            } else {
+                resultContent.innerHTML = `
+                    <div class="result-card">
+                        <h4>💰 ${resultado.tipo}</h4>
+                        <div class="result-row">
+                            <span>Base de Cálculo:</span>
+                            <span class="result-value">${formatarMoeda(resultado.baseCalculo)}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>Alíquota Média (PEPS):</span>
+                            <span class="result-value">${resultado.aliquota.toFixed(2)}%</span>
+                        </div>
+                        <div class="result-row">
+                            <span>IR Retido na Fonte:</span>
+                            <span class="result-value">${formatarMoeda(resultado.irRetidoPrevidencia)}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>DARF a Pagar:</span>
+                            <span class="result-value">${formatarMoeda(resultado.darv)}</span>
+                        </div>
+                        <div class="result-row">
+                            <span>💰 IMPOSTO TOTAL:</span>
+                            <span class="result-value">${formatarMoeda(resultado.impostoTotal)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <h3>📊 Resumo</h3>
+                        <p><strong>Tributação exclusiva na fonte</strong> - Alíquota efetiva: ${resultado.aliquota.toFixed(2)}%</p>
+                        <p style="margin-top: 10px;">✅ <strong>Vantagem:</strong> Não entra no ajuste anual do IR - imposto definitivo!</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    const value = this.getAttribute('data-value');
+                    selectOption(type, value, this);
+                });
+            });
+
+            document.getElementById('nextStep1').addEventListener('click', function() {
+                currentStep = 2;
+                showStep();
+            });
+
+            document.getElementById('nextStep2').addEventListener('click', function() {
+                if (userChoices.tipoTabela === 'regressiva') {
+                    userChoices.tipoDeclaracao = 'n/a';
+                    currentStep = 4;
+                    setupDataStep();
+                } else {
+                    currentStep = 3;
+                }
+                showStep();
+            });
+
+            document.getElementById('nextStep3').addEventListener('click', function() {
+                currentStep = 4;
+                setupDataStep();
+                showStep();
+            });
+
+            document.getElementById('backStep2').addEventListener('click', function() {
+                currentStep = 1;
+                showStep();
+            });
+
+            document.getElementById('backStep3').addEventListener('click', function() {
+                currentStep = 2;
+                showStep();
+            });
+
+            document.getElementById('backStep4').addEventListener('click', function() {
+                if (userChoices.tipoTabela === 'regressiva') {
+                    currentStep = 2;
+                } else {
+                    currentStep = 3;
+                }
+                showStep();
+            });
+
+            document.getElementById('backStep5').addEventListener('click', function() {
+                currentStep = 4;
+                showStep();
+            });
+
+            document.getElementById('calcularBtn').addEventListener('click', calcular);
+
+            document.getElementById('novaSimulacao').addEventListener('click', function() {
+                currentStep = 1;
+                Object.keys(userChoices).forEach(key => delete userChoices[key]);
+                
+                document.querySelectorAll('.option-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('[id^="nextStep"]').forEach(btn => {
+                    btn.disabled = true;
+                });
+                
+                showStep();
+            });
+
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
