@@ -949,6 +949,13 @@
                                 `Você pode ter rendimentos de até ${formatarMoeda(resultado.limiteMaximo.valor)} sem gerar DARF.`}</p>`
                         }
                     </div>
+
+                    ${userChoices.tipoTabela === 'regressiva' ? `
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn btn-primary" id="analisarTempoOtimo" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                            ⏰ Analisar Tempo Ótimo para Saque
+                        </button>
+                    </div>` : ''}
                 `;
             } else {
                 // Para tabela regressiva, mostrar apenas dados relevantes (não há ajuste anual)
@@ -1009,9 +1016,16 @@
                         <p style="margin-top: 10px;">✅ <strong>Vantagem:</strong> Não entra no ajuste anual do IR - imposto definitivo!</p>
                         <p style="margin-top: 10px;">🎯 <strong>Líquido recebido:</strong> ${formatarMoeda(resultado.baseCalculo - resultado.impostoTotal)}</p>
                     </div>
+
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn btn-primary" id="analisarTempoOtimo" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                            ⏰ Analisar Tempo Ótimo para Saque
+                        </button>
+                    </div>
                 `;
             }
         }
+
 
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
