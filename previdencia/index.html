@@ -716,35 +716,39 @@
         }
 
         function calcularSaqueMaximoSemDARF(salarioAnual, despesasDedutiveis, irRetidoSalario) {
-            let saqueMaximo = 0;
+            let valorMaximo = 0;
             
-            for (let teste = 1000; teste <= 2000000; teste += 1000) {
-                let rendaTributavelTeste, impostoTotalTeste, irRetidoTeste, darvTeste;
-                
-                if (userChoices.tipoPrevidencia === 'pgbl') {
-                    rendaTributavelTeste = Math.max(0, salarioAnual + teste - despesasDedutiveis);
-                    irRetidoTeste = teste * 0.15;
-                } else {
-                    const rendimentos = parseFloat(document.getElementById('rendimentos')?.value) || 0;
-                    const valorTotal = parseFloat(document.getElementById('valorTotal')?.value) || 1;
-                    const proporcaoRendimentos = rendimentos / valorTotal;
-                    const rendimentosTeste = teste * proporcaoRendimentos;
+            if (userChoices.tipoPrevidencia === 'pgbl') {
+                // Para PGBL: calcula valor máximo do saque total
+                for (let teste = 1000; teste <= 2000000; teste += 1000) {
+                    const rendaTributavelTeste = Math.max(0, salarioAnual + teste - despesasDedutiveis);
+                    const irRetidoTeste = teste * 0.15;
+                    const impostoTotalTeste = calcularIRProgressivo(rendaTributavelTeste);
+                    const totalIRRetidoTeste = irRetidoSalario + irRetidoTeste;
+                    const darvTeste = Math.max(0, impostoTotalTeste - totalIRRetidoTeste);
                     
-                    rendaTributavelTeste = Math.max(0, salarioAnual + rendimentosTeste - despesasDedutiveis);
-                    irRetidoTeste = rendimentosTeste * 0.15;
+                    if (darvTeste > 0) {
+                        break;
+                    }
+                    valorMaximo = teste;
                 }
-                
-                impostoTotalTeste = calcularIRProgressivo(rendaTributavelTeste);
-                const totalIRRetidoTeste = irRetidoSalario + irRetidoTeste;
-                darvTeste = Math.max(0, impostoTotalTeste - totalIRRetidoTeste);
-                
-                if (darvTeste > 0) {
-                    break;
+                return { tipo: 'saque', valor: valorMaximo };
+            } else {
+                // Para VGBL: calcula rendimento máximo (o que realmente importa)
+                for (let testeRendimento = 1000; testeRendimento <= 1000000; testeRendimento += 1000) {
+                    const rendaTributavelTeste = Math.max(0, salarioAnual + testeRendimento - despesasDedutiveis);
+                    const irRetidoTeste = testeRendimento * 0.15;
+                    const impostoTotalTeste = calcularIRProgressivo(rendaTributavelTeste);
+                    const totalIRRetidoTeste = irRetidoSalario + irRetidoTeste;
+                    const darvTeste = Math.max(0, impostoTotalTeste - totalIRRetidoTeste);
+                    
+                    if (darvTeste > 0) {
+                        break;
+                    }
+                    valorMaximo = testeRendimento;
                 }
-                saqueMaximo = teste;
+                return { tipo: 'rendimento', valor: valorMaximo };
             }
-            
-            return saqueMaximo;
         }
 
         function calcular() {
@@ -809,7 +813,7 @@
             const numDependentes = parseInt(document.getElementById('numDependentes')?.value) || 0;
             const despesasOriginais = parseFloat(document.getElementById('despesasDedutiveis')?.value) || 0;
             
-            const saqueMaximo = calcularSaqueMaximoSemDARF(salarioAnual, despesasDedutiveis, irRetidoSalario);
+            const limiteMaximo = calcularSaqueMaximoSemDARF(salarioAnual, despesasDedutiveis, irRetidoSalario);
             
             let baseCalculo, irRetidoPrevidencia;
             
@@ -831,7 +835,7 @@
                     irRetidoPrevidencia: irRetidoPrevidencia,
                     darv: darv,
                     impostoTotal: irRetidoPrevidencia + darv,
-                    saqueMaximoSemDARF: saqueMaximo
+                    limiteMaximo: limiteMaximo
                 };
             } else {
                 baseCalculo = rendimentos;
@@ -851,7 +855,7 @@
                     irRetidoPrevidencia: irRetidoPrevidencia,
                     darv: darv,
                     impostoTotal: irRetidoPrevidencia + darv,
-                    saqueMaximoSemDARF: saqueMaximo
+                    limiteMaximo: limiteMaximo
                 };
             }
         }
@@ -935,9 +939,13 @@
                         <p><strong>Imposto efetivo sobre o saque:</strong> ${((resultado.impostoTotal / resultado.baseCalculo) * 100).toFixed(2)}%</p>
                         ${resultado.darv > 0 ? 
                             `<p style="margin-top: 10px;">⚠️ <strong>Atenção:</strong> Você terá DARF de ${formatarMoeda(resultado.darv)} para pagar no ajuste anual.</p>
-                             <p style="margin-top: 10px;">💡 <strong>Dica:</strong> Para não pagar DARF, o saque máximo seria de ${formatarMoeda(resultado.saqueMaximoSemDARF)}.</p>` :
+                             <p style="margin-top: 10px;">💡 <strong>Dica:</strong> ${resultado.limiteMaximo.tipo === 'saque' ? 
+                                `Para não pagar DARF, o saque máximo seria de ${formatarMoeda(resultado.limiteMaximo.valor)}.` :
+                                `Para não pagar DARF, o rendimento máximo seria de ${formatarMoeda(resultado.limiteMaximo.valor)}.`}</p>` :
                             `<p style="margin-top: 10px;">✅ <strong>Boa notícia:</strong> Não haverá DARF adicional no ajuste anual.</p>
-                             <p style="margin-top: 10px;">💡 <strong>Limite sem DARF:</strong> Você pode sacar até ${formatarMoeda(resultado.saqueMaximoSemDARF)} sem gerar DARF.</p>`
+                             <p style="margin-top: 10px;">💡 <strong>Limite sem DARF:</strong> ${resultado.limiteMaximo.tipo === 'saque' ? 
+                                `Você pode sacar até ${formatarMoeda(resultado.limiteMaximo.valor)} sem gerar DARF.` :
+                                `Você pode ter rendimentos de até ${formatarMoeda(resultado.limiteMaximo.valor)} sem gerar DARF.`}</p>`
                         }
                     </div>
                 `;
