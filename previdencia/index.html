@@ -896,6 +896,7 @@
             const resultContent = document.getElementById('resultContent');
             
             if (userChoices.tipoTabela === 'progressiva') {
+                // Para tabela progressiva, mostrar dados do ajuste anual
                 resultContent.innerHTML = `
                     <div class="result-card">
                         <h4>💰 ${resultado.tipo}</h4>
@@ -950,6 +951,35 @@
                     </div>
                 `;
             } else {
+                // Para tabela regressiva, mostrar apenas dados relevantes (não há ajuste anual)
+                let detalhamentoPEPS = '';
+                
+                // Se houver múltiplas faixas de tempo, mostrar detalhamento PEPS
+                const saldo35 = parseFloat(document.getElementById('saldo35')?.value) || 0;
+                const saldo30 = parseFloat(document.getElementById('saldo30')?.value) || 0;
+                const saldo25 = parseFloat(document.getElementById('saldo25')?.value) || 0;
+                const saldo20 = parseFloat(document.getElementById('saldo20')?.value) || 0;
+                const saldo15 = parseFloat(document.getElementById('saldo15')?.value) || 0;
+                const saldo10 = parseFloat(document.getElementById('saldo10')?.value) || 0;
+                
+                const faixasComSaldo = [
+                    { nome: 'Até 2 anos (35%)', saldo: saldo35, aliquota: 35 },
+                    { nome: '2-4 anos (30%)', saldo: saldo30, aliquota: 30 },
+                    { nome: '4-6 anos (25%)', saldo: saldo25, aliquota: 25 },
+                    { nome: '6-8 anos (20%)', saldo: saldo20, aliquota: 20 },
+                    { nome: '8-10 anos (15%)', saldo: saldo15, aliquota: 15 },
+                    { nome: '+10 anos (10%)', saldo: saldo10, aliquota: 10 }
+                ].filter(f => f.saldo > 0);
+                
+                if (faixasComSaldo.length > 1) {
+                    detalhamentoPEPS = faixasComSaldo.map(f => `
+                        <div class="result-row">
+                            <span>${f.nome}:</span>
+                            <span class="result-value">${formatarMoeda(f.saldo)} → ${formatarMoeda(f.saldo * f.aliquota / 100)}</span>
+                        </div>
+                    `).join('');
+                }
+                
                 resultContent.innerHTML = `
                     <div class="result-card">
                         <h4>💰 ${resultado.tipo}</h4>
@@ -957,20 +987,18 @@
                             <span>Base de Cálculo:</span>
                             <span class="result-value">${formatarMoeda(resultado.baseCalculo)}</span>
                         </div>
+                        ${detalhamentoPEPS ? `
+                            <div style="background: #f8f9fa; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                                <strong>📊 Detalhamento PEPS (Saldo → IR):</strong>
+                                ${detalhamentoPEPS}
+                            </div>
+                        ` : ''}
                         <div class="result-row">
-                            <span>Alíquota Média (PEPS):</span>
+                            <span>Alíquota ${faixasComSaldo.length > 1 ? 'Média' : 'Aplicada'} (PEPS):</span>
                             <span class="result-value">${resultado.aliquota.toFixed(2)}%</span>
                         </div>
                         <div class="result-row">
-                            <span>IR Retido na Fonte:</span>
-                            <span class="result-value">${formatarMoeda(resultado.irRetidoPrevidencia)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>DARF a Pagar:</span>
-                            <span class="result-value">${formatarMoeda(resultado.darv)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>💰 IMPOSTO TOTAL:</span>
+                            <span>💰 IMPOSTO TOTAL (Definitivo):</span>
                             <span class="result-value">${formatarMoeda(resultado.impostoTotal)}</span>
                         </div>
                     </div>
@@ -979,6 +1007,7 @@
                         <h3>📊 Resumo</h3>
                         <p><strong>Tributação exclusiva na fonte</strong> - Alíquota efetiva: ${resultado.aliquota.toFixed(2)}%</p>
                         <p style="margin-top: 10px;">✅ <strong>Vantagem:</strong> Não entra no ajuste anual do IR - imposto definitivo!</p>
+                        <p style="margin-top: 10px;">🎯 <strong>Líquido recebido:</strong> ${formatarMoeda(resultado.baseCalculo - resultado.impostoTotal)}</p>
                     </div>
                 `;
             }
