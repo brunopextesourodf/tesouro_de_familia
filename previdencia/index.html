@@ -70,7 +70,6 @@
             padding: 15px 20px;
             text-align: center;
             font-size: 0.9rem;
-            border-radius: 0;
         }
 
         .beta-notice strong {
@@ -592,8 +591,12 @@
             const saldosSection = document.getElementById('saldosSection');
             const despesasGroup = document.getElementById('despesasGroup');
             const dependentesGroup = document.getElementById('dependentesGroup');
+            const salarioGroup = document.querySelector('.input-group'); // Primeiro input-group é o salário
 
             if (userChoices.tipoTabela === 'progressiva') {
+                // Mostrar campos necessários para tabela progressiva
+                salarioGroup.style.display = 'block';
+                
                 if (userChoices.tipoDeclaracao === 'simplificada') {
                     despesasGroup.style.display = 'none';
                     dependentesGroup.style.display = 'none';
@@ -630,6 +633,8 @@
                     `;
                 }
             } else {
+                // Para tabela regressiva, esconder campos desnecessários
+                salarioGroup.style.display = 'none';
                 despesasGroup.style.display = 'none';
                 dependentesGroup.style.display = 'none';
                 
@@ -836,10 +841,10 @@
             console.log('Iniciando cálculo...');
             esconderErro(); // Limpar erros anteriores
             
-            const salarioAnual = parseFloat(document.getElementById('salarioAnual').value) || 0;
-            let valorTotal, rendimentos = 0, despesasDedutiveis = 0;
+            let salarioAnual = 0, valorTotal, rendimentos = 0, despesasDedutiveis = 0;
             
             if (userChoices.tipoTabela === 'progressiva') {
+                salarioAnual = parseFloat(document.getElementById('salarioAnual').value) || 0;
                 valorTotal = parseFloat(document.getElementById('valorTotal').value) || 0;
                 
                 if (userChoices.tipoPrevidencia === 'vgbl') {
@@ -860,7 +865,7 @@
                     despesasDedutiveis = Math.min(salarioAnual * 0.20, 16754.34);
                 }
             } else {
-                // Para tabela regressiva, sempre ler os valores atuais dos campos
+                // Para tabela regressiva, não precisa do salário
                 const saldo35 = parseFloat(document.getElementById('saldo35').value) || 0;
                 const saldo30 = parseFloat(document.getElementById('saldo30').value) || 0;
                 const saldo25 = parseFloat(document.getElementById('saldo25').value) || 0;
