@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador IR - Previdência Privada</title>
+    <title>Tesouro de Família - Simulador de Resgate de Previdência Privada</title>
     <style>
         * {
             margin: 0;
@@ -43,6 +43,38 @@
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .header a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .header a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .beta-notice {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            border-radius: 0;
+        }
+
+        .beta-notice strong {
+            font-weight: 700;
         }
 
         .progress-bar {
@@ -319,6 +351,16 @@
             font-size: 0.9rem;
         }
 
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
@@ -342,8 +384,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🧮 Simulador de Imposto de Renda</h1>
-            <p>Previdência Privada - Simulação Personalizada</p>
+            <h1>💰 Tesouro de Família</h1>
+            <p>Simulador de Resgate de Previdência Privada</p>
+            <a href="https://www.youtube.com/@TesouroDeFamilia" target="_blank">📺 Canal no YouTube</a>
+        </div>
+
+        <div class="beta-notice">
+            <strong>⚠️ Versão Beta</strong> - Este simulador está em desenvolvimento. Dúvidas? Mande nos comentários do vídeo no nosso canal!
         </div>
 
         <div class="progress-bar">
@@ -484,6 +531,7 @@
 
         <div class="footer">
             <p>💡 Esta simulação é apenas orientativa. Para casos complexos, consulte sempre um contador especializado.</p>
+            <p style="margin-top: 10px;">Criado pelo <a href="https://www.youtube.com/@TesouroDeFamilia" target="_blank">Tesouro de Família</a> - Educação Financeira</p>
         </div>
     </div>
 
