@@ -560,7 +560,7 @@
                         <div class="input-grid">
                             <div class="input-group">
                                 <label for="valorTotal">Valor Total do Saque Anual (R$)</label>
-                                <input type="number" id="valorTotal" placeholder="Ex: 200000" value="0">
+                                <input type="number" id="valorTotal" placeholder="Ex: 200000" value="200000">
                                 <small style="color: #7f8c8d; margin-top: 5px;">No PGBL o IR incide sobre o valor total</small>
                             </div>
                         </div>
@@ -587,9 +587,9 @@
                 
                 if (userChoices.tipoPrevidencia === 'pgbl') {
                     saldosSection.innerHTML = `
-                        <h3>💰 Saldos por Tempo de Aporte</h3>
+                        <h3>💰 Saque de Saldos por Tempo de Aporte</h3>
                         <p style="margin-bottom: 20px; color: #7f8c8d; font-style: italic;">
-                            Informe quanto você tem em cada faixa de tempo (regra PEPS). No PGBL o IR incide sobre o valor total:
+                            Informe quanto você gostaria de resgatar em cada faixa de tempo (regra PEPS). No PGBL o IR incide sobre o valor total:
                         </p>
                         <div class="input-grid">
                             <div class="input-group">
@@ -620,9 +620,9 @@
                     `;
                 } else {
                     saldosSection.innerHTML = `
-                        <h3>💰 Saldos por Tempo de Aporte</h3>
+                        <h3>💰 Saque de Saldos por Tempo de Aporte</h3>
                         <p style="margin-bottom: 20px; color: #7f8c8d; font-style: italic;">
-                            Informe quanto você tem em cada faixa de tempo (regra PEPS). No VGBL o IR incide apenas sobre os rendimentos:
+                            Informe quanto você quer resgatar em cada faixa de tempo (regra PEPS). No VGBL o IR incide apenas sobre os rendimentos:
                         </p>
                         <div class="input-grid">
                             <div class="input-group">
@@ -648,6 +648,13 @@
                             <div class="input-group">
                                 <label for="saldo10">Mais de 10 anos (10%)</label>
                                 <input type="number" id="saldo10" placeholder="R$ 200000" value="0">
+                            </div>
+                        </div>
+                        <div class="input-grid" style="margin-top: 20px;">
+                            <div class="input-group">
+                                <label for="rendimentos">Rendimentos/Lucro Total (R$)</label>
+                                <input type="number" id="rendimentos" placeholder="Ex: 80000" value="80000">
+                                <small style="color: #7f8c8d; margin-top: 5px;">Apenas este valor será tributado no VGBL</small>
                             </div>
                         </div>
                     `;
@@ -889,6 +896,7 @@
             const resultContent = document.getElementById('resultContent');
             
             if (userChoices.tipoTabela === 'progressiva') {
+                // Para tabela progressiva, mostrar dados do ajuste anual
                 resultContent.innerHTML = `
                     <div class="result-card">
                         <h4>💰 ${resultado.tipo}</h4>
@@ -941,8 +949,41 @@
                                 `Você pode ter rendimentos de até ${formatarMoeda(resultado.limiteMaximo.valor)} sem gerar DARF.`}</p>`
                         }
                     </div>
+
+                    ${userChoices.tipoTabela === 'regressiva' ? `
+                    <div style="text-align: center; margin-top: 30px;">
+                    </div>` : ''}
                 `;
             } else {
+                // Para tabela regressiva, mostrar apenas dados relevantes (não há ajuste anual)
+                let detalhamentoPEPS = '';
+                
+                // Se houver múltiplas faixas de tempo, mostrar detalhamento PEPS
+                const saldo35 = parseFloat(document.getElementById('saldo35')?.value) || 0;
+                const saldo30 = parseFloat(document.getElementById('saldo30')?.value) || 0;
+                const saldo25 = parseFloat(document.getElementById('saldo25')?.value) || 0;
+                const saldo20 = parseFloat(document.getElementById('saldo20')?.value) || 0;
+                const saldo15 = parseFloat(document.getElementById('saldo15')?.value) || 0;
+                const saldo10 = parseFloat(document.getElementById('saldo10')?.value) || 0;
+                
+                const faixasComSaldo = [
+                    { nome: 'Até 2 anos (35%)', saldo: saldo35, aliquota: 35 },
+                    { nome: '2-4 anos (30%)', saldo: saldo30, aliquota: 30 },
+                    { nome: '4-6 anos (25%)', saldo: saldo25, aliquota: 25 },
+                    { nome: '6-8 anos (20%)', saldo: saldo20, aliquota: 20 },
+                    { nome: '8-10 anos (15%)', saldo: saldo15, aliquota: 15 },
+                    { nome: '+10 anos (10%)', saldo: saldo10, aliquota: 10 }
+                ].filter(f => f.saldo > 0);
+                
+                if (faixasComSaldo.length > 1) {
+                    detalhamentoPEPS = faixasComSaldo.map(f => `
+                        <div class="result-row">
+                            <span>${f.nome}:</span>
+                            <span class="result-value">${formatarMoeda(f.saldo)} → ${formatarMoeda(f.saldo * f.aliquota / 100)}</span>
+                        </div>
+                    `).join('');
+                }
+                
                 resultContent.innerHTML = `
                     <div class="result-card">
                         <h4>💰 ${resultado.tipo}</h4>
@@ -950,20 +991,18 @@
                             <span>Base de Cálculo:</span>
                             <span class="result-value">${formatarMoeda(resultado.baseCalculo)}</span>
                         </div>
+                        ${detalhamentoPEPS ? `
+                            <div style="background: #f8f9fa; padding: 15px; margin: 15px 0; border-radius: 8px;">
+                                <strong>📊 Detalhamento PEPS (Saldo → IR):</strong>
+                                ${detalhamentoPEPS}
+                            </div>
+                        ` : ''}
                         <div class="result-row">
-                            <span>Alíquota Média (PEPS):</span>
+                            <span>Alíquota ${faixasComSaldo.length > 1 ? 'Média' : 'Aplicada'} (PEPS):</span>
                             <span class="result-value">${resultado.aliquota.toFixed(2)}%</span>
                         </div>
                         <div class="result-row">
-                            <span>IR Retido na Fonte:</span>
-                            <span class="result-value">${formatarMoeda(resultado.irRetidoPrevidencia)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>DARF a Pagar:</span>
-                            <span class="result-value">${formatarMoeda(resultado.darv)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>💰 IMPOSTO TOTAL:</span>
+                            <span>💰 IMPOSTO TOTAL (Definitivo):</span>
                             <span class="result-value">${formatarMoeda(resultado.impostoTotal)}</span>
                         </div>
                     </div>
@@ -972,10 +1011,15 @@
                         <h3>📊 Resumo</h3>
                         <p><strong>Tributação exclusiva na fonte</strong> - Alíquota efetiva: ${resultado.aliquota.toFixed(2)}%</p>
                         <p style="margin-top: 10px;">✅ <strong>Vantagem:</strong> Não entra no ajuste anual do IR - imposto definitivo!</p>
+                        <p style="margin-top: 10px;">🎯 <strong>Líquido recebido:</strong> ${formatarMoeda(resultado.baseCalculo - resultado.impostoTotal)}</p>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px;">
                     </div>
                 `;
             }
         }
+
 
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
