@@ -437,16 +437,16 @@
                     <div class="input-grid">
                         <div class="input-group">
                             <label for="salarioAnual">Salário/Renda Anual (R$)</label>
-                            <input type="number" id="salarioAnual" placeholder="Ex: 120000" value="120000">
+                            <input type="number" id="salarioAnual" placeholder="Ex: 120000" value="">
                         </div>
                         <div class="input-group" id="despesasGroup">
                             <label for="despesasDedutiveis">Despesas Dedutíveis (R$)</label>
-                            <input type="number" id="despesasDedutiveis" placeholder="Ex: 15000" value="15000">
+                            <input type="number" id="despesasDedutiveis" placeholder="Ex: 15000" value="">
                             <small style="color: #7f8c8d; margin-top: 5px;">Saúde, educação, previdência oficial, etc.</small>
                         </div>
                         <div class="input-group" id="dependentesGroup">
                             <label for="numDependentes">Número de Dependentes</label>
-                            <input type="number" id="numDependentes" placeholder="Ex: 2" value="0" min="0">
+                            <input type="number" id="numDependentes" placeholder="Ex: 2" value="" min="0">
                             <small style="color: #7f8c8d; margin-top: 5px;">R$ 2.275,08 de dedução por dependente (2024)</small>
                         </div>
                     </div>
@@ -560,7 +560,7 @@
                         <div class="input-grid">
                             <div class="input-group">
                                 <label for="valorTotal">Valor Total do Saque Anual (R$)</label>
-                                <input type="number" id="valorTotal" placeholder="Ex: 200000" value="200000">
+                                <input type="number" id="valorTotal" placeholder="Ex: 200000" value="">
                                 <small style="color: #7f8c8d; margin-top: 5px;">No PGBL o IR incide sobre o valor total</small>
                             </div>
                         </div>
@@ -571,11 +571,11 @@
                         <div class="input-grid">
                             <div class="input-group">
                                 <label for="valorTotal">Valor Total do Saque Anual (R$)</label>
-                                <input type="number" id="valorTotal" placeholder="Ex: 200000" value="200000">
+                                <input type="number" id="valorTotal" placeholder="Ex: 200000" value="">
                             </div>
                             <div class="input-group">
                                 <label for="rendimentos">Rendimentos/Lucro (R$)</label>
-                                <input type="number" id="rendimentos" placeholder="Ex: 80000" value="80000">
+                                <input type="number" id="rendimentos" placeholder="Ex: 80000" value="">
                                 <small style="color: #7f8c8d; margin-top: 5px;">No VGBL o IR incide apenas sobre os rendimentos</small>
                             </div>
                         </div>
@@ -594,27 +594,27 @@
                         <div class="input-grid">
                             <div class="input-group">
                                 <label for="saldo35">Até 2 anos (35%)</label>
-                                <input type="number" id="saldo35" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo35" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo30">2 a 4 anos (30%)</label>
-                                <input type="number" id="saldo30" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo30" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo25">4 a 6 anos (25%)</label>
-                                <input type="number" id="saldo25" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo25" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo20">6 a 8 anos (20%)</label>
-                                <input type="number" id="saldo20" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo20" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo15">8 a 10 anos (15%)</label>
-                                <input type="number" id="saldo15" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo15" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo10">Mais de 10 anos (10%)</label>
-                                <input type="number" id="saldo10" placeholder="R$ 200000" value="200000">
+                                <input type="number" id="saldo10" placeholder="R$ 0" value="">
                             </div>
                         </div>
                     `;
@@ -622,39 +622,39 @@
                     saldosSection.innerHTML = `
                         <h3>💰 Saldos por Tempo de Aporte</h3>
                         <p style="margin-bottom: 20px; color: #7f8c8d; font-style: italic;">
-                            Informe quanto você tem em cada faixa de tempo (regra PEPS). No VGBL o IR incide apenas sobre os rendimentos:
+                            Informe quanto você tem em cada faixa de tempo (regra PEPS):
                         </p>
                         <div class="input-grid">
                             <div class="input-group">
                                 <label for="saldo35">Até 2 anos (35%)</label>
-                                <input type="number" id="saldo35" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo35" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo30">2 a 4 anos (30%)</label>
-                                <input type="number" id="saldo30" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo30" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo25">4 a 6 anos (25%)</label>
-                                <input type="number" id="saldo25" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo25" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo20">6 a 8 anos (20%)</label>
-                                <input type="number" id="saldo20" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo20" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo15">8 a 10 anos (15%)</label>
-                                <input type="number" id="saldo15" placeholder="R$ 0" value="0">
+                                <input type="number" id="saldo15" placeholder="R$ 0" value="">
                             </div>
                             <div class="input-group">
                                 <label for="saldo10">Mais de 10 anos (10%)</label>
-                                <input type="number" id="saldo10" placeholder="R$ 200000" value="200000">
+                                <input type="number" id="saldo10" placeholder="R$ 0" value="">
                             </div>
                         </div>
                         <div class="input-grid" style="margin-top: 20px;">
                             <div class="input-group">
-                                <label for="rendimentos">Rendimentos/Lucro Total (R$)</label>
-                                <input type="number" id="rendimentos" placeholder="Ex: 80000" value="80000">
-                                <small style="color: #7f8c8d; margin-top: 5px;">Apenas este valor será tributado no VGBL</small>
+                                <label for="rendimentos">Valor dos Rendimentos a Sacar (R$)</label>
+                                <input type="number" id="rendimentos" placeholder="Ex: 80000" value="">
+                                <small style="color: #7f8c8d; margin-top: 5px;">No VGBL apenas os rendimentos são tributados</small>
                             </div>
                         </div>
                     `;
@@ -662,7 +662,6 @@
             }
         }
 
-        // Funções de cálculo
         function formatarMoeda(valor) {
             return new Intl.NumberFormat('pt-BR', {
                 style: 'currency',
@@ -680,7 +679,7 @@
 
         function calcularIRRetidoSalario(salarioBruto) {
             const salarioMensal = salarioBruto / 12;
-            const inss = Math.min(salarioMensal * 0.14, 1218.27); // Teto INSS 2024: R$ 7.786,02 * 14%
+            const inss = Math.min(salarioMensal * 0.14, 1218.27);
             const baseSalario = salarioMensal - inss;
             
             let irMensal = 0;
@@ -698,12 +697,27 @@
         }
 
         function calcularAliquotaRegressiva() {
-            const saldo35 = parseFloat(document.getElementById('saldo35')?.value) || 0;
-            const saldo30 = parseFloat(document.getElementById('saldo30')?.value) || 0;
-            const saldo25 = parseFloat(document.getElementById('saldo25')?.value) || 0;
-            const saldo20 = parseFloat(document.getElementById('saldo20')?.value) || 0;
-            const saldo15 = parseFloat(document.getElementById('saldo15')?.value) || 0;
-            const saldo10 = parseFloat(document.getElementById('saldo10')?.value) || 0;
+            // Garantir que os elementos existem antes de tentar acessar
+            const elem35 = document.getElementById('saldo35');
+            const elem30 = document.getElementById('saldo30');
+            const elem25 = document.getElementById('saldo25');
+            const elem20 = document.getElementById('saldo20');
+            const elem15 = document.getElementById('saldo15');
+            const elem10 = document.getElementById('saldo10');
+            
+            if (!elem35 || !elem30 || !elem25 || !elem20 || !elem15 || !elem10) {
+                console.log('Elementos dos saldos não encontrados');
+                return 10; // valor padrão
+            }
+            
+            const saldo35 = parseFloat(elem35.value) || 0;
+            const saldo30 = parseFloat(elem30.value) || 0;
+            const saldo25 = parseFloat(elem25.value) || 0;
+            const saldo20 = parseFloat(elem20.value) || 0;
+            const saldo15 = parseFloat(elem15.value) || 0;
+            const saldo10 = parseFloat(elem10.value) || 0;
+            
+            console.log('Saldos lidos:', {saldo35, saldo30, saldo25, saldo20, saldo15, saldo10});
             
             const valorTotal = saldo35 + saldo30 + saldo25 + saldo20 + saldo15 + saldo10;
             
@@ -712,14 +726,16 @@
             const impostoTotal = (saldo35 * 0.35) + (saldo30 * 0.30) + (saldo25 * 0.25) + 
                                (saldo20 * 0.20) + (saldo15 * 0.15) + (saldo10 * 0.10);
             
-            return (impostoTotal / valorTotal) * 100;
+            const aliquotaFinal = (impostoTotal / valorTotal) * 100;
+            console.log('Alíquota calculada:', aliquotaFinal);
+            
+            return aliquotaFinal;
         }
 
         function calcularSaqueMaximoSemDARF(salarioAnual, despesasDedutiveis, irRetidoSalario) {
             let valorMaximo = 0;
             
             if (userChoices.tipoPrevidencia === 'pgbl') {
-                // Para PGBL: calcula valor máximo do saque total
                 for (let teste = 1000; teste <= 2000000; teste += 1000) {
                     const rendaTributavelTeste = Math.max(0, salarioAnual + teste - despesasDedutiveis);
                     const irRetidoTeste = teste * 0.15;
@@ -734,7 +750,6 @@
                 }
                 return { tipo: 'saque', valor: valorMaximo };
             } else {
-                // Para VGBL: calcula rendimento máximo (o que realmente importa)
                 for (let testeRendimento = 1000; testeRendimento <= 1000000; testeRendimento += 1000) {
                     const rendaTributavelTeste = Math.max(0, salarioAnual + testeRendimento - despesasDedutiveis);
                     const irRetidoTeste = testeRendimento * 0.15;
@@ -751,10 +766,28 @@
             }
         }
 
-        function calcular() {
-            currentStep = 5;
-            showStep();
+        function mostrarErro(mensagem) {
+            const validationAlert = document.getElementById('validationAlert');
+            const validationText = document.getElementById('validationText');
+            
+            validationText.textContent = mensagem;
+            validationAlert.style.display = 'block';
+            
+            // Auto-esconder após 5 segundos
+            setTimeout(() => {
+                validationAlert.style.display = 'none';
+            }, 5000);
+        }
 
+        function esconderErro() {
+            const validationAlert = document.getElementById('validationAlert');
+            validationAlert.style.display = 'none';
+        }
+
+        function calcular() {
+            console.log('Iniciando cálculo...');
+            esconderErro(); // Limpar erros anteriores
+            
             const salarioAnual = parseFloat(document.getElementById('salarioAnual').value) || 0;
             let valorTotal, rendimentos = 0, despesasDedutiveis = 0;
             
@@ -764,8 +797,8 @@
                 if (userChoices.tipoPrevidencia === 'vgbl') {
                     rendimentos = parseFloat(document.getElementById('rendimentos').value) || 0;
                     
-                    if (rendimentos > valorTotal) {
-                        alert('Os rendimentos não podem ser maiores que o valor total acumulado!');
+                    if (rendimentos >= valorTotal) {
+                        mostrarErro('Os rendimentos devem ser menores que o valor total acumulado! Exemplo: Se você tem R$ 200.000 acumulados, os rendimentos podem ser no máximo R$ 199.999.');
                         return;
                     }
                 }
@@ -779,6 +812,7 @@
                     despesasDedutiveis = Math.min(salarioAnual * 0.20, 16754.34);
                 }
             } else {
+                // Para tabela regressiva, sempre ler os valores atuais dos campos
                 const saldo35 = parseFloat(document.getElementById('saldo35').value) || 0;
                 const saldo30 = parseFloat(document.getElementById('saldo30').value) || 0;
                 const saldo25 = parseFloat(document.getElementById('saldo25').value) || 0;
@@ -787,11 +821,18 @@
                 const saldo10 = parseFloat(document.getElementById('saldo10').value) || 0;
                 valorTotal = saldo35 + saldo30 + saldo25 + saldo20 + saldo15 + saldo10;
                 
+                console.log('Saldos na função calcular:', {saldo35, saldo30, saldo25, saldo20, saldo15, saldo10, valorTotal});
+                
                 if (userChoices.tipoPrevidencia === 'vgbl') {
                     rendimentos = parseFloat(document.getElementById('rendimentos').value) || 0;
                     
-                    if (rendimentos > valorTotal) {
-                        alert('Os rendimentos não podem ser maiores que o valor total acumulado!');
+                    if (rendimentos >= valorTotal) {
+                        mostrarErro('Os rendimentos devem ser menores que a soma dos saldos! Soma atual: ' + formatarMoeda(valorTotal) + '. Rendimentos informados: ' + formatarMoeda(rendimentos) + '. Os rendimentos representam apenas a parte do lucro, não o valor total.');
+                        return;
+                    }
+                    
+                    if (valorTotal === 0) {
+                        mostrarErro('Informe pelo menos um valor nos saldos por tempo de aporte para calcular a alíquota.');
                         return;
                     }
                 }
@@ -805,7 +846,10 @@
                 resultado = calcularRegressiva(valorTotal, rendimentos);
             }
 
-            exibirResultado(resultado);
+            console.log('Resultado do cálculo:', resultado);
+            currentStep = 5;
+            showStep();
+            exibirResultado(resultado, valorTotal);
         }
 
         function calcularProgressiva(salarioAnual, valorTotal, rendimentos, despesasDedutiveis) {
@@ -826,7 +870,7 @@
                 const darv = Math.max(0, impostoTotal - totalIRRetido);
                 
                 return {
-                    tipo: `PGBL + Progressiva (${userChoices.tipoDeclaracao})`,
+                    tipo: 'PGBL + Progressiva (' + userChoices.tipoDeclaracao + ')',
                     rendaTributavel: rendaTributavelTotal,
                     despesasUsadas: userChoices.tipoDeclaracao === 'completa' ? despesasOriginais : despesasDedutiveis,
                     dependentes: numDependentes,
@@ -846,7 +890,7 @@
                 const darv = Math.max(0, impostoTotal - totalIRRetido);
                 
                 return {
-                    tipo: `VGBL + Progressiva (${userChoices.tipoDeclaracao})`,
+                    tipo: 'VGBL + Progressiva (' + userChoices.tipoDeclaracao + ')',
                     rendaTributavel: rendaTributavelTotal,
                     despesasUsadas: userChoices.tipoDeclaracao === 'completa' ? despesasOriginais : despesasDedutiveis,
                     dependentes: numDependentes,
@@ -892,95 +936,98 @@
             }
         }
 
-        function exibirResultado(resultado) {
+        function exibirResultado(resultado, valorTotalSaldos) {
             const resultContent = document.getElementById('resultContent');
             
             if (userChoices.tipoTabela === 'progressiva') {
-                resultContent.innerHTML = `
-                    <div class="result-card">
-                        <h4>💰 ${resultado.tipo}</h4>
-                        <div class="result-row">
-                            <span>Renda Tributável Total:</span>
-                            <span class="result-value">${formatarMoeda(resultado.rendaTributavel)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>Despesas Dedutíveis:</span>
-                            <span class="result-value">${formatarMoeda(resultado.despesasUsadas)}</span>
-                        </div>
-                        ${resultado.dependentes > 0 ? `
-                        <div class="result-row">
-                            <span>Dependentes (${resultado.dependentes}):</span>
-                            <span class="result-value">${formatarMoeda(resultado.dependentes * 2275.08)}</span>
-                        </div>` : ''}
-                        <div class="result-row">
-                            <span>IR Retido do Salário:</span>
-                            <span class="result-value">${formatarMoeda(resultado.irRetidoSalario)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>Base de Cálculo Previdência:</span>
-                            <span class="result-value">${formatarMoeda(resultado.baseCalculo)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>IR Retido Previdência (15%):</span>
-                            <span class="result-value">${formatarMoeda(resultado.irRetidoPrevidencia)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>DARF a Pagar no Ajuste:</span>
-                            <span class="result-value">${formatarMoeda(resultado.darv)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>💰 IMPOSTO TOTAL DA PREVIDÊNCIA:</span>
-                            <span class="result-value">${formatarMoeda(resultado.impostoTotal)}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="summary-card">
-                        <h3>📊 Resumo</h3>
-                        <p><strong>Imposto efetivo sobre o saque:</strong> ${((resultado.impostoTotal / resultado.baseCalculo) * 100).toFixed(2)}%</p>
-                        ${resultado.darv > 0 ? 
-                            `<p style="margin-top: 10px;">⚠️ <strong>Atenção:</strong> Você terá DARF de ${formatarMoeda(resultado.darv)} para pagar no ajuste anual.</p>
-                             <p style="margin-top: 10px;">💡 <strong>Dica:</strong> ${resultado.limiteMaximo.tipo === 'saque' ? 
-                                `Para não pagar DARF, o saque máximo seria de ${formatarMoeda(resultado.limiteMaximo.valor)}.` :
-                                `Para não pagar DARF, o rendimento máximo seria de ${formatarMoeda(resultado.limiteMaximo.valor)}.`}</p>` :
-                            `<p style="margin-top: 10px;">✅ <strong>Boa notícia:</strong> Não haverá DARF adicional no ajuste anual.</p>
-                             <p style="margin-top: 10px;">💡 <strong>Limite sem DARF:</strong> ${resultado.limiteMaximo.tipo === 'saque' ? 
-                                `Você pode sacar até ${formatarMoeda(resultado.limiteMaximo.valor)} sem gerar DARF.` :
-                                `Você pode ter rendimentos de até ${formatarMoeda(resultado.limiteMaximo.valor)} sem gerar DARF.`}</p>`
-                        }
-                    </div>
-                `;
+                const darvMessage = resultado.darv > 0 ? 
+                    '<p style="margin-top: 10px;">⚠️ <strong>Atenção:</strong> Você terá DARF de ' + formatarMoeda(resultado.darv) + ' para pagar no ajuste anual.</p>' +
+                    '<p style="margin-top: 10px;">💡 <strong>Dica:</strong> Para não pagar DARF, o ' + 
+                    (resultado.limiteMaximo.tipo === 'saque' ? 'saque máximo seria de ' : 'rendimento máximo seria de ') + 
+                    formatarMoeda(resultado.limiteMaximo.valor) + '.</p>' :
+                    '<p style="margin-top: 10px;">✅ <strong>Boa notícia:</strong> Não haverá DARF adicional no ajuste anual.</p>' +
+                    '<p style="margin-top: 10px;">💡 <strong>Limite sem DARF:</strong> Você pode ' + 
+                    (resultado.limiteMaximo.tipo === 'saque' ? 'sacar até ' : 'ter rendimentos de até ') + 
+                    formatarMoeda(resultado.limiteMaximo.valor) + ' sem gerar DARF.</p>';
+
+                resultContent.innerHTML = 
+                    '<div class="result-card">' +
+                        '<h4>💰 ' + resultado.tipo + '</h4>' +
+                        '<div class="result-row">' +
+                            '<span>Renda Tributável Total:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.rendaTributavel) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>Despesas Dedutíveis:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.despesasUsadas) + '</span>' +
+                        '</div>' +
+                        (resultado.dependentes > 0 ? 
+                            '<div class="result-row">' +
+                                '<span>Dependentes (' + resultado.dependentes + '):</span>' +
+                                '<span class="result-value">' + formatarMoeda(resultado.dependentes * 2275.08) + '</span>' +
+                            '</div>' : '') +
+                        '<div class="result-row">' +
+                            '<span>IR Retido do Salário:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.irRetidoSalario) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>Base de Cálculo Previdência:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.baseCalculo) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>IR Retido Previdência (15%):</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.irRetidoPrevidencia) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>DARF a Pagar no Ajuste:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.darv) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>💰 IMPOSTO TOTAL DA PREVIDÊNCIA:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.impostoTotal) + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="summary-card">' +
+                        '<h3>📊 Resumo</h3>' +
+                        '<p><strong>Imposto efetivo sobre o saque:</strong> ' + ((resultado.impostoTotal / resultado.baseCalculo) * 100).toFixed(2) + '%</p>' +
+                        darvMessage +
+                    '</div>';
             } else {
-                resultContent.innerHTML = `
-                    <div class="result-card">
-                        <h4>💰 ${resultado.tipo}</h4>
-                        <div class="result-row">
-                            <span>Base de Cálculo:</span>
-                            <span class="result-value">${formatarMoeda(resultado.baseCalculo)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>Alíquota Média (PEPS):</span>
-                            <span class="result-value">${resultado.aliquota.toFixed(2)}%</span>
-                        </div>
-                        <div class="result-row">
-                            <span>IR Retido na Fonte:</span>
-                            <span class="result-value">${formatarMoeda(resultado.irRetidoPrevidencia)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>DARF a Pagar:</span>
-                            <span class="result-value">${formatarMoeda(resultado.darv)}</span>
-                        </div>
-                        <div class="result-row">
-                            <span>💰 IMPOSTO TOTAL:</span>
-                            <span class="result-value">${formatarMoeda(resultado.impostoTotal)}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="summary-card">
-                        <h3>📊 Resumo</h3>
-                        <p><strong>Tributação exclusiva na fonte</strong> - Alíquota efetiva: ${resultado.aliquota.toFixed(2)}%</p>
-                        <p style="margin-top: 10px;">✅ <strong>Vantagem:</strong> Não entra no ajuste anual do IR - imposto definitivo!</p>
-                    </div>
-                `;
+                resultContent.innerHTML = 
+                    '<div class="result-card">' +
+                        '<h4>💰 ' + resultado.tipo + '</h4>' +
+                        '<div class="result-row">' +
+                            '<span>Soma dos Saldos por Tempo:</span>' +
+                            '<span class="result-value">' + formatarMoeda(valorTotalSaldos) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>Alíquota Média (PEPS):</span>' +
+                            '<span class="result-value">' + resultado.aliquota.toFixed(2) + '%</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>Base de Cálculo (Rendimentos):</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.baseCalculo) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>IR Retido na Fonte:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.irRetidoPrevidencia) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>DARF a Pagar:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.darv) + '</span>' +
+                        '</div>' +
+                        '<div class="result-row">' +
+                            '<span>💰 IMPOSTO TOTAL:</span>' +
+                            '<span class="result-value">' + formatarMoeda(resultado.impostoTotal) + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="summary-card">' +
+                        '<h3>📊 Como foi calculado</h3>' +
+                        '<p><strong>1.</strong> Alíquota média calculada pelos saldos de cada faixa de tempo</p>' +
+                        '<p><strong>2.</strong> Imposto = Rendimentos × ' + resultado.aliquota.toFixed(2) + '% = ' + formatarMoeda(resultado.impostoTotal) + '</p>' +
+                        '<p style="margin-top: 15px;"><strong>Tributação exclusiva na fonte</strong> - Imposto definitivo!</p>' +
+                        '<p style="margin-top: 10px;">✅ <strong>Vantagem:</strong> Não entra no ajuste anual do IR</p>' +
+                    '</div>';
             }
         }
 
