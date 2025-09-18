@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Seguro de Vida - Tesouro de Família</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: 700; }
+        .header p { font-size: 1.2em; opacity: 0.9; }
+        .content { padding: 40px; }
+        .tabs { display: flex; margin-bottom: 30px; border-bottom: 3px solid #ecf0f1; }
+        .tab { flex: 1; padding: 15px; background: #f8f9fa; border: none; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s; }
+        .tab.active { background: #4facfe; color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .form-section { background: #f8f9fa; padding: 30px; border-radius: 15px; border-left: 5px solid #4facfe; }
+        .form-section h3 { color: #2c3e50; margin-bottom: 20px; font-size: 1.4em; display: flex; align-items: center; gap: 10px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #34495e; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 15px; border: 2px solid #e1e8ed; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #4facfe; box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1); }
+        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-small { padding: 8px 15px; font-size: 14px; }
+        .btn-calc { background: linear-gradient(135deg, #17a2b8 0%, #138496 100%); font-size: 12px; padding: 6px 12px; margin-top: 8px; }
+        .results { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 30px; border-radius: 15px; margin-top: 30px; }
+        .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .result-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
+        .result-value { font-size: 2em; font-weight: 700; color: #e74c3c; margin-bottom: 10px; }
+        .breakdown { background: white; padding: 25px; border-radius: 12px; margin-top: 25px; border: 2px solid #ecf0f1; }
+        .breakdown-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #ecf0f1; }
+        .info-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107; }
+        .info-box-morte { background: #fff3cd; border-left-color: #ffc107; }
+        .info-box-invalidez { background: #f8d7da; border-left-color: #dc3545; }
+        .info-box-doenca { background: #d1ecf1; border-left-color: #17a2b8; }
+        .dica-box { background: #f8f9fa; padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 13px; color: #6c757d; }
+        .sync-status { display: inline-block; color: #28a745; font-size: 12px; margin-left: 10px; }
+        @media (max-width: 768px) { 
+            .form-grid { grid-template-columns: 1fr; } 
+            .tabs { flex-direction: column; }
+            .tab { border-bottom: 1px solid #dee2e6; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ Simulador de Seguro de Vida</h1>
+            <p>Metodologia Tesouro de Família - Bruno Peix</p>
+        </div>
+
+        <div class="content">
+            <div class="tabs">
+                <button class="tab active" onclick="trocarTab('morte')">💀 Seguro por MORTE</button>
+                <button class="tab" onclick="trocarTab('invalidez')">🏥 Seguro por INVALIDEZ</button>
+                <button class="tab" onclick="trocarTab('doenca')">🔬 Doenças GRAVES</button>
+            </div>
+
+            <!-- TAB MORTE -->
+            <div id="tab-morte" class="tab-content active">
+                <div class="info-box info-box-morte">
+                    <p style="margin: 0; font-weight: 600; color: #856404;">
+                        <strong>🎯 SEGURO POR MORTE:</strong> Protege a família quando o segurado falece. Duas funções: custear despesas imediatas (funeral + inventário + dívidas) e gerar renda perpétua para os dependentes (6% ao ano, preservando o capital).
+                    </p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3>👤 Dados Básicos</h3>
+                        <div class="form-group">
+                            <label>Renda Mensal que a Família Precisará (R$)</label>
+                            <input type="number" id="renda-necessaria" value="0" min="0" onchange="sincronizarCampos()">
+                            <span class="sync-status">✓ Sincronizado</span>
+                            <div class="dica-box">
+                                💡 Valor líquido que a família precisará mensalmente após sua ausência (já descontados seus gastos pessoais)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Carteira de Investimentos (R$)</label>
+                            <input type="number" id="patrimonio" value="0" min="0" onchange="sincronizarCampos()">
+                            <span class="sync-status">✓ Sincronizado</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Reserva de Emergência (R$)</label>
+                            <input type="number" id="reserva" value="0" min="0" onchange="sincronizarCampos()">
+                            <span class="sync-status">✓ Sincronizado</span>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>💰 Proteção Imediata</h3>
+                        <div class="form-group">
+                            <label>Custos Funerais/Sepultamento (R$)</label>
+                            <input type="number" id="funerais-morte" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Custos de Inventário (R$)</label>
+                            <input type="number" id="inventario-morte" value="0" min="0">
+                            <button type="button" class="btn btn-small btn-calc" onclick="calcularInventario()">🧮 Calcular 6%</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Dívidas a Quitar (R$)</label>
+                            <input type="number" id="dividas-morte" value="0" min="0">
+                            <div class="dica-box">
+                                💡 Financiamentos, cartões, empréstimos que precisam ser quitados
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Pensão INSS Mensal (R$)</label>
+                            <input type="number" id="inss-morte" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Outras Rendas Mensais (R$)</label>
+                            <input type="number" id="outras-morte" value="0" min="0">
+                            <div class="dica-box">
+                                💡 Aluguéis, dividendos, outras fontes de renda da família
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <button type="button" class="btn" onclick="calcularSeguro('morte')" style="font-size: 18px; padding: 15px 40px;">🧮 Calcular Seguro por Morte</button>
+                </div>
+
+                <div id="resultados-morte" class="results" style="display: none;">
+                    <h3>📊 Resultados - Seguro por Morte</h3>
+                    <div class="result-grid">
+                        <div class="result-card">
+                            <h4>💰 Proteção Imediata</h4>
+                            <div class="result-value" id="result-protecao-morte">R$ 0</div>
+                        </div>
+                        <div class="result-card">
+                            <h4>🏠 Geração de Renda</h4>
+                            <div class="result-value" id="result-renda-morte">R$ 0</div>
+                        </div>
+                        <div class="result-card">
+                            <h4>🎯 Total Necessário</h4>
+                            <div class="result-value" id="result-total-morte">R$ 0</div>
+                        </div>
+                    </div>
+                    <div class="breakdown">
+                        <h4>📋 Detalhamento</h4>
+                        <div id="detalhamento-morte"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB INVALIDEZ -->
+            <div id="tab-invalidez" class="tab-content">
+                <div class="info-box info-box-invalidez">
+                    <p style="margin: 0; font-weight: 600; color: #721c24;">
+                        <strong>🏥 SEGURO POR INVALIDEZ:</strong> Protege quando o segurado fica inválido. Duas funções: custear despesas médicas extras e gerar renda perpétua para TODA a família incluindo o segurado (6% ao ano, preservando o capital).
+                    </p>
+                </div>
+
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+                    <h4 style="color: #155724; margin-bottom: 10px;">⚠️ Principais Diferenças da Invalidez:</h4>
+                    <ul style="margin-left: 20px; color: #155724;">
+                        <li><strong>Despesas médicas:</strong> Home care (R$ 8k-20k/mês), adaptações, medicamentos especiais</li>
+                        <li><strong>Renda para todos:</strong> Família + segurado inválido precisam de sustento</li>
+                        <li><strong>Não há inventário:</strong> Segurado continua vivo</li>
+                        <li><strong>Não há funeral:</strong> Apenas custos de tratamento e adaptação</li>
+                    </ul>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3>👤 Dados Básicos (Sincronizados)</h3>
+                        <div class="form-group">
+                            <label>Renda Mensal que a Família Precisará (R$)</label>
+                            <input type="number" id="renda-necessaria-invalidez" value="0" readonly>
+                            <span class="sync-status">⚠️ Informe na primeira aba (Morte)</span>
+                            <div class="dica-box">
+                                💡 Na invalidez, considere renda para TODA a família (incluindo você) + custos extras
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Carteira de Investimentos (R$)</label>
+                            <input type="number" id="patrimonio-invalidez" value="0" readonly>
+                            <span class="sync-status">⚠️ Informe na primeira aba (Morte)</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Reserva de Emergência (R$)</label>
+                            <input type="number" id="reserva-invalidez" value="0" readonly>
+                            <span class="sync-status">⚠️ Informe na primeira aba (Morte)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>🏥 Custos de Invalidez</h3>
+                        <div class="form-group">
+                            <label>Despesas Médicas Imediatas (R$)</label>
+                            <div class="dica-box">
+                                💊 <strong>Exemplos:</strong><br>
+                                • Home care permanente<br>
+                                • Adaptações na casa: R$ 50k-150k<br>
+                                • Medicamentos especiais<br>
+                                • Equipamentos de reabilitação
+                            </div>
+                            <input type="number" id="medicas-invalidez" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Custos Mensais Adicionais (R$)</label>
+                            <input type="number" id="custos-mensais-invalidez" value="0" min="0">
+                            <div class="dica-box">
+                                💡 Home care, cuidadores, medicamentos mensais, fisioterapia
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Auxílio-Doença INSS (R$)</label>
+                            <input type="number" id="inss-invalidez" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Outras Rendas Mensais (R$)</label>
+                            <input type="number" id="outras-invalidez" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <button type="button" class="btn" onclick="calcularSeguro('invalidez')" style="font-size: 18px; padding: 15px 40px;">🧮 Calcular Seguro por Invalidez</button>
+                </div>
+
+                <div id="resultados-invalidez" class="results" style="display: none;">
+                    <h3>📊 Resultados - Seguro por Invalidez</h3>
+                    <div class="result-grid">
+                        <div class="result-card">
+                            <h4>🏥 Despesas Médicas</h4>
+                            <div class="result-value" id="result-protecao-invalidez">R$ 0</div>
+                        </div>
+                        <div class="result-card">
+                            <h4>🏠 Geração de Renda</h4>
+                            <div class="result-value" id="result-renda-invalidez">R$ 0</div>
+                        </div>
+                        <div class="result-card">
+                            <h4>🎯 Total Necessário</h4>
+                            <div class="result-value" id="result-total-invalidez">R$ 0</div>
+                        </div>
+                    </div>
+                    <div class="breakdown">
+                        <h4>📋 Detalhamento</h4>
+                        <div id="detalhamento-invalidez"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB DOENÇAS GRAVES -->
+            <div id="tab-doenca" class="tab-content">
+                <div class="info-box info-box-doenca">
+                    <p style="margin: 0; font-weight: 600; color: #0c5460;">
+                        <strong>🔬 SEGURO DOENÇAS GRAVES:</strong> Protege quando diagnosticada doença grave (câncer, infarto, AVC). Duas funções: custear despesas médicas imediatas e custos de tratamento por período determinado. <strong>SEM renda perpétua</strong> (pessoa continua trabalhando após tratamento).
+                    </p>
+                </div>
+
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ffc107;">
+                    <h4 style="color: #856404; margin-bottom: 10px;">⚠️ Características das Doenças Graves:</h4>
+                    <ul style="margin-left: 20px; color: #856404;">
+                        <li><strong>Cobertura temporária:</strong> Padrão 24 meses de tratamento</li>
+                        <li><strong>Segurado continua vivo:</strong> Pode retomar trabalho após tratamento</li>
+                        <li><strong>Foco no tratamento:</strong> Cirurgias, quimioterapia, medicamentos caros</li>
+                        <li><strong>Sem renda perpétua:</strong> Apenas custos do período de tratamento</li>
+                    </ul>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h3>💰 Dados Financeiros</h3>
+                        <div class="form-group">
+                            <label>Reserva de Emergência (R$)</label>
+                            <input type="number" id="reserva-doenca-local" value="0" readonly>
+                            <span class="sync-status">⚠️ Informe na primeira aba (Morte)</span>
+                            <div class="dica-box">
+                                💡 Reserva disponível para cobrir despesas médicas imediatas
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>🔬 Custos de Doenças Graves</h3>
+                        <div class="form-group">
+                            <label>Despesas Médicas Imediatas (R$)</label>
+                            <div class="dica-box">
+                                🏥 <strong>Exemplos:</strong><br>
+                                • Cirurgias: R$ 50k-200k<br>
+                                • Tratamentos especiais<br>
+                                • Medicamentos importados<br>
+                                • Exames especializados
+                            </div>
+                            <input type="number" id="medicas-doenca" value="0" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Custos Mensais de Tratamento (R$)</label>
+                            <input type="number" id="custos-mensais-doenca" value="0" min="0">
+                            <div class="dica-box">
+                                💊 Quimioterapia, radioterapia, medicamentos mensais, consultas especializadas
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Período de Tratamento (meses)</label>
+                            <input type="number" id="periodo-doenca" value="24" min="1" max="60">
+                            <div class="dica-box">
+                                ⏱️ Período médio de tratamento ativo (padrão: 24 meses)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                    <button type="button" class="btn" onclick="calcularSeguro('doenca')" style="font-size: 18px; padding: 15px 40px;">🧮 Calcular Seguro Doenças Graves</button>
+                </div>
+
+                <div id="resultados-doenca" class="results" style="display: none;">
+                    <h3>📊 Resultados - Seguro Doenças Graves</h3>
+                    <div class="result-grid">
+                        <div class="result-card">
+                            <h4>🏥 Despesas Imediatas</h4>
+                            <div class="result-value" id="result-protecao-doenca">R$ 0</div>
+                        </div>
+                        <div class="result-card">
+                            <h4>⏱️ Custos Temporais</h4>
+                            <div class="result-value" id="result-temporal-doenca">R$ 0</div>
+                        </div>
+                        <div class="result-card">
+                            <h4>🎯 Total Necessário</h4>
+                            <div class="result-value" id="result-total-doenca">R$ 0</div>
+                        </div>
+                    </div>
+                    <div class="breakdown">
+                        <h4>📋 Detalhamento</h4>
+                        <div id="detalhamento-doenca"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções de formatação e cálculo
+        function formatarMoeda(valor) {
+            return new Intl.NumberFormat('pt-BR', { 
+                style: 'currency', 
+                currency: 'BRL' 
+            }).format(valor);
+        }
+
+        function calcularCapital(rendaMensal, taxa = 0.06) {
+            const rendaAnual = rendaMensal * 12;
+            return rendaAnual / taxa;
+        }
+
+        function calcularInventario() {
+            const patrimonio = parseFloat(document.getElementById('patrimonio').value) || 0;
+            const reserva = parseFloat(document.getElementById('reserva').value) || 0;
+            const total = patrimonio + reserva;
+            
+            if (total === 0) return;
+            
+            const custo = total * 0.06;
+            document.getElementById('inventario-morte').value = Math.round(custo);
+        }
+
+        function sincronizarCampos() {
+            const rendaNecessaria = parseFloat(document.getElementById('renda-necessaria').value) || 0;
+            const patrimonio = parseFloat(document.getElementById('patrimonio').value) || 0;
+            const reserva = parseFloat(document.getElementById('reserva').value) || 0;
+
+            // Sincronizar com aba Invalidez
+            if (document.getElementById('renda-necessaria-invalidez')) {
+                document.getElementById('renda-necessaria-invalidez').value = rendaNecessaria;
+                document.getElementById('patrimonio-invalidez').value = patrimonio;
+                document.getElementById('reserva-invalidez').value = reserva;
+            }
+
+            // Sincronizar com aba Doenças Graves
+            if (document.getElementById('reserva-doenca-local')) {
+                document.getElementById('reserva-doenca-local').value = reserva;
+            }
+
+            // Atualizar status visual
+            updateSyncStatus();
+        }
+
+        function updateSyncStatus() {
+            const rendaNecessaria = parseFloat(document.getElementById('renda-necessaria').value) || 0;
+            const patrimonio = parseFloat(document.getElementById('patrimonio').value) || 0;
+            const reserva = parseFloat(document.getElementById('reserva').value) || 0;
+
+            const hasValues = rendaNecessaria > 0 || patrimonio > 0 || reserva > 0;
+            
+            // Atualizar status nas abas Invalidez e Doenças Graves
+            const syncElements = document.querySelectorAll('.sync-status');
+            syncElements.forEach(element => {
+                if (element.textContent.includes('Informe na primeira aba')) {
+                    element.textContent = hasValues ? '✓ Sincronizado automaticamente' : '⚠️ Informe na primeira aba (Morte)';
+                    element.style.color = hasValues ? '#28a745' : '#dc3545';
+                }
+            });
+        }
+
+        function trocarTab(tipo) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tipo).classList.add('active');
+        }
+
+        function calcularSeguro(tipo) {
+            sincronizarCampos();
+            
+            if (tipo === 'morte') {
+                calcularSeguroMorte();
+            } else if (tipo === 'invalidez') {
+                calcularSeguroInvalidez();
+            } else if (tipo === 'doenca') {
+                calcularSeguroDoenca();
+            }
+        }
+
+        function calcularSeguroMorte() {
+            const rendaNecessaria = parseFloat(document.getElementById('renda-necessaria').value) || 9000;
+            const patrimonio = parseFloat(document.getElementById('patrimonio').value) || 300000;
+            const reserva = parseFloat(document.getElementById('reserva').value) || 0;
+            const funerais = parseFloat(document.getElementById('funerais-morte').value) || 0;
+            const inventario = parseFloat(document.getElementById('inventario-morte').value) || 0;
+            const dividas = parseFloat(document.getElementById('dividas-morte').value) || 0;
+            const inss = parseFloat(document.getElementById('inss-morte').value) || 0;
+            const outras = parseFloat(document.getElementById('outras-morte').value) || 0;
+            
+            const custosImediatos = funerais + inventario + dividas;
+            const protecaoImediata = Math.max(0, custosImediatos - reserva);
+            const necessidadeRenda = Math.max(0, rendaNecessaria - inss - outras);
+            
+            const capitalNecessario = calcularCapital(necessidadeRenda);
+            const rendaPatrimonioMensal = patrimonio * (0.06 / 12);
+            const capitalPatrimonio = calcularCapital(rendaPatrimonioMensal);
+            const necessidadeCapital = Math.max(0, capitalNecessario - capitalPatrimonio);
+            const total = protecaoImediata + necessidadeCapital;
+            
+            document.getElementById('result-protecao-morte').textContent = formatarMoeda(protecaoImediata);
+            document.getElementById('result-renda-morte').textContent = formatarMoeda(necessidadeCapital);
+            document.getElementById('result-total-morte').textContent = formatarMoeda(total);
+            
+            const detalhamento = `
+                <div class="breakdown-item"><span><strong>PROTEÇÃO IMEDIATA:</strong></span><span></span></div>
+                <div class="breakdown-item"><span>Funeral + Inventário + Dívidas:</span><span>${formatarMoeda(custosImediatos)}</span></div>
+                <div class="breakdown-item"><span>(-) Reserva de emergência:</span><span>${formatarMoeda(reserva)}</span></div>
+                <div class="breakdown-item"><span>= Proteção imediata necessária:</span><span><strong>${formatarMoeda(protecaoImediata)}</strong></span></div>
+                
+                <div class="breakdown-item"><span><strong>RENDA PERPÉTUA:</strong></span><span></span></div>
+                <div class="breakdown-item"><span>Renda necessária (mensal):</span><span>${formatarMoeda(rendaNecessaria)}</span></div>
+                <div class="breakdown-item"><span>(-) INSS + outras rendas:</span><span>${formatarMoeda(inss + outras)}</span></div>
+                <div class="breakdown-item"><span>= Gap de renda mensal:</span><span><strong>${formatarMoeda(necessidadeRenda)}</strong></span></div>
+                <div class="breakdown-item"><span>Capital necessário (6% aa):</span><span>${formatarMoeda(capitalNecessario)}</span></div>
+                <div class="breakdown-item"><span>(-) Patrimônio atual:</span><span>${formatarMoeda(patrimonio)}</span></div>
+                <div class="breakdown-item"><span>= Capital adicional:</span><span><strong>${formatarMoeda(necessidadeCapital)}</strong></span></div>
+                
+                <div class="breakdown-item" style="border-top: 2px solid #4facfe; margin-top: 15px; padding-top: 15px;"><span><strong>TOTAL SEGURO:</strong></span><span><strong>${formatarMoeda(total)}</strong></span></div>
+                
+                <div style="margin-top: 15px; padding: 15px; background: #e8f5e8; border-radius: 8px; border-left: 4px solid #28a745;">
+                    <div style="font-size: 14px; color: #155724;">
+                        <strong>💡 Resultado:</strong> Com ${formatarMoeda(total)} de seguro, sua família terá 
+                        ${formatarMoeda((total + patrimonio) * 0.06 / 12)}/mês para sempre, 
+                        preservando o capital de ${formatarMoeda(total + patrimonio)}.
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('detalhamento-morte').innerHTML = detalhamento;
+            document.getElementById('resultados-morte').style.display = 'block';
+            document.getElementById('resultados-morte').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calcularSeguroInvalidez() {
+            const rendaNecessaria = parseFloat(document.getElementById('renda-necessaria-invalidez').value) || 9000;
+            const patrimonio = parseFloat(document.getElementById('patrimonio-invalidez').value) || 300000;
+            const reserva = parseFloat(document.getElementById('reserva-invalidez').value) || 0;
+            const medicas = parseFloat(document.getElementById('medicas-invalidez').value) || 150000;
+            const custosMensais = parseFloat(document.getElementById('custos-mensais-invalidez').value) || 10000;
+            const inss = parseFloat(document.getElementById('inss-invalidez').value) || 2000;
+            const outras = parseFloat(document.getElementById('outras-invalidez').value) || 0;
+            
+            // Despesas médicas imediatas
+            const despesasImediatas = Math.max(0, medicas - reserva);
+            
+            // Renda necessária incluindo custos mensais extras
+            const rendaTotal = rendaNecessaria + custosMensais;
+            const necessidadeRenda = Math.max(0, rendaTotal - inss - outras);
+            
+            const capitalNecessario = calcularCapital(necessidadeRenda);
+            const rendaPatrimonioMensal = patrimonio * (0.06 / 12);
+            const capitalPatrimonio = calcularCapital(rendaPatrimonioMensal);
+            const necessidadeCapital = Math.max(0, capitalNecessario - capitalPatrimonio);
+            const total = despesasImediatas + necessidadeCapital;
+            
+            document.getElementById('result-protecao-invalidez').textContent = formatarMoeda(despesasImediatas);
+            document.getElementById('result-renda-invalidez').textContent = formatarMoeda(necessidadeCapital);
+            document.getElementById('result-total-invalidez').textContent = formatarMoeda(total);
+            
+            const detalhamento = `
+                <div class="breakdown-item"><span><strong>DESPESAS MÉDICAS IMEDIATAS:</strong></span><span></span></div>
+                <div class="breakdown-item"><span>Custos médicos totais:</span><span>${formatarMoeda(medicas)}</span></div>
+                <div class="breakdown-item"><span>(-) Reserva de emergência:</span><span>${formatarMoeda(reserva)}</span></div>
+                <div class="breakdown-item"><span>= Despesas a cobrir:</span><span><strong>${formatarMoeda(despesasImediatas)}</strong></span></div>
+                
+                <div class="breakdown-item"><span><strong>RENDA PERPÉTUA (FAMÍLIA + VOCÊ):</strong></span><span></span></div>
+                <div class="breakdown-item"><span>Renda familiar necessária:</span><span>${formatarMoeda(rendaNecessaria)}</span></div>
+                <div class="breakdown-item"><span>(+) Custos médicos mensais:</span><span>${formatarMoeda(custosMensais)}</span></div>
+                <div class="breakdown-item"><span>= Renda total necessária:</span><span>${formatarMoeda(rendaTotal)}</span></div>
+                <div class="breakdown-item"><span>(-) INSS + outras rendas:</span><span>${formatarMoeda(inss + outras)}</span></div>
+                <div class="breakdown-item"><span>= Gap de renda mensal:</span><span><strong>${formatarMoeda(necessidadeRenda)}</strong></span></div>
+                <div class="breakdown-item"><span>Capital necessário (6% aa):</span><span>${formatarMoeda(capitalNecessario)}</span></div>
+                <div class="breakdown-item"><span>(-) Patrimônio atual:</span><span>${formatarMoeda(patrimonio)}</span></div>
+                <div class="breakdown-item"><span>= Capital adicional:</span><span><strong>${formatarMoeda(necessidadeCapital)}</strong></span></div>
+                
+                <div class="breakdown-item" style="border-top: 2px solid #4facfe; margin-top: 15px; padding-top: 15px;"><span><strong>TOTAL SEGURO:</strong></span><span><strong>${formatarMoeda(total)}</strong></span></div>
+                
+                <div style="margin-top: 15px; padding: 15px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <div style="font-size: 14px; color: #856404;">
+                        <strong>⚠️ Importante:</strong> Na invalidez, você e sua família precisarão de ${formatarMoeda(rendaTotal)}/mês. 
+                        Com ${formatarMoeda(total)} de seguro + patrimônio atual, terão renda vitalícia preservando o capital.
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('detalhamento-invalidez').innerHTML = detalhamento;
+            document.getElementById('resultados-invalidez').style.display = 'block';
+            document.getElementById('resultados-invalidez').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calcularSeguroDoenca() {
+            const reserva = parseFloat(document.getElementById('reserva-doenca-local').value) || 0;
+            const medicas = parseFloat(document.getElementById('medicas-doenca').value) || 0;
+            const custosMensais = parseFloat(document.getElementById('custos-mensais-doenca').value) || 0;
+            const periodo = parseFloat(document.getElementById('periodo-doenca').value) || 24;
+            
+            // Despesas imediatas
+            const despesasImediatas = Math.max(0, medicas - reserva);
+            
+            // Custos do período de tratamento
+            const custosTemporais = custosMensais * periodo;
+            
+            const total = despesasImediatas + custosTemporais;
+            
+            document.getElementById('result-protecao-doenca').textContent = formatarMoeda(despesasImediatas);
+            document.getElementById('result-temporal-doenca').textContent = formatarMoeda(custosTemporais);
+            document.getElementById('result-total-doenca').textContent = formatarMoeda(total);
+            
+            const detalhamento = `
+                <div class="breakdown-item"><span><strong>DESPESAS MÉDICAS IMEDIATAS:</strong></span><span></span></div>
+                <div class="breakdown-item"><span>Custos médicos iniciais:</span><span>${formatarMoeda(medicas)}</span></div>
+                <div class="breakdown-item"><span>(-) Reserva de emergência:</span><span>${formatarMoeda(reserva)}</span></div>
+                <div class="breakdown-item"><span>= Despesas a cobrir:</span><span><strong>${formatarMoeda(despesasImediatas)}</strong></span></div>
+                
+                <div class="breakdown-item"><span><strong>CUSTOS DO TRATAMENTO:</strong></span><span></span></div>
+                <div class="breakdown-item"><span>Custos mensais do tratamento:</span><span>${formatarMoeda(custosMensais)}</span></div>
+                <div class="breakdown-item"><span>Período de tratamento:</span><span>${periodo} meses</span></div>
+                <div class="breakdown-item"><span>= Total do período:</span><span><strong>${formatarMoeda(custosTemporais)}</strong></span></div>
+                
+                <div class="breakdown-item" style="border-top: 2px solid #4facfe; margin-top: 15px; padding-top: 15px;"><span><strong>TOTAL SEGURO:</strong></span><span><strong>${formatarMoeda(total)}</strong></span></div>
+                
+                <div style="margin-top: 15px; padding: 15px; background: #d1ecf1; border-radius: 8px; border-left: 4px solid #17a2b8;">
+                    <div style="font-size: 14px; color: #0c5460;">
+                        <strong>🔬 Observação:</strong> Este seguro cobre ${periodo} meses de tratamento. 
+                        Após a recuperação, você pode retomar suas atividades normais. 
+                        Valor médio mensal de cobertura: ${formatarMoeda(total / periodo)}.
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('detalhamento-doenca').innerHTML = detalhamento;
+            document.getElementById('resultados-doenca').style.display = 'block';
+            document.getElementById('resultados-doenca').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Inicializar sincronização quando a página carregar
+        window.addEventListener('load', function() {
+            sincronizarCampos();
+        });
+    </script>
+</body>
+</html>
