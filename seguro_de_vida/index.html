@@ -90,13 +90,21 @@
                             <input type="number" id="reserva" value="0" min="0" onchange="sincronizarCampos()">
                             <span class="sync-status">✓ Sincronizado</span>
                         </div>
+                        <div class="form-group">
+                            <label>Outros Bens (R$)</label>
+                            <input type="number" id="outros-bens" value="0" min="0" onchange="sincronizarCampos()">
+                            <span class="sync-status">✓ Sincronizado</span>
+                            <div class="dica-box">
+                                💡 Imóveis, veículos, joias e outros bens sujeitos ao inventário
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-section">
                         <h3>💰 Proteção Imediata</h3>
                         <div class="form-group">
                             <label>Custos Funerais/Sepultamento (R$)</label>
-                            <input type="number" id="funerais-morte" value="0" min="0">
+                            <input type="number" id="funerais-morte" value="15000" min="0">
                         </div>
                         <div class="form-group">
                             <label>Custos de Inventário (R$)</label>
@@ -357,7 +365,8 @@
         function calcularInventario() {
             const patrimonio = parseFloat(document.getElementById('patrimonio').value) || 0;
             const reserva = parseFloat(document.getElementById('reserva').value) || 0;
-            const total = patrimonio + reserva;
+            const outrosBens = parseFloat(document.getElementById('outros-bens').value) || 0;
+            const total = patrimonio + reserva + outrosBens;
             
             if (total === 0) return;
             
@@ -369,6 +378,7 @@
             const rendaNecessaria = parseFloat(document.getElementById('renda-necessaria').value) || 0;
             const patrimonio = parseFloat(document.getElementById('patrimonio').value) || 0;
             const reserva = parseFloat(document.getElementById('reserva').value) || 0;
+            const outrosBens = parseFloat(document.getElementById('outros-bens').value) || 0;
 
             // Sincronizar com aba Invalidez
             if (document.getElementById('renda-necessaria-invalidez')) {
@@ -390,8 +400,9 @@
             const rendaNecessaria = parseFloat(document.getElementById('renda-necessaria').value) || 0;
             const patrimonio = parseFloat(document.getElementById('patrimonio').value) || 0;
             const reserva = parseFloat(document.getElementById('reserva').value) || 0;
+            const outrosBens = parseFloat(document.getElementById('outros-bens').value) || 0;
 
-            const hasValues = rendaNecessaria > 0 || patrimonio > 0 || reserva > 0;
+            const hasValues = rendaNecessaria > 0 || patrimonio > 0 || reserva > 0 || outrosBens > 0;
             
             // Atualizar status nas abas Invalidez e Doenças Graves
             const syncElements = document.querySelectorAll('.sync-status');
