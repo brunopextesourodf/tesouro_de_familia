@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Renda Extra - Tesouro de Família</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-weight: 600;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .filter-section {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        /* CORES ESPECÍFICAS POR CAMADA */
+        .filter-dividas {
+            background: #fee;
+            border-left-color: #dc2626;
+        }
+        
+        .filter-reserva {
+            background: #fff7ed;
+            border-left-color: #f97316;
+        }
+        
+        .filter-amortizacao {
+            background: #fefce8;
+            border-left-color: #eab308;
+        }
+        
+        .filter-aposentadoria {
+            background: #eff6ff;
+            border-left-color: #3b82f6;
+        }
+        
+        .filter-consumo {
+            background: #f0fdf4;
+            border-left-color: #22c55e;
+        }
+        
+        .filter-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-number {
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        /* CORES DOS NÚMEROS */
+        .filter-number-dividas {
+            background: #dc2626;
+        }
+        
+        .filter-number-reserva {
+            background: #f97316;
+        }
+        
+        .filter-number-amortizacao {
+            background: #eab308;
+        }
+        
+        .filter-number-aposentadoria {
+            background: #3b82f6;
+        }
+        
+        .filter-number-consumo {
+            background: #22c55e;
+        }
+        
+        .filter-description {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        .percentage-value {
+            font-weight: 700;
+            color: #667eea;
+            min-width: 50px;
+            text-align: right;
+            font-size: 16px;
+        }
+        
+        .money-value {
+            font-size: 14px;
+            color: #22c55e;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .results {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+        
+        .results h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        
+        .result-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* CORES DOS CARDS DE RESULTADO */
+        .result-dividas {
+            background: rgba(220, 38, 38, 0.2);
+            border: 2px solid rgba(220, 38, 38, 0.5);
+        }
+        
+        .result-reserva {
+            background: rgba(249, 115, 22, 0.2);
+            border: 2px solid rgba(249, 115, 22, 0.5);
+        }
+        
+        .result-amortizacao {
+            background: rgba(234, 179, 8, 0.2);
+            border: 2px solid rgba(234, 179, 8, 0.5);
+        }
+        
+        .result-aposentadoria {
+            background: rgba(59, 130, 246, 0.2);
+            border: 2px solid rgba(59, 130, 246, 0.5);
+        }
+        
+        .result-consumo {
+            background: rgba(34, 197, 94, 0.3);
+            border: 2px solid rgba(34, 197, 94, 0.6);
+        }
+        
+        .result-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .result-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .highlight {
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid rgba(34, 197, 94, 0.5);
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .warning.show {
+            display: block;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #1565c0;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .results h2 {
+                font-size: 20px;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(198, 40, 40, 0.7);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 0 20px 5px rgba(198, 40, 40, 0.3);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(198, 40, 40, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Simulador de Renda Extra</h1>
+        <p class="subtitle">Estratégia Tesouro de Família - Como Dividir Sua Grana Extra</p>
+        
+        
+        <!-- ENTRADAS PRINCIPAIS -->
+        <div class="section">
+            <div class="section-title">📊 Informações Iniciais</div>
+            
+            <div class="input-group">
+                <label for="rendaExtra">Valor da Renda Extra (13º, bônus, comissão, etc.)</label>
+                <div class="input-wrapper">
+                    <span class="currency-symbol">R$</span>
+                    <input type="number" id="rendaExtra" placeholder="0,00" min="0" step="0.01" value="3000">
+                </div>
+            </div>
+            
+            <div class="input-group" style="background: #ffebee; padding: 15px; border-radius: 8px; border: 3px solid #c62828;">
+                <label for="dividasAtrasadas" style="color: #c62828; font-weight: 700; font-size: 16px;">
+                    ⚠️ Dívidas Atrasadas (cartão, empréstimo vencido, etc.)
+                </label>
+                <div class="input-wrapper" style="border: 3px solid #c62828; background: white;">
+                    <span class="currency-symbol" style="color: #c62828;">R$</span>
+                    <input type="number" id="dividasAtrasadas" placeholder="0,00" min="0" step="0.01" value="0" 
+                           style="color: #c62828; font-weight: 600;">
+                </div>
+            </div>
+        </div>
+        
+        <!-- FILTROS -->
+        <div class="section">
+            <div class="section-title">🔽 Camadas do Filtro</div>
+            
+            <!-- TAMPA DO FILTRO - DÍVIDAS ATRASADAS -->
+            <div class="filter-section filter-dividas" id="tampaFiltro" style="display: none;">
+                <div class="filter-title">
+                    <span class="filter-number filter-number-dividas">⚠️</span>
+                    Tampa do Filtro: Dívidas Atrasadas
+                </div>
+                <div class="filter-description">
+                    <strong style="color: #dc2626;">PRIORIDADE MÁXIMA!</strong><br>
+                    <span style="display: block; margin-top: 10px; font-size: 18px; font-weight: 900; color: #fff; background: #c62828; padding: 15px; border-radius: 8px; border: 4px solid #b71c1c; text-align: center; box-shadow: 0 4px 15px rgba(198, 40, 40, 0.4); animation: pulse 2s infinite;">
+                        🚨 Essa grana não é sua, é do credor. Quite primeiro! 🚨
+                    </span>
+                </div>
+                <div class="money-value" id="dividasVencidasMoney" style="color: #dc2626; font-size: 18px;">R$ 0,00</div>
+                <div class="percentage-value" id="dividasPercentage" style="color: #dc2626; margin-top: 5px;">0%</div>
+            </div>
+            
+            <div id="separadorSobra" style="text-align: center; margin: 20px 0; color: #666; font-weight: 600; display: none;">
+                ⬇️ DO QUE SOBRAR ⬇️
+            </div>
+            
+            <!-- CAMADA 1 - RESERVA -->
+            <div class="filter-section filter-reserva">
+                <div class="filter-title">
+                    <span class="filter-number filter-number-reserva">1</span>
+                    Reserva de Emergência
+                </div>
+                <div class="filter-description">
+                    Use até <strong>80%</strong> para construir/reforçar sua reserva de emergência (deixe em 0% se já tiver completa)
+                </div>
+                <div class="range-container">
+                    <input type="range" id="reservaRange" min="0" max="80" value="0" step="1" 
+                           style="background: linear-gradient(to right, #f97316 0%, #f97316 0%, #e0e0e0 0%);">
+                    <span class="percentage-value" id="reservaValue" style="color: #f97316;">0%</span>
+                </div>
+                <div class="money-value" id="reservaMoney" style="color: #f97316;">R$ 0,00</div>
+            </div>
+            
+            <!-- CAMADA 2 - AMORTIZAÇÃO -->
+            <div class="filter-section filter-amortizacao">
+                <div class="filter-title">
+                    <span class="filter-number filter-number-amortizacao">2</span>
+                    Amortização de Dívidas
+                </div>
+                <div class="filter-description">
+                    Use até <strong id="maxAmortizacao">80%</strong> para amortizar financiamentos 
+                    (Camadas 1, 2 e 3 somadas não podem passar de 80%)
+                </div>
+                <div class="range-container">
+                    <input type="range" id="amortizacaoRange" min="0" max="80" value="0" step="1"
+                           style="background: linear-gradient(to right, #eab308 0%, #eab308 0%, #e0e0e0 0%);">
+                    <span class="percentage-value" id="amortizacaoValue" style="color: #eab308;">0%</span>
+                </div>
+                <div class="money-value" id="amortizacaoMoney" style="color: #eab308;">R$ 0,00</div>
+            </div>
+            
+            <!-- CAMADA 3 - APOSENTADORIA -->
+            <div class="filter-section filter-aposentadoria">
+                <div class="filter-title">
+                    <span class="filter-number filter-number-aposentadoria">3</span>
+                    Investimento para Aposentadoria
+                </div>
+                <div class="filter-description">
+                    Caso não tenha usado nas camadas 1 e 2, você pode usar até <strong>80%</strong> aqui, mas recomendo usar entre 20 e 30%, pra sobrar mais grana para o lazer.
+                </div>
+                <div class="range-container">
+                    <input type="range" id="aposentadoriaRange" min="0" max="80" value="20" step="1"
+                           style="background: linear-gradient(to right, #3b82f6 0%, #3b82f6 25%, #e0e0e0 25%);">
+                    <span class="percentage-value" id="aposentadoriaValue" style="color: #3b82f6;">20%</span>
+                </div>
+                <div class="money-value" id="aposentadoriaMoney" style="color: #3b82f6; font-size: 18px;">R$ 0,00</div>
+            </div>
+            
+            <!-- CAMADA 4 - CONSUMO -->
+            <div class="filter-section filter-consumo">
+                <div class="filter-title">
+                    <span class="filter-number filter-number-consumo">4</span>
+                    Consumo e Lazer 🎉
+                </div>
+                <div class="filter-description">
+                    <strong style="color: #22c55e;">O que sobra!</strong> Use para curtir as festas com a família SEM CULPA<br>
+                    <strong style="color: #059669; background: #d1fae5; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 8px;">
+                        ✅ No mínimo, garantidos 20% para curtir
+                    </strong>
+                </div>
+                <div class="money-value" id="consumoMoney" style="font-size: 22px; color: #22c55e;">R$ 0,00</div>
+                <div class="percentage-value" id="consumoPercentage" style="color: #22c55e; margin-top: 5px;">0%</div>
+            </div>
+        </div>
+        
+        <!-- AVISOS -->
+        <div class="warning" id="warningConsumo">
+            ⚠️ <strong>Atenção:</strong> O consumo ficou abaixo de 20%. Considere reduzir as outras camadas para aproveitar pelo menos 20% da sua grana extra!
+        </div>
+        
+        <div class="warning" id="warningTotal">
+            ⚠️ <strong>Atenção:</strong> A soma das camadas ultrapassou 100%. Ajuste os valores!
+        </div>
+        
+        <!-- RESULTADOS -->
+        <div class="results">
+            <h2>📊 Resumo da Sua Estratégia</h2>
+            
+            <div class="result-item">
+                <div class="result-label">💰 Renda Extra Total</div>
+                <div class="result-value" id="totalRenda">R$ 0,00</div>
+            </div>
+            
+            <div class="result-item" id="dividasResult" style="display: none;">
+                <div class="result-label">⚠️ Dívidas Atrasadas (pagar PRIMEIRO)</div>
+                <div class="result-value" id="totalDividas">R$ 0,00</div>
+            </div>
+            
+            <div class="result-item">
+                <div class="result-label">💵 Disponível para Estratégia</div>
+                <div class="result-value" id="disponivelEstrategia">R$ 0,00</div>
+            </div>
+            
+            <div class="result-item result-reserva" id="reservaResult">
+                <div class="result-label">🏦 Reserva de Emergência</div>
+                <div class="result-value" id="totalReserva">R$ 0,00</div>
+            </div>
+            
+            <div class="result-item result-amortizacao" id="amortizacaoResult">
+                <div class="result-label">📉 Amortização de Dívidas</div>
+                <div class="result-value" id="totalAmortizacao">R$ 0,00</div>
+            </div>
+            
+            <div class="result-item result-aposentadoria" id="aposentadoriaResult">
+                <div class="result-label">📈 Investimento Aposentadoria</div>
+                <div class="result-value" id="totalAposentadoria">R$ 0,00</div>
+            </div>
+            
+            <div class="result-item result-consumo">
+                <div class="result-label">🎉 CONSUMO E LAZER (SEM CULPA!)</div>
+                <div class="result-value" id="totalConsumo">R$ 0,00</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Elementos do DOM
+        const rendaExtraInput = document.getElementById('rendaExtra');
+        const dividasAtradasInput = document.getElementById('dividasAtrasadas');
+        
+        const reservaRange = document.getElementById('reservaRange');
+        const reservaValue = document.getElementById('reservaValue');
+        const reservaMoney = document.getElementById('reservaMoney');
+        
+        const amortizacaoRange = document.getElementById('amortizacaoRange');
+        const amortizacaoValue = document.getElementById('amortizacaoValue');
+        const amortizacaoMoney = document.getElementById('amortizacaoMoney');
+        const maxAmortizacaoText = document.getElementById('maxAmortizacao');
+        
+        const aposentadoriaRange = document.getElementById('aposentadoriaRange');
+        const aposentadoriaValue = document.getElementById('aposentadoriaValue');
+        const aposentadoriaMoney = document.getElementById('aposentadoriaMoney');
+        
+        const consumoMoney = document.getElementById('consumoMoney');
+        const consumoPercentage = document.getElementById('consumoPercentage');
+        
+        const dividasVencidasMoney = document.getElementById('dividasVencidasMoney');
+        const dividasPercentage = document.getElementById('dividasPercentage');
+        
+        const warningConsumo = document.getElementById('warningConsumo');
+        const warningTotal = document.getElementById('warningTotal');
+        
+        // Formatar moeda
+        function formatMoney(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+        
+        // Atualizar gradiente do slider
+        function updateSliderGradient(slider, color) {
+            const value = (slider.value / slider.max) * 100;
+            slider.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${value}%, #e0e0e0 ${value}%)`;
+        }
+        
+        // Atualizar limites dinâmicos das camadas
+        function atualizarLimitesDinamicos() {
+            // Escalas fixas:
+            // Reserva: 0-80%
+            // Amortização: 0-80%
+            // Aposentadoria: 0-80%
+            
+            // Apenas atualizar os textos informativos
+            const percReserva = parseInt(reservaRange.value);
+            const percAmortizacao = parseInt(amortizacaoRange.value);
+            const totalCamadas12 = percReserva + percAmortizacao;
+            
+            // Atualizar texto do máximo de Amortização
+            const maxAmortizacao = 80 - percReserva;
+            maxAmortizacaoText.textContent = maxAmortizacao + '%';
+        }
+        
+        // Calcular tudo
+        function calcular() {
+            const rendaExtra = parseFloat(rendaExtraInput.value) || 0;
+            const dividasAtrasadas = parseFloat(dividasAtradasInput.value) || 0;
+            
+            // Atualizar limites dinâmicos
+            atualizarLimitesDinamicos();
+            
+            // Tampa do filtro: Dívidas atrasadas
+            const valorDividasAtrasadas = Math.min(dividasAtrasadas, rendaExtra);
+            const percDividas = rendaExtra > 0 ? (valorDividasAtrasadas / rendaExtra) * 100 : 0;
+            const disponivel = rendaExtra - valorDividasAtrasadas;
+            
+            // Atualizar dívidas vencidas
+            dividasVencidasMoney.textContent = formatMoney(valorDividasAtrasadas);
+            dividasPercentage.textContent = percDividas.toFixed(1) + '% da renda total';
+            
+            // Percentuais dos sliders
+            const percReserva = parseInt(reservaRange.value);
+            const percAmortizacao = parseInt(amortizacaoRange.value);
+            let percAposentadoria = parseInt(aposentadoriaRange.value);
+            
+            // REGRA PRINCIPAL: C1 + C2 + C3 = 80% (SEMPRE)
+            // C4 = 20% (SEMPRE)
+            
+            const totalC1C2 = percReserva + percAmortizacao;
+            const sobraAte80 = 80 - totalC1C2;
+            
+            // C3 mínimo = min(20%, 80%-C1-C2)
+            const minC3 = Math.min(20, sobraAte80);
+            
+            // C3 máximo = min(80%, 80%-C1-C2)
+            const maxC3 = Math.min(80, sobraAte80);
+            
+            // Validar e ajustar C3
+            if (percAposentadoria < minC3) {
+                percAposentadoria = minC3;
+                aposentadoriaRange.value = percAposentadoria;
+            } else if (percAposentadoria > maxC3) {
+                percAposentadoria = maxC3;
+                aposentadoriaRange.value = percAposentadoria;
+            }
+            
+            // Calcular consumo (sempre será 100% - 80% = 20%)
+            let percConsumo = 100 - percReserva - percAmortizacao - percAposentadoria;
+            
+            // Atualizar gradientes dos sliders
+            updateSliderGradient(reservaRange, '#f97316');
+            updateSliderGradient(amortizacaoRange, '#eab308');
+            updateSliderGradient(aposentadoriaRange, '#3b82f6');
+            
+            // Valores
+            const valorReserva = (disponivel * percReserva) / 100;
+            const valorAmortizacao = (disponivel * percAmortizacao) / 100;
+            const valorAposentadoria = (disponivel * percAposentadoria) / 100;
+            const valorConsumo = (disponivel * percConsumo) / 100;
+            
+            // Atualizar displays de percentuais
+            reservaValue.textContent = percReserva + '%';
+            amortizacaoValue.textContent = percAmortizacao + '%';
+            aposentadoriaValue.textContent = percAposentadoria + '%';
+            
+            // Atualizar valores em dinheiro dos filtros
+            reservaMoney.textContent = formatMoney(valorReserva);
+            amortizacaoMoney.textContent = formatMoney(valorAmortizacao);
+            aposentadoriaMoney.textContent = formatMoney(valorAposentadoria);
+            consumoMoney.textContent = formatMoney(valorConsumo);
+            consumoPercentage.textContent = percConsumo.toFixed(1) + '% da renda disponível';
+            
+            // Atualizar resumo
+            document.getElementById('totalRenda').textContent = formatMoney(rendaExtra);
+            document.getElementById('totalDividas').textContent = formatMoney(valorDividasAtrasadas);
+            document.getElementById('disponivelEstrategia').textContent = formatMoney(disponivel);
+            document.getElementById('totalReserva').textContent = formatMoney(valorReserva);
+            document.getElementById('totalAmortizacao').textContent = formatMoney(valorAmortizacao);
+            document.getElementById('totalAposentadoria').textContent = formatMoney(valorAposentadoria);
+            document.getElementById('totalConsumo').textContent = formatMoney(valorConsumo);
+            
+            // Mostrar/esconder Tampa do Filtro (seção de dívidas atrasadas)
+            const tampaFiltro = document.getElementById('tampaFiltro');
+            const separadorSobra = document.getElementById('separadorSobra');
+            
+            if (dividasAtrasadas > 0) {
+                tampaFiltro.style.display = 'block';
+                separadorSobra.style.display = 'block';
+            } else {
+                tampaFiltro.style.display = 'none';
+                separadorSobra.style.display = 'none';
+            }
+            
+            // Mostrar/esconder dívidas no resultado
+            const dividasResultElement = document.getElementById('dividasResult');
+            if (valorDividasAtrasadas > 0) {
+                dividasResultElement.style.display = 'block';
+                dividasResultElement.classList.add('result-dividas');
+            } else {
+                dividasResultElement.style.display = 'none';
+                dividasResultElement.classList.remove('result-dividas');
+            }
+            
+            // Mostrar/esconder campos zerados no resumo
+            document.getElementById('reservaResult').style.display = valorReserva > 0 ? 'block' : 'none';
+            document.getElementById('amortizacaoResult').style.display = valorAmortizacao > 0 ? 'block' : 'none';
+            document.getElementById('aposentadoriaResult').style.display = valorAposentadoria > 0 ? 'block' : 'none';
+            
+            // Avisos
+            warningConsumo.classList.toggle('show', percConsumo < 20 && percConsumo > 0);
+            
+            // Aviso quando consumo está acima de 20% mas poderia investir mais
+            const consumoExcedente = percConsumo - 20;
+            const espacoParaAposentadoria = Math.min(consumoExcedente, 30 - percAposentadoria);
+            const avisoInvestimento = document.getElementById('avisoInvestimento');
+            
+            if (consumoExcedente > 0 && espacoParaAposentadoria > 0 && percAposentadoria < 30) {
+                if (!avisoInvestimento) {
+                    // Criar elemento de aviso se não existir
+                    const novoAviso = document.createElement('div');
+                    novoAviso.id = 'avisoInvestimento';
+                    novoAviso.className = 'warning show';
+                    novoAviso.style.background = '#e3f2fd';
+                    novoAviso.style.borderColor = '#2196f3';
+                    novoAviso.style.color = '#1565c0';
+                    novoAviso.innerHTML = `💡 <strong>Dica:</strong> Você pode aumentar a Aposentadoria em até ${espacoParaAposentadoria.toFixed(0)}% para investir mais no seu futuro!`;
+                    document.querySelector('.results').appendChild(novoAviso);
+                } else {
+                    avisoInvestimento.innerHTML = `💡 <strong>Dica:</strong> Você pode aumentar a Aposentadoria em até ${espacoParaAposentadoria.toFixed(0)}% para investir mais no seu futuro!`;
+                    avisoInvestimento.classList.add('show');
+                }
+            } else if (avisoInvestimento) {
+                avisoInvestimento.classList.remove('show');
+            }
+            
+            const totalPerc = percReserva + percAmortizacao + percAposentadoria;
+            warningTotal.classList.toggle('show', totalPerc > 100);
+        }
+        
+        // Event listeners com validações
+        rendaExtraInput.addEventListener('input', calcular);
+        dividasAtradasInput.addEventListener('input', calcular);
+        
+        // CAMADA 1 - RESERVA
+        // Máximo: 80% - C2 - (mínimo obrigatório de C3)
+        reservaRange.addEventListener('input', function() {
+            const percAmortizacao = parseInt(amortizacaoRange.value);
+            const valorAtual = parseInt(this.value);
+            
+            // Calcular o mínimo obrigatório de C3 se C1 fosse o valor atual
+            const totalC1C2 = valorAtual + percAmortizacao;
+            const sobraAte80 = 80 - totalC1C2;
+            const minC3obrigatorio = Math.min(20, Math.max(0, sobraAte80));
+            
+            // Máximo permitido para C1: 80% - C2 - minC3
+            const maxPermitido = 80 - percAmortizacao - minC3obrigatorio;
+            
+            if (valorAtual > maxPermitido) {
+                this.value = maxPermitido;
+            }
+            
+            calcular();
+        });
+        
+        // CAMADA 2 - AMORTIZAÇÃO
+        // Máximo: 80% - C1 - (mínimo obrigatório de C3)
+        amortizacaoRange.addEventListener('input', function() {
+            const percReserva = parseInt(reservaRange.value);
+            const valorAtual = parseInt(this.value);
+            
+            // Calcular o mínimo obrigatório de C3 se C2 fosse o valor atual
+            const totalC1C2 = percReserva + valorAtual;
+            const sobraAte80 = 80 - totalC1C2;
+            const minC3obrigatorio = Math.min(20, Math.max(0, sobraAte80));
+            
+            // Máximo permitido para C2: 80% - C1 - minC3
+            const maxPermitido = 80 - percReserva - minC3obrigatorio;
+            
+            if (valorAtual > maxPermitido) {
+                this.value = maxPermitido;
+            }
+            
+            calcular();
+        });
+        
+        // CAMADA 3 - APOSENTADORIA
+        // Mínimo: min(20%, 80%-C1-C2)
+        // Máximo: min(80%, 80%-C1-C2)
+        aposentadoriaRange.addEventListener('input', function() {
+            const percReserva = parseInt(reservaRange.value);
+            const percAmortizacao = parseInt(amortizacaoRange.value);
+            const valorAtual = parseInt(this.value);
+            const totalC1C2 = percReserva + percAmortizacao;
+            const sobraAte80 = 80 - totalC1C2;
+            
+            // Mínimo: min(20%, sobra)
+            const minPermitido = Math.min(20, sobraAte80);
+            
+            // Máximo: min(80%, sobra)
+            const maxPermitido = Math.min(80, sobraAte80);
+            
+            // Validar limites
+            if (valorAtual < minPermitido) {
+                this.value = minPermitido;
+            } else if (valorAtual > maxPermitido) {
+                this.value = maxPermitido;
+            }
+            
+            calcular();
+        });
+        
+        // Calcular ao carregar
+        calcular();
+    </script>
+</body>
+</html>
