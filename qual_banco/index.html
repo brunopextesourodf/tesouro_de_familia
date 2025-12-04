@@ -44,6 +44,14 @@
             opacity: 0.9;
         }
         
+        .header-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
         .content {
             padding: 30px;
         }
@@ -103,15 +111,6 @@
             color: #667eea;
             margin-bottom: 20px;
             font-size: 1.8em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .section h3 {
-            color: #764ba2;
-            margin-bottom: 15px;
-            font-size: 1.3em;
         }
         
         .banks-management {
@@ -141,12 +140,6 @@
             border-radius: 50%;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.2s;
-        }
-        
-        .bank-chip button:hover {
-            background: rgba(255,255,255,0.5);
-            transform: scale(1.1);
         }
         
         .add-bank {
@@ -182,29 +175,6 @@
         
         .btn-secondary {
             background: #6c757d;
-        }
-        
-        .btn-danger {
-            background: #dc3545;
-        }
-        
-        .btn-success {
-            background: #28a745;
-        }
-        
-        .criterion {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 2px solid #e0e0e0;
-        }
-        
-        .criterion-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
         }
         
         .item {
@@ -267,22 +237,45 @@
             cursor: pointer;
         }
         
-        .add-item-form {
-            background: #e8f4f8;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border: 2px dashed #667eea;
+        .note-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 5px;
         }
         
-        .add-item-form input,
-        .add-item-form select {
+        .note-icon.has-note {
+            background: #28a745;
+        }
+        
+        .note-input {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 1em;
-            margin-bottom: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin-top: 5px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .note-display {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 8px;
+            margin-top: 5px;
+            font-size: 0.85em;
+            border-radius: 4px;
+            font-style: italic;
+            color: #856404;
         }
         
         .results-table {
@@ -306,13 +299,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-        }
-        
-        .results-table tr:hover {
-            background: #f5f5f5;
         }
         
         .score-high {
@@ -353,12 +339,6 @@
             align-items: center;
             gap: 20px;
             border: 2px solid #e0e0e0;
-            transition: all 0.3s;
-        }
-        
-        .rank-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
         
         .rank-position {
@@ -367,7 +347,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             min-width: 60px;
         }
         
@@ -379,16 +358,11 @@
             font-size: 1.5em;
             font-weight: 700;
             color: #333;
-            margin-bottom: 5px;
         }
         
         .rank-score {
             font-size: 1.1em;
             color: #666;
-        }
-        
-        .rank-medal {
-            font-size: 3em;
         }
         
         .modal {
@@ -451,154 +425,6 @@
             margin-top: 20px;
         }
         
-        .export-btn {
-            background: #28a745;
-            margin-top: 20px;
-        }
-        
-        .expandable-row {
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .expandable-row:hover {
-            background: #e8f4f8 !important;
-        }
-        
-        .expand-icon {
-            display: inline-block;
-            transition: transform 0.3s;
-            margin-right: 8px;
-            font-weight: bold;
-        }
-        
-        .expand-icon.expanded {
-            transform: rotate(90deg);
-        }
-        
-        .details-row {
-            display: none;
-            background: #f8f9fa;
-        }
-        
-        .details-row.visible {
-            display: table-row;
-        }
-        
-        .details-cell {
-            padding: 0 !important;
-        }
-        
-        .details-content {
-            padding: 20px;
-            animation: slideDown 0.3s;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .items-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .items-table th {
-            background: #667eea;
-            color: white;
-            padding: 10px;
-            font-size: 0.85em;
-            text-align: center;
-        }
-        
-        .items-table td {
-            padding: 10px;
-            border-bottom: 1px solid #e0e0e0;
-            text-align: center;
-        }
-        
-        .items-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .items-table td:first-child {
-            text-align: left;
-            font-weight: 500;
-        }
-        
-        .item-score {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-        
-        .weight-display {
-            background: #764ba2;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8em;
-            margin-left: 5px;
-        }
-        
-        .note-icon {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: #667eea;
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            margin-left: 5px;
-            transition: all 0.2s;
-        }
-        
-        .note-icon:hover {
-            background: #764ba2;
-            transform: scale(1.1);
-        }
-        
-        .note-icon.has-note {
-            background: #28a745;
-        }
-        
-        .note-input {
-            width: 100%;
-            padding: 8px;
-            border: 2px solid #667eea;
-            border-radius: 6px;
-            font-size: 0.9em;
-            margin-top: 5px;
-            font-family: inherit;
-            resize: vertical;
-            min-height: 60px;
-        }
-        
-        .note-display {
-            background: #fff3cd;
-            border-left: 3px solid #ffc107;
-            padding: 8px;
-            margin-top: 5px;
-            font-size: 0.85em;
-            border-radius: 4px;
-            font-style: italic;
-            color: #856404;
-        }
-        
         .notification {
             position: fixed;
             top: 20px;
@@ -612,7 +438,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            max-width: 400px;
         }
         
         .notification.success {
@@ -636,39 +461,78 @@
         }
         
         @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(400px);
-                opacity: 0;
-            }
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(400px); opacity: 0; }
         }
         
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .ratings-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .rank-position {
-                font-size: 2em;
-            }
+        .expandable-row {
+            cursor: pointer;
+        }
+        
+        .expand-icon {
+            display: inline-block;
+            transition: transform 0.3s;
+            margin-right: 8px;
+        }
+        
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+        
+        .details-row {
+            display: none;
+            background: #f8f9fa;
+        }
+        
+        .details-row.visible {
+            display: table-row;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .items-table th {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            font-size: 0.85em;
+        }
+        
+        .items-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .items-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .item-score {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .weight-display {
+            background: #764ba2;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -677,12 +541,13 @@
         <div class="header">
             <h1>🏦 Simulador de Comparação de Bancos</h1>
             <p>Sistema interativo de avaliação e pontuação</p>
-            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                <button class="btn" onclick="saveEvaluation()" style="background: #28a745;">💾 Salvar Avaliação</button>
-                <button class="btn" onclick="loadEvaluation()" style="background: #17a2b8;">📂 Carregar Avaliação</button>
-                <button class="btn" onclick="exportEvaluation()" style="background: #ffc107; color: #333;">📤 Exportar JSON</button>
-                <button class="btn" onclick="copyJSON()" style="background: #6f42c1; color: white;">📋 Copiar JSON</button>
-                <button class="btn" onclick="showImportModal()" style="background: #6c757d;">📥 Importar JSON</button>
+            <p style="margin-top: 15px; font-size: 0.95em; opacity: 0.9;">💾 Salve suas avaliações | 📤 Exporte para JSON | 📋 Copie dados | 📥 Importe configurações</p>
+            <div class="header-buttons">
+                <button class="btn" onclick="saveEvaluation()" style="background: #28a745;">💾 Salvar</button>
+                <button class="btn" onclick="loadEvaluation()" style="background: #17a2b8;">📂 Carregar</button>
+                <button class="btn" onclick="exportEvaluation()" style="background: #ffc107; color: #333;">📤 Exportar</button>
+                <button class="btn" onclick="copyJSON()" style="background: #6f42c1;">📋 Copiar</button>
+                <button class="btn" onclick="showImportModal()" style="background: #6c757d;">📥 Importar</button>
             </div>
         </div>
         
@@ -694,418 +559,73 @@
                 <button class="tab" onclick="switchTab('criterio3')">👨‍👩‍👧‍👦 Gestão Familiar</button>
                 <button class="tab" onclick="switchTab('criterio4')">🔒 Segurança</button>
                 <button class="tab" onclick="switchTab('resultados')">🏆 Resultados</button>
-                <button class="tab" onclick="switchTab('instrucoes')">📖 Instruções</button>
             </div>
             
-            <!-- Tab: Gerenciar Bancos -->
             <div id="tab-bancos" class="tab-content active">
                 <div class="section">
                     <h2>🏛️ Gerenciar Bancos</h2>
-                    <p style="margin-bottom: 20px; color: #666;">Adicione ou remova bancos da comparação</p>
-                    
                     <div class="banks-management" id="banksList"></div>
-                    
                     <div class="add-bank">
                         <input type="text" id="newBankName" placeholder="Nome do novo banco" />
-                        <button class="btn" onclick="addBank()">➕ Adicionar Banco</button>
+                        <button class="btn" onclick="addBank()">➕ Adicionar</button>
                     </div>
                 </div>
             </div>
             
-            <!-- Tab: Critério 1 - Praticidade -->
             <div id="tab-criterio1" class="tab-content">
                 <div class="section">
-                    <h2>📊 Critério 1: Praticidade e Usabilidade</h2>
+                    <h2>📊 Praticidade e Usabilidade</h2>
                     <div id="criterio1-items"></div>
                     <button class="btn" onclick="showAddItemModal(0)">➕ Adicionar Item</button>
                 </div>
             </div>
             
-            <!-- Tab: Critério 2 - Economia -->
             <div id="tab-criterio2" class="tab-content">
                 <div class="section">
-                    <h2>💰 Critério 2: Economia e Custos</h2>
+                    <h2>💰 Economia e Custos</h2>
                     <div id="criterio2-items"></div>
                     <button class="btn" onclick="showAddItemModal(1)">➕ Adicionar Item</button>
                 </div>
             </div>
             
-            <!-- Tab: Critério 3 - Gestão Familiar -->
             <div id="tab-criterio3" class="tab-content">
                 <div class="section">
-                    <h2>👨‍👩‍👧‍👦 Critério 3: Gestão e Controle Familiar</h2>
+                    <h2>👨‍👩‍👧‍👦 Gestão e Controle Familiar</h2>
                     <div id="criterio3-items"></div>
                     <button class="btn" onclick="showAddItemModal(2)">➕ Adicionar Item</button>
                 </div>
             </div>
             
-            <!-- Tab: Critério 4 - Segurança -->
             <div id="tab-criterio4" class="tab-content">
                 <div class="section">
-                    <h2>🔒 Critério 4: Segurança e Diversificação</h2>
+                    <h2>🔒 Segurança</h2>
                     <div id="criterio4-items"></div>
                     <button class="btn" onclick="showAddItemModal(3)">➕ Adicionar Item</button>
                 </div>
             </div>
             
-            <!-- Tab: Resultados -->
             <div id="tab-resultados" class="tab-content">
                 <div class="section">
                     <h2>🏆 Ranking Final</h2>
                     <div id="ranking"></div>
                 </div>
-                
                 <div class="section">
-                    <h2>📈 Tabela Detalhada por Critério</h2>
+                    <h2>📈 Tabela Detalhada</h2>
                     <div id="detailedResults"></div>
-                </div>
-                
-                <button class="btn export-btn" onclick="exportToCSV()">📥 Exportar para CSV</button>
-            </div>
-            
-            <!-- Tab: Instruções -->
-            <div id="tab-instrucoes" class="tab-content">
-                <div class="section">
-                    <h2>📖 Como Funciona o Simulador</h2>
-                    <p style="font-size: 1.1em; color: #666; margin-bottom: 30px;">
-                        Este simulador utiliza um sistema de pontuação ponderada para comparar bancos de forma objetiva e personalizada.
-                    </p>
-                </div>
-                
-                <div class="section">
-                    <h2>🎯 Metodologia de Avaliação</h2>
-                    
-                    <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 15px;">1️⃣ Estrutura de Avaliação</h3>
-                    <p style="margin-bottom: 15px;">O sistema é composto por:</p>
-                    <ul style="margin-left: 30px; margin-bottom: 20px; line-height: 1.8;">
-                        <li><strong>4 Critérios principais</strong>: Praticidade, Economia, Gestão Familiar e Segurança</li>
-                        <li><strong>Múltiplos itens</strong> dentro de cada critério (você pode adicionar mais)</li>
-                        <li><strong>Avaliação individualizada</strong> de cada banco para cada item</li>
-                    </ul>
-                    
-                    <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 15px;">2️⃣ Sistema de Notas (1 a 4)</h3>
-                    <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr style="border-bottom: 2px solid #e0e0e0;">
-                                <td style="padding: 10px; font-weight: 600;">Nota</td>
-                                <td style="padding: 10px; font-weight: 600;">Significado</td>
-                            </tr>
-                            <tr style="background: #f8d7da;">
-                                <td style="padding: 10px;"><strong>1</strong></td>
-                                <td style="padding: 10px;">❌ Não atende - O banco não oferece ou é muito deficiente</td>
-                            </tr>
-                            <tr style="background: #fff3cd;">
-                                <td style="padding: 10px;"><strong>2</strong></td>
-                                <td style="padding: 10px;">⚠️ Atende parcialmente - Oferece mas com limitações significativas</td>
-                            </tr>
-                            <tr style="background: #d1ecf1;">
-                                <td style="padding: 10px;"><strong>3</strong></td>
-                                <td style="padding: 10px;">✅ Atende bem - Oferece com boa qualidade</td>
-                            </tr>
-                            <tr style="background: #d4edda;">
-                                <td style="padding: 10px;"><strong>4</strong></td>
-                                <td style="padding: 10px;">⭐ Atende plenamente - Excelente, referência no mercado</td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <h3 style="color: #667eea; margin-top: 25px; margin-bottom: 15px;">3️⃣ Sistema de Pesos (1 a 3)</h3>
-                    <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr style="border-bottom: 2px solid #e0e0e0;">
-                                <td style="padding: 10px; font-weight: 600;">Peso</td>
-                                <td style="padding: 10px; font-weight: 600;">Significado</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px;"><strong>1</strong></td>
-                                <td style="padding: 10px;">⚪ Indiferente - Item tem baixa importância na decisão</td>
-                            </tr>
-                            <tr style="background: #f9f9f9;">
-                                <td style="padding: 10px;"><strong>2</strong></td>
-                                <td style="padding: 10px;">🟡 Importante - Item tem importância moderada</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px;"><strong>3</strong></td>
-                                <td style="padding: 10px;">🔴 Fundamental - Item é decisivo na escolha</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h2>🧮 Como São Feitos os Cálculos</h2>
-                    
-                    <h3 style="color: #764ba2; margin-top: 25px; margin-bottom: 15px;">Passo 1: Pontuação de Cada Item</h3>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea; margin-bottom: 20px;">
-                        <p style="margin-bottom: 10px;"><strong>Fórmula:</strong></p>
-                        <p style="font-size: 1.2em; background: white; padding: 15px; border-radius: 8px; font-family: monospace; margin-bottom: 15px;">
-                            Pontos do Item = Nota (1-4) × Peso (1-3)
-                        </p>
-                        <p style="margin-bottom: 10px;"><strong>Exemplo:</strong></p>
-                        <p style="line-height: 1.8;">
-                            • Item: "Contas integradas Brasil"<br>
-                            • Peso: 3 (Fundamental)<br>
-                            • Nota do Nubank: 3 (Atende bem)<br>
-                            • <strong>Pontuação = 3 × 3 = 9 pontos</strong>
-                        </p>
-                        <p style="margin-top: 15px; color: #666; font-style: italic;">
-                            💡 Pontuação mínima por item = 1 × 1 = 1 ponto<br>
-                            💡 Pontuação máxima por item = 4 × 3 = 12 pontos
-                        </p>
-                    </div>
-                    
-                    <h3 style="color: #764ba2; margin-top: 25px; margin-bottom: 15px;">Passo 2: Pontuação Total do Critério</h3>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea; margin-bottom: 20px;">
-                        <p style="margin-bottom: 10px;"><strong>Fórmula:</strong></p>
-                        <p style="font-size: 1.2em; background: white; padding: 15px; border-radius: 8px; font-family: monospace; margin-bottom: 15px;">
-                            Total Bruto = Soma de todos os pontos dos itens
-                        </p>
-                        <p style="margin-bottom: 10px;"><strong>Exemplo - Critério "Praticidade" do Nubank:</strong></p>
-                        <p style="line-height: 1.8;">
-                            • Item 1: 3 × 3 = 9 pontos<br>
-                            • Item 2: 2 × 3 = 6 pontos<br>
-                            • Item 3: 4 × 3 = 12 pontos<br>
-                            • Item 4: 4 × 2 = 8 pontos<br>
-                            • Item 5: 3 × 2 = 6 pontos<br>
-                            • <strong>Total Bruto = 9 + 6 + 12 + 8 + 6 = 41 pontos</strong>
-                        </p>
-                    </div>
-                    
-                    <h3 style="color: #764ba2; margin-top: 25px; margin-bottom: 15px;">Passo 3: Normalização (Escala 0-10)</h3>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea; margin-bottom: 20px;">
-                        <p style="margin-bottom: 15px;">
-                            Como cada critério tem quantidade diferente de itens e pesos diferentes, precisamos <strong>normalizar</strong> 
-                            para uma escala comum (0 a 10) para que todos os critérios tenham o mesmo peso na comparação final.
-                        </p>
-                        <p style="margin-bottom: 10px;"><strong>Fórmula:</strong></p>
-                        <p style="font-size: 1.2em; background: white; padding: 15px; border-radius: 8px; font-family: monospace; margin-bottom: 15px;">
-                            Nota Normalizada = (Total Bruto ÷ Pontuação Máxima) × 10
-                        </p>
-                        <p style="margin-bottom: 10px;"><strong>Exemplo - Critério "Praticidade" do Nubank:</strong></p>
-                        <p style="line-height: 1.8;">
-                            • Total Bruto obtido: 41 pontos<br>
-                            • Pontuação Máxima possível: 52 pontos (se tirasse nota 4 em todos os itens)<br>
-                            • <strong>Nota Normalizada = (41 ÷ 52) × 10 = 7,88</strong>
-                        </p>
-                        <p style="margin-top: 15px; padding: 15px; background: #e8f4f8; border-radius: 8px;">
-                            <strong>🎯 Por que normalizar?</strong><br>
-                            Garante que critérios com mais itens não tenham automaticamente mais peso na avaliação final. 
-                            Todos os critérios ficam na mesma escala (0-10), permitindo comparação justa.
-                        </p>
-                    </div>
-                    
-                    <h3 style="color: #764ba2; margin-top: 25px; margin-bottom: 15px;">Passo 4: Pontuação Final</h3>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea; margin-bottom: 20px;">
-                        <p style="margin-bottom: 10px;"><strong>Fórmula:</strong></p>
-                        <p style="font-size: 1.2em; background: white; padding: 15px; border-radius: 8px; font-family: monospace; margin-bottom: 15px;">
-                            Pontuação Final = Soma das 4 notas normalizadas
-                        </p>
-                        <p style="margin-bottom: 10px;"><strong>Exemplo - Nubank:</strong></p>
-                        <p style="line-height: 1.8;">
-                            • Praticidade: 7,88 pontos<br>
-                            • Economia: 9,06 pontos<br>
-                            • Gestão Familiar: 8,33 pontos<br>
-                            • Segurança: 9,06 pontos<br>
-                            • <strong>Pontuação Final = 7,88 + 9,06 + 8,33 + 9,06 = 34,33 pontos</strong>
-                        </p>
-                        <p style="margin-top: 15px; color: #666; font-style: italic;">
-                            💡 Pontuação mínima possível = 0 pontos (se tirasse nota 1 em tudo)<br>
-                            💡 Pontuação máxima possível = 40 pontos (se tirasse nota 4 em tudo)
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h2>💡 Interpretação dos Resultados</h2>
-                    
-                    <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                        <h3 style="color: #667eea; margin-bottom: 15px;">Escala de Pontuação Final (sobre 40 pontos)</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr style="background: #d4edda;">
-                                <td style="padding: 15px; font-weight: 600;">36-40 pontos</td>
-                                <td style="padding: 15px;">⭐⭐⭐ Excelente - Banco supera expectativas na maioria dos critérios</td>
-                            </tr>
-                            <tr style="background: #d1ecf1;">
-                                <td style="padding: 15px; font-weight: 600;">32-36 pontos</td>
-                                <td style="padding: 15px;">⭐⭐ Muito Bom - Atende bem a maioria dos requisitos</td>
-                            </tr>
-                            <tr style="background: #fff3cd;">
-                                <td style="padding: 15px; font-weight: 600;">24-32 pontos</td>
-                                <td style="padding: 15px;">⭐ Satisfatório - Atende requisitos básicos com algumas limitações</td>
-                            </tr>
-                            <tr style="background: #f8d7da;">
-                                <td style="padding: 15px; font-weight: 600;">Abaixo de 24</td>
-                                <td style="padding: 15px;">⚠️ Insatisfatório - Muitas deficiências importantes</td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                        <h3 style="color: #667eea; margin-bottom: 15px;">Escala por Critério (sobre 10 pontos)</h3>
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr style="background: #d4edda;">
-                                <td style="padding: 15px; font-weight: 600;">8-10 pontos</td>
-                                <td style="padding: 15px;">🟢 Alto desempenho neste critério</td>
-                            </tr>
-                            <tr style="background: #fff3cd;">
-                                <td style="padding: 15px; font-weight: 600;">6-8 pontos</td>
-                                <td style="padding: 15px;">🟡 Desempenho médio</td>
-                            </tr>
-                            <tr style="background: #f8d7da;">
-                                <td style="padding: 15px; font-weight: 600;">Abaixo de 6</td>
-                                <td style="padding: 15px;">🔴 Desempenho baixo - ponto de atenção</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h2>🎓 Dicas de Uso</h2>
-                    
-                    <div style="background: #e8f4f8; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #667eea;">
-                        <h3 style="color: #667eea; margin-bottom: 10px;">✅ Personalize os Pesos</h3>
-                        <p style="line-height: 1.8;">
-                            Ajuste os pesos dos itens de acordo com suas prioridades pessoais. Se gestão familiar é muito importante 
-                            para você, coloque peso 3 (Fundamental) nesses itens. Se algo não importa, use peso 1.
-                        </p>
-                    </div>
-                    
-                    <div style="background: #e8f4f8; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #667eea;">
-                        <h3 style="color: #667eea; margin-bottom: 10px;">✅ Adicione Itens Relevantes</h3>
-                        <p style="line-height: 1.8;">
-                            Cada pessoa tem necessidades únicas. Adicione itens específicos que são importantes para você, 
-                            como "Integração com software de contabilidade", "Suporte para MEI", "Cashback em categorias específicas", etc.
-                        </p>
-                    </div>
-                    
-                    <div style="background: #e8f4f8; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #667eea;">
-                        <h3 style="color: #667eea; margin-bottom: 10px;">✅ Compare Bancos Específicos</h3>
-                        <p style="line-height: 1.8;">
-                            Não precisa avaliar todos os bancos. Adicione apenas os que você está realmente considerando 
-                            para tornar a análise mais focada.
-                        </p>
-                    </div>
-                    
-                    <div style="background: #e8f4f8; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #667eea;">
-                        <h3 style="color: #667eea; margin-bottom: 10px;">✅ Revise Periodicamente</h3>
-                        <p style="line-height: 1.8;">
-                            Bancos mudam suas ofertas. Reavalie periodicamente as notas para manter a comparação atualizada.
-                        </p>
-                    </div>
-                    
-                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; border-left: 4px solid #ffc107;">
-                        <h3 style="color: #856404; margin-bottom: 10px;">⚠️ Lembre-se</h3>
-                        <p style="line-height: 1.8; color: #856404;">
-                            Este simulador é uma ferramenta de apoio à decisão. A avaliação final deve considerar também 
-                            sua experiência pessoal, atendimento recebido, e outros fatores subjetivos não capturados aqui.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h2>📊 Exemplo Prático Completo</h2>
-                    
-                    <div style="background: white; padding: 25px; border-radius: 10px; border: 2px solid #667eea;">
-                        <h3 style="color: #764ba2; margin-bottom: 20px;">Comparação: Nubank vs Inter no Critério "Economia"</h3>
-                        
-                        <div style="margin-bottom: 25px;">
-                            <h4 style="color: #667eea; margin-bottom: 10px;">🏦 NUBANK</h4>
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
-                                <tr style="background: #f9f9f9;">
-                                    <td style="padding: 10px;"><strong>Item</strong></td>
-                                    <td style="padding: 10px;"><strong>Peso</strong></td>
-                                    <td style="padding: 10px;"><strong>Nota</strong></td>
-                                    <td style="padding: 10px;"><strong>Pontos</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 10px;">Zero tarifas</td>
-                                    <td style="padding: 10px;">3</td>
-                                    <td style="padding: 10px;">4</td>
-                                    <td style="padding: 10px; font-weight: 600;">12</td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td style="padding: 10px;">Zero corretagem</td>
-                                    <td style="padding: 10px;">3</td>
-                                    <td style="padding: 10px;">3</td>
-                                    <td style="padding: 10px; font-weight: 600;">9</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 10px;">Cartão internacional</td>
-                                    <td style="padding: 10px;">2</td>
-                                    <td style="padding: 10px;">4</td>
-                                    <td style="padding: 10px; font-weight: 600;">8</td>
-                                </tr>
-                                <tr style="background: #667eea; color: white;">
-                                    <td colspan="3" style="padding: 10px;"><strong>Total Bruto</strong></td>
-                                    <td style="padding: 10px; font-weight: 600;">29</td>
-                                </tr>
-                            </table>
-                            <p style="line-height: 1.8;">
-                                • Pontuação Máxima: 32 pontos (3×4 + 3×4 + 2×4)<br>
-                                • <strong>Nota Normalizada = (29 ÷ 32) × 10 = 9,06</strong>
-                            </p>
-                        </div>
-                        
-                        <div style="margin-bottom: 25px;">
-                            <h4 style="color: #667eea; margin-bottom: 10px;">🏦 INTER</h4>
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
-                                <tr style="background: #f9f9f9;">
-                                    <td style="padding: 10px;"><strong>Item</strong></td>
-                                    <td style="padding: 10px;"><strong>Peso</strong></td>
-                                    <td style="padding: 10px;"><strong>Nota</strong></td>
-                                    <td style="padding: 10px;"><strong>Pontos</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 10px;">Zero tarifas</td>
-                                    <td style="padding: 10px;">3</td>
-                                    <td style="padding: 10px;">4</td>
-                                    <td style="padding: 10px; font-weight: 600;">12</td>
-                                </tr>
-                                <tr style="background: #f9f9f9;">
-                                    <td style="padding: 10px;">Zero corretagem</td>
-                                    <td style="padding: 10px;">3</td>
-                                    <td style="padding: 10px;">4</td>
-                                    <td style="padding: 10px; font-weight: 600;">12</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 10px;">Cartão internacional</td>
-                                    <td style="padding: 10px;">2</td>
-                                    <td style="padding: 10px;">4</td>
-                                    <td style="padding: 10px; font-weight: 600;">8</td>
-                                </tr>
-                                <tr style="background: #667eea; color: white;">
-                                    <td colspan="3" style="padding: 10px;"><strong>Total Bruto</strong></td>
-                                    <td style="padding: 10px; font-weight: 600;">32</td>
-                                </tr>
-                            </table>
-                            <p style="line-height: 1.8;">
-                                • Pontuação Máxima: 32 pontos<br>
-                                • <strong>Nota Normalizada = (32 ÷ 32) × 10 = 10,00</strong>
-                            </p>
-                        </div>
-                        
-                        <div style="background: #d4edda; padding: 15px; border-radius: 8px;">
-                            <p style="font-weight: 600; color: #155724; font-size: 1.1em;">
-                                🏆 Resultado: Inter vence neste critério (10,00 vs 9,06) por ter nota 4 em corretagem, 
-                                enquanto Nubank tem nota 3.
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Modal para adicionar item -->
     <div id="addItemModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">Adicionar Novo Item</div>
+            <div class="modal-header">Adicionar Item</div>
             <div class="form-group">
-                <label>Nome do Item:</label>
-                <input type="text" id="newItemName" placeholder="Ex: Cashback em compras" />
+                <label>Nome:</label>
+                <input type="text" id="newItemName" />
             </div>
             <div class="form-group">
-                <label>Peso (Importância):</label>
+                <label>Peso:</label>
                 <select id="newItemWeight">
                     <option value="1">1 - Indiferente</option>
                     <option value="2">2 - Importante</option>
@@ -1119,484 +639,138 @@
         </div>
     </div>
     
-    <!-- Modal para importar JSON -->
     <div id="importModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">Importar Avaliação (JSON)</div>
-            
+            <div class="modal-header">Importar Avaliação</div>
             <div class="form-group">
-                <label>Opção 1: Fazer upload do arquivo JSON</label>
-                <input type="file" id="importFile" accept=".json" style="width: 100%; padding: 10px; border: 2px solid #667eea; border-radius: 8px;" />
+                <label>Opção 1: Upload</label>
+                <input type="file" id="importFile" accept=".json" />
                 <button class="btn" onclick="importFromFile()" style="margin-top: 10px; width: 100%;">📁 Importar Arquivo</button>
             </div>
-            
-            <div style="text-align: center; margin: 15px 0; color: #666; font-weight: 600;">OU</div>
-            
+            <div style="text-align: center; margin: 15px 0;">OU</div>
             <div class="form-group">
-                <label>Opção 2: Cole o JSON da avaliação</label>
-                <textarea id="importJson" style="width: 100%; height: 150px; font-family: monospace; padding: 10px; border: 2px solid #667eea; border-radius: 8px;" placeholder='{"banks": [...], "criteria": [...]}'></textarea>
+                <label>Opção 2: Colar JSON</label>
+                <textarea id="importJson" style="height: 150px; font-family: monospace;"></textarea>
                 <button class="btn" onclick="importFromText()" style="margin-top: 10px; width: 100%;">📋 Importar Texto</button>
             </div>
-            
-            <div class="modal-actions" style="margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="closeImportModal()" style="width: 100%;">❌ Cancelar</button>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeImportModal()">❌ Fechar</button>
             </div>
         </div>
     </div>
     
     <script>
-        // Estado da aplicação
         let state = {
-  "banks": [
-    "Nubank",
-    "Inter",
-    "C6",
-    "BTG",
-    "Banco do Brasil",
-    "Bradesco",
-    "Santander",
-    "Itaú"
-  ],
-  "criteria": [
-    {
-      "name": "Praticidade e Usabilidade",
-      "items": [
-        {
-          "name": "Contas integradas Brasil (c/c + RF + RV)",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 4,
-            "Banco do Brasil": 3,
-            "Bradesco": 2,
-            "Santander": 3,
-            "Itaú": 3
-          },
-          "notes": {
-            "Bradesco": "Conta a Ágora"
-          }
-        },
-        {
-          "name": "Contas integradas Exterior (c/c global + RF + RV)",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 2,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 4,
-            "Banco do Brasil": 3,
-            "Bradesco": 3,
-            "Santander": 3,
-            "Itaú": 3
-          },
-          "notes": {
-            "Nubank": "Tem que ser Ultravioleta e o processo de se tornar é obscuro, depende de algoritmo."
-          }
-        },
-        {
-          "name": "Usabilidade (facilidade dos apps)",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 3,
-            "Banco do Brasil": 2,
-            "Bradesco": 2,
-            "Santander": 3,
-            "Itaú": 3
-          },
-          "notes": {}
-        },
-        {
-          "name": "100% digital (sem agência)",
-          "weight": 2,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 4,
-            "Banco do Brasil": 1,
-            "Bradesco": 2,
-            "Santander": 2,
-            "Itaú": 2
-          },
-          "notes": {}
-        },
-        {
-          "name": "Atendimento eficiente",
-          "weight": 2,
-          "ratings": {
-            "Nubank": 1,
-            "Inter": 3,
-            "C6": 2,
-            "BTG": 4,
-            "Banco do Brasil": 2,
-            "Bradesco": 2,
-            "Santander": 2,
-            "Itaú": 2
-          },
-          "notes": {}
-        }
-      ]
-    },
-    {
-      "name": "Economia e Custos",
-      "items": [
-        {
-          "name": "Zero tarifas (sem taxas)",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 4,
-            "Banco do Brasil": 4,
-            "Bradesco": 4,
-            "Santander": 4,
-            "Itaú": 4
-          },
-          "notes": {}
-        },
-        {
-          "name": "Zero corretagem (investir sem custo)",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 3,
-            "Banco do Brasil": 3,
-            "Bradesco": 3,
-            "Santander": 3,
-            "Itaú": 3
-          },
-          "notes": {}
-        },
-        {
-          "name": "Cartão internacional sem anuidade + fidelidade",
-          "weight": 2,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 4,
-            "Banco do Brasil": 3,
-            "Bradesco": 3,
-            "Santander": 3,
-            "Itaú": 3
-          },
-          "notes": {
-            "Inter": "Tem inclusive cartão de crédito em dólar."
-          }
-        }
-      ]
-    },
-    {
-      "name": "Gestão e Controle Familiar",
-      "items": [
-        {
-          "name": "Gestão dos filhos (centralizar contas)",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 3,
-            "Inter": 3,
-            "C6": 3,
-            "BTG": 4,
-            "Banco do Brasil": 3,
-            "Bradesco": 3,
-            "Santander": 3,
-            "Itaú": 3
-          },
-          "notes": {}
-        },
-        {
-          "name": "Conta compartilhada (transparência casal)",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 2,
-            "Inter": 3,
-            "C6": 3,
-            "BTG": 4,
-            "Banco do Brasil": 3,
-            "Bradesco": 3,
-            "Santander": 3,
-            "Itaú": 3
-          },
-          "notes": {
-            "Nubank": "Só pra Ultravioleta",
-            "Inter": "Conta conjunta",
-            "C6": "Diz que tem, mas vi muita reclamação de que não funciona.",
-            "BTG": "É possível você compartilhar sua conta com qq pessoa."
-          }
-        },
-        {
-          "name": "Menor investindo (educação financeira)",
-          "weight": 2,
-          "ratings": {
-            "Nubank": 3,
-            "Inter": 3,
-            "C6": 3,
-            "BTG": 3,
-            "Banco do Brasil": 1,
-            "Bradesco": 3,
-            "Santander": 3,
-            "Itaú": 3
-          },
-          "notes": {
-            "Banco do Brasil": "Só tem conta poupança."
-          }
-        },
-        {
-          "name": "Cartões dependentes sem custo + controle limite",
-          "weight": 2,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 4,
-            "Banco do Brasil": 4,
-            "Bradesco": 4,
-            "Santander": 4,
-            "Itaú": 4
-          },
-          "notes": {}
-        },
-        {
-          "name": "Limite cartão alto para pagar contas",
-          "weight": 2,
-          "ratings": {
-            "Nubank": 2,
-            "Inter": 4,
-            "C6": 2,
-            "BTG": 4,
-            "Banco do Brasil": 4,
-            "Bradesco": 4,
-            "Santander": 4,
-            "Itaú": 4
-          },
-          "notes": {
-            "Nubank": "Uma novela mexicana para conceder limite. Ficam depois em tentar vc investir no CDB Mais Limite.",
-            "C6": "Uma novela mexicana para conceder limite. Ficam depois em tentar vc investir no CDB Mais Limite."
-          }
-        }
-      ]
-    },
-    {
-      "name": "Segurança",
-      "items": [
-        {
-          "name": "App com funcionalidades de segurança",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 4,
-            "Banco do Brasil": 3,
-            "Bradesco": 3,
-            "Santander": 3,
-            "Itaú": 4
-          },
-          "notes": {}
-        },
-        {
-          "name": "Cartão virtual",
-          "weight": 2,
-          "ratings": {
-            "Nubank": 4,
-            "Inter": 4,
-            "C6": 4,
-            "BTG": 4,
-            "Banco do Brasil": 4,
-            "Bradesco": 4,
-            "Santander": 4,
-            "Itaú": 4
-          },
-          "notes": {}
-        },
-        {
-          "name": "Banco seguro (percepção)",
-          "weight": 3,
-          "ratings": {
-            "Nubank": 3,
-            "Inter": 3,
-            "C6": 3,
-            "BTG": 3,
-            "Banco do Brasil": 4,
-            "Bradesco": 4,
-            "Santander": 4,
-            "Itaú": 4
-          },
-          "notes": {}
-        }
-      ]
-    }
-  ]
-}
+            banks: ["Nubank", "Inter", "C6", "BTG", "Banco do Brasil", "Bradesco", "Santander", "Itaú"],
+            criteria: [
+                {
+                    name: "Praticidade e Usabilidade",
+                    items: [
+                        {name: "Contas integradas Brasil (c/c + RF + RV)", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 2, "Santander": 3, "Itaú": 3}, notes: {"Bradesco": "Conta a Ágora"}},
+                        {name: "Contas integradas Exterior (c/c global + RF + RV)", weight: 3, ratings: {"Nubank": 2, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {"Nubank": "Tem que ser Ultravioleta e o processo de se tornar é obscuro, depende de algoritmo."}},
+                        {name: "Usabilidade (facilidade dos apps)", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 3, "Banco do Brasil": 2, "Bradesco": 2, "Santander": 3, "Itaú": 3}, notes: {}},
+                        {name: "100% digital (sem agência)", weight: 2, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 1, "Bradesco": 2, "Santander": 2, "Itaú": 2}, notes: {}},
+                        {name: "Atendimento eficiente", weight: 2, ratings: {"Nubank": 1, "Inter": 3, "C6": 2, "BTG": 4, "Banco do Brasil": 2, "Bradesco": 2, "Santander": 2, "Itaú": 2}, notes: {}}
+                    ]
+                },
+                {
+                    name: "Economia e Custos",
+                    items: [
+                        {name: "Zero tarifas (sem taxas)", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {}},
+                        {name: "Zero corretagem (investir sem custo)", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 3, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {}},
+                        {name: "Cartão internacional sem anuidade + fidelidade", weight: 2, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {"Inter": "Tem inclusive cartão de crédito em dólar."}}
+                    ]
+                },
+                {
+                    name: "Gestão e Controle Familiar",
+                    items: [
+                        {name: "Gestão dos filhos (centralizar contas)", weight: 3, ratings: {"Nubank": 3, "Inter": 3, "C6": 3, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {}},
+                        {name: "Conta compartilhada (transparência casal)", weight: 3, ratings: {"Nubank": 2, "Inter": 3, "C6": 3, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {"Nubank": "Só pra Ultravioleta", "Inter": "Conta conjunta", "C6": "Diz que tem, mas vi muita reclamação de que não funciona.", "BTG": "É possível você compartilhar sua conta com qq pessoa."}},
+                        {name: "Menor investindo (educação financeira)", weight: 2, ratings: {"Nubank": 3, "Inter": 3, "C6": 3, "BTG": 3, "Banco do Brasil": 1, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {"Banco do Brasil": "Só tem conta poupança."}},
+                        {name: "Cartões dependentes sem custo + controle limite", weight: 2, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {}},
+                        {name: "Limite cartão alto para pagar contas", weight: 2, ratings: {"Nubank": 2, "Inter": 4, "C6": 2, "BTG": 4, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {"Nubank": "Uma novela mexicana para conceder limite. Ficam depois em tentar vc investir no CDB Mais Limite.", "C6": "Uma novela mexicana para conceder limite. Ficam depois em tentar vc investir no CDB Mais Limite."}}
+                    ]
+                },
+                {
+                    name: "Segurança",
+                    items: [
+                        {name: "App com funcionalidades de segurança", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 4}, notes: {}},
+                        {name: "Cartão virtual", weight: 2, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {}},
+                        {name: "Banco seguro (percepção)", weight: 3, ratings: {"Nubank": 3, "Inter": 3, "C6": 3, "BTG": 3, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {}}
+                    ]
+                }
             ],
             currentCriterionForNewItem: 0
         };
         
-        // Inicializar com dados padrão
-        function initializeDefaultRatings() {
-            const defaultRatings = {
-                0: { // Praticidade
-                    'Nubank': [3, 2, 4, 4, 3],
-                    'Inter': [4, 3, 4, 4, 3],
-                    'C6': [3, 2, 4, 4, 3],
-                    'BTG': [4, 4, 3, 4, 4],
-                    'Banco do Brasil': [3, 2, 2, 1, 2],
-                    'Bradesco': [3, 2, 2, 1, 2],
-                    'Santander': [3, 2, 2, 1, 2],
-                    'Itaú': [3, 2, 3, 1, 3]
-                },
-                1: { // Economia
-                    'Nubank': [4, 3, 4],
-                    'Inter': [4, 4, 4],
-                    'C6': [4, 3, 4],
-                    'BTG': [4, 4, 3],
-                    'Banco do Brasil': [2, 2, 2],
-                    'Bradesco': [2, 2, 2],
-                    'Santander': [2, 2, 2],
-                    'Itaú': [2, 2, 2]
-                },
-                2: { // Gestão Familiar
-                    'Nubank': [2, 4, 3, 4, 4],
-                    'Inter': [3, 4, 4, 4, 4],
-                    'C6': [2, 3, 3, 4, 4],
-                    'BTG': [2, 3, 3, 3, 4],
-                    'Banco do Brasil': [3, 2, 2, 3, 3],
-                    'Bradesco': [3, 2, 2, 3, 3],
-                    'Santander': [3, 2, 2, 3, 3],
-                    'Itaú': [3, 3, 2, 3, 4]
-                },
-                3: { // Segurança
-                    'Nubank': [4, 4, 3],
-                    'Inter': [4, 4, 3],
-                    'C6': [4, 4, 3],
-                    'BTG': [4, 4, 4],
-                    'Banco do Brasil': [3, 3, 4],
-                    'Bradesco': [3, 3, 4],
-                    'Santander': [3, 3, 4],
-                    'Itaú': [4, 4, 4]
-                }
-            };
-            
-            state.criteria.forEach((criterion, critIndex) => {
-                criterion.items.forEach((item, itemIndex) => {
-                    state.banks.forEach(bank => {
-                        if (defaultRatings[critIndex] && defaultRatings[critIndex][bank]) {
-                            item.ratings[bank] = defaultRatings[critIndex][bank][itemIndex] || 1;
-                        } else {
-                            item.ratings[bank] = 1;
-                        }
-                    });
-                });
-            });
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `<span style="font-size: 1.5em;">${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}</span><span>${message}</span>`;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
         }
         
-        // Trocar de aba
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
             event.target.classList.add('active');
             document.getElementById('tab-' + tabName).classList.add('active');
-            
-            if (tabName === 'resultados') {
-                calculateResults();
-            }
+            if (tabName === 'resultados') calculateResults();
         }
         
-        // Renderizar lista de bancos
         function renderBanks() {
-            const banksList = document.getElementById('banksList');
-            banksList.innerHTML = state.banks.map(bank => `
-                <div class="bank-chip">
-                    ${bank}
-                    <button onclick="removeBank('${bank}')">×</button>
-                </div>
-            `).join('');
+            document.getElementById('banksList').innerHTML = state.banks.map(bank => 
+                `<div class="bank-chip">${bank}<button onclick="removeBank('${bank}')">×</button></div>`
+            ).join('');
         }
         
-        // Adicionar banco
         function addBank() {
             const input = document.getElementById('newBankName');
             const bankName = input.value.trim();
-            
-            if (!bankName) {
-                alert('Por favor, digite o nome do banco');
+            if (!bankName || state.banks.includes(bankName)) {
+                showNotification('Nome inválido ou banco já existe', 'warning');
                 return;
             }
-            
-            if (state.banks.includes(bankName)) {
-                alert('Este banco já está na lista');
-                return;
-            }
-            
             state.banks.push(bankName);
-            
-            // Adicionar avaliação padrão (1) e nota vazia para todos os itens
             state.criteria.forEach(criterion => {
                 criterion.items.forEach(item => {
                     item.ratings[bankName] = 1;
                     item.notes[bankName] = '';
                 });
             });
-            
             input.value = '';
             renderBanks();
             renderAllCriteria();
         }
         
-        // Remover banco
         function removeBank(bankName) {
-            if (!confirm(`Tem certeza que deseja remover ${bankName}?`)) {
-                return;
-            }
-            
+            if (!confirm(`Remover ${bankName}?`)) return;
             state.banks = state.banks.filter(b => b !== bankName);
-            
-            // Remover avaliações e notas deste banco
             state.criteria.forEach(criterion => {
                 criterion.items.forEach(item => {
                     delete item.ratings[bankName];
                     delete item.notes[bankName];
                 });
             });
-            
             renderBanks();
             renderAllCriteria();
         }
         
-        // Renderizar itens de um critério
         function renderCriterionItems(criterionIndex) {
             const criterion = state.criteria[criterionIndex];
             const container = document.getElementById(`criterio${criterionIndex + 1}-items`);
-            
             container.innerHTML = criterion.items.map((item, itemIndex) => `
                 <div class="item">
                     <div class="item-header">
                         <div class="item-name">${item.name}</div>
-                        <div>
-                            <span class="weight-badge">Peso: ${item.weight}</span>
-                            <button class="btn btn-danger" style="padding: 5px 15px; margin-left: 10px;" onclick="removeItem(${criterionIndex}, ${itemIndex})">🗑️</button>
-                        </div>
+                        <div><span class="weight-badge">Peso: ${item.weight}</span>
+                        <button class="btn" style="padding: 5px 15px; margin-left: 10px; background: #dc3545;" onclick="removeItem(${criterionIndex}, ${itemIndex})">🗑️</button></div>
                     </div>
                     <div class="ratings-grid">
                         ${state.banks.map(bank => `
                             <div class="rating-cell">
-                                <label>
-                                    ${bank}
-                                    <span class="note-icon ${item.notes[bank] ? 'has-note' : ''}" 
-                                          onclick="toggleNote(${criterionIndex}, ${itemIndex}, '${bank}')"
-                                          title="Adicionar observação">
-                                        📝
-                                    </span>
-                                </label>
+                                <label>${bank}<span class="note-icon ${item.notes[bank] ? 'has-note' : ''}" onclick="toggleNote(${criterionIndex}, ${itemIndex}, '${bank}')">📝</span></label>
                                 <select onchange="updateRating(${criterionIndex}, ${itemIndex}, '${bank}', this.value)">
                                     <option value="1" ${item.ratings[bank] === 1 ? 'selected' : ''}>1 - Não atende</option>
                                     <option value="2" ${item.ratings[bank] === 2 ? 'selected' : ''}>2 - Atende parcialmente</option>
@@ -1604,10 +778,7 @@
                                     <option value="4" ${item.ratings[bank] === 4 ? 'selected' : ''}>4 - Atende plenamente</option>
                                 </select>
                                 <div id="note-container-${criterionIndex}-${itemIndex}-${bank}" style="display: none;">
-                                    <textarea class="note-input" 
-                                              placeholder="Adicione uma observação..."
-                                              onchange="updateNote(${criterionIndex}, ${itemIndex}, '${bank}', this.value)"
-                                    >${item.notes[bank] || ''}</textarea>
+                                    <textarea class="note-input" placeholder="Observação..." onchange="updateNote(${criterionIndex}, ${itemIndex}, '${bank}', this.value)">${item.notes[bank] || ''}</textarea>
                                 </div>
                                 ${item.notes[bank] ? `<div class="note-display">${item.notes[bank]}</div>` : ''}
                             </div>
@@ -1617,127 +788,76 @@
             `).join('');
         }
         
-        // Renderizar todos os critérios
         function renderAllCriteria() {
-            for (let i = 0; i < state.criteria.length; i++) {
-                renderCriterionItems(i);
-            }
+            for (let i = 0; i < state.criteria.length; i++) renderCriterionItems(i);
         }
         
-        // Atualizar avaliação
         function updateRating(criterionIndex, itemIndex, bank, rating) {
             state.criteria[criterionIndex].items[itemIndex].ratings[bank] = parseInt(rating);
         }
         
-        // Toggle campo de observação
         function toggleNote(criterionIndex, itemIndex, bank) {
             const container = document.getElementById(`note-container-${criterionIndex}-${itemIndex}-${bank}`);
-            if (container.style.display === 'none') {
-                container.style.display = 'block';
-            } else {
-                container.style.display = 'none';
-            }
+            container.style.display = container.style.display === 'none' ? 'block' : 'none';
         }
         
-        // Atualizar observação
         function updateNote(criterionIndex, itemIndex, bank, note) {
             state.criteria[criterionIndex].items[itemIndex].notes[bank] = note.trim();
             renderCriterionItems(criterionIndex);
         }
         
-        // Mostrar modal para adicionar item
         function showAddItemModal(criterionIndex) {
             state.currentCriterionForNewItem = criterionIndex;
             document.getElementById('addItemModal').classList.add('active');
-            document.getElementById('newItemName').value = '';
-            document.getElementById('newItemWeight').value = '2';
         }
         
-        // Fechar modal
         function closeModal() {
             document.getElementById('addItemModal').classList.remove('active');
         }
         
-        // Adicionar item
         function addItem() {
             const name = document.getElementById('newItemName').value.trim();
             const weight = parseInt(document.getElementById('newItemWeight').value);
-            
-            if (!name) {
-                alert('Por favor, digite o nome do item');
-                return;
-            }
-            
-            const newItem = {
-                name: name,
-                weight: weight,
-                ratings: {},
-                notes: {}
-            };
-            
-            // Adicionar avaliação padrão (1) para todos os bancos
+            if (!name) return;
+            const newItem = {name: name, weight: weight, ratings: {}, notes: {}};
             state.banks.forEach(bank => {
                 newItem.ratings[bank] = 1;
                 newItem.notes[bank] = '';
             });
-            
             state.criteria[state.currentCriterionForNewItem].items.push(newItem);
             renderCriterionItems(state.currentCriterionForNewItem);
             closeModal();
         }
         
-        // Remover item
         function removeItem(criterionIndex, itemIndex) {
-            const item = state.criteria[criterionIndex].items[itemIndex];
-            if (!confirm(`Tem certeza que deseja remover "${item.name}"?`)) {
-                return;
-            }
-            
+            if (!confirm('Remover item?')) return;
             state.criteria[criterionIndex].items.splice(itemIndex, 1);
             renderCriterionItems(criterionIndex);
         }
         
-        // Calcular resultados
         function calculateResults() {
             const results = {};
-            
             state.banks.forEach(bank => {
-                results[bank] = {
-                    criteriaScores: [],
-                    total: 0
-                };
-                
+                results[bank] = {criteriaScores: [], total: 0};
                 state.criteria.forEach(criterion => {
-                    let totalPoints = 0;
-                    let maxPoints = 0;
-                    
+                    let totalPoints = 0, maxPoints = 0;
                     criterion.items.forEach(item => {
                         const rating = item.ratings[bank] || 1;
                         totalPoints += rating * item.weight;
                         maxPoints += 4 * item.weight;
                     });
-                    
                     const normalizedScore = (totalPoints / maxPoints) * 10;
                     results[bank].criteriaScores.push(normalizedScore);
                     results[bank].total += normalizedScore;
                 });
             });
-            
             renderResults(results);
         }
         
-        // Renderizar resultados
         function renderResults(results) {
-            // Ranking
-            const ranking = Object.entries(results)
-                .sort((a, b) => b[1].total - a[1].total)
-                .map(([bank, data], index) => ({
-                    position: index + 1,
-                    bank: bank,
-                    score: data.total.toFixed(2),
-                    percentage: ((data.total / 40) * 100).toFixed(1)
-                }));
-            
+            const ranking = Object.entries(results).sort((a, b) => b[1].total - a[1].total).map(([bank, data], index) => ({
+                position: index + 1, bank: bank, score: data.total.toFixed(2), percentage: ((data.total / 40) * 100).toFixed(1)
+            }));
             const medals = ['🥇', '🥈', '🥉'];
             document.getElementById('ranking').innerHTML = ranking.map(item => `
                 <div class="rank-item">
@@ -1746,103 +866,54 @@
                         <div class="rank-bank">${item.bank}</div>
                         <div class="rank-score">${item.score} pontos (${item.percentage}%)</div>
                     </div>
-                    ${item.position <= 3 ? `<div class="rank-medal">${medals[item.position - 1]}</div>` : ''}
+                    ${item.position <= 3 ? `<div style="font-size: 3em;">${medals[item.position - 1]}</div>` : ''}
                 </div>
             `).join('');
             
-            // Ordenar bancos pela pontuação total (maior para menor)
-            const sortedBanks = Object.entries(results)
-                .sort((a, b) => b[1].total - a[1].total)
-                .map(([bank]) => bank);
-            
-            // Tabela detalhada
+            const sortedBanks = Object.entries(results).sort((a, b) => b[1].total - a[1].total).map(([bank]) => bank);
             let tableHTML = '<table class="results-table"><thead><tr><th style="width: 300px;">Critério</th>';
-            sortedBanks.forEach(bank => {
-                tableHTML += `<th>${bank}</th>`;
-            });
+            sortedBanks.forEach(bank => tableHTML += `<th>${bank}</th>`);
             tableHTML += '</tr></thead><tbody>';
             
             state.criteria.forEach((criterion, index) => {
-                // Linha principal do critério (expansível)
                 tableHTML += `<tr class="expandable-row" onclick="toggleCriterionDetails(${index})">
-                    <td style="text-align: left; font-weight: 600;">
-                        <span class="expand-icon" id="expand-icon-${index}">▶</span>
-                        ${criterion.name}
-                    </td>`;
-                
+                    <td style="text-align: left; font-weight: 600;"><span class="expand-icon" id="expand-icon-${index}">▶</span>${criterion.name}</td>`;
                 sortedBanks.forEach(bank => {
                     const score = results[bank].criteriaScores[index];
-                    let scoreClass = 'score-low';
-                    if (score >= 8) scoreClass = 'score-high';
-                    else if (score >= 6) scoreClass = 'score-medium';
-                    
+                    let scoreClass = score >= 8 ? 'score-high' : score >= 6 ? 'score-medium' : 'score-low';
                     tableHTML += `<td><span class="${scoreClass}">${score.toFixed(2)}</span></td>`;
                 });
                 tableHTML += '</tr>';
                 
-                // Linha de detalhes (colapsada por padrão)
-                tableHTML += `<tr class="details-row" id="details-${index}">
-                    <td colspan="${sortedBanks.length + 1}" class="details-cell">
-                        <div class="details-content">
-                            <table class="items-table">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: left;">Item</th>
-                                        ${sortedBanks.map(bank => `<th>${bank}</th>`).join('')}
-                                    </tr>
-                                </thead>
-                                <tbody>`;
-                
+                tableHTML += `<tr class="details-row" id="details-${index}"><td colspan="${sortedBanks.length + 1}">
+                    <table class="items-table"><thead><tr><th style="text-align: left;">Item</th>${sortedBanks.map(bank => `<th>${bank}</th>`).join('')}</tr></thead><tbody>`;
                 criterion.items.forEach(item => {
-                    tableHTML += `<tr>
-                        <td style="text-align: left;">
-                            ${item.name}
-                            <span class="weight-display">Peso: ${item.weight}</span>
-                        </td>`;
-                    
+                    tableHTML += `<tr><td style="text-align: left;">${item.name}<span class="weight-display">Peso: ${item.weight}</span></td>`;
                     sortedBanks.forEach(bank => {
                         const rating = item.ratings[bank] || 1;
                         const points = rating * item.weight;
                         const note = item.notes[bank] || '';
-                        let scoreClass = 'score-low';
-                        if (rating >= 4) scoreClass = 'score-high';
-                        else if (rating >= 3) scoreClass = 'score-medium';
-                        
-                        tableHTML += `<td>
-                            <span class="item-score ${scoreClass}">
-                                ${rating} (${points}pts)
-                            </span>
-                            ${note ? `<div class="note-display" style="margin-top: 5px;">${note}</div>` : ''}
-                        </td>`;
+                        let scoreClass = rating >= 4 ? 'score-high' : rating >= 3 ? 'score-medium' : 'score-low';
+                        tableHTML += `<td><span class="item-score ${scoreClass}">${rating} (${points}pts)</span>${note ? `<div class="note-display" style="margin-top: 5px;">${note}</div>` : ''}</td>`;
                     });
                     tableHTML += '</tr>';
                 });
-                
-                tableHTML += `</tbody></table>
-                        </div>
-                    </td>
-                </tr>`;
+                tableHTML += '</tbody></table></td></tr>';
             });
             
             tableHTML += '<tr style="background: #f0f0f0; font-weight: 700;"><td style="text-align: left;">TOTAL</td>';
             sortedBanks.forEach(bank => {
                 const total = results[bank].total;
-                let scoreClass = 'score-low';
-                if (total >= 32) scoreClass = 'score-high';
-                else if (total >= 24) scoreClass = 'score-medium';
-                
+                let scoreClass = total >= 32 ? 'score-high' : total >= 24 ? 'score-medium' : 'score-low';
                 tableHTML += `<td><span class="${scoreClass}">${total.toFixed(2)}</span></td>`;
             });
             tableHTML += '</tr></tbody></table>';
-            
             document.getElementById('detailedResults').innerHTML = tableHTML;
         }
         
-        // Toggle detalhes do critério
         function toggleCriterionDetails(index) {
             const detailsRow = document.getElementById(`details-${index}`);
             const expandIcon = document.getElementById(`expand-icon-${index}`);
-            
             if (detailsRow.classList.contains('visible')) {
                 detailsRow.classList.remove('visible');
                 expandIcon.classList.remove('expanded');
@@ -1852,40 +923,15 @@
             }
         }
         
-        // FUNÇÕES DE PERSISTÊNCIA
-        
-        // Mostrar notificação
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <span style="font-size: 1.5em;">${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
-                <span>${message}</span>
-            `;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-        
-        // Salvar avaliação no localStorage
         function saveEvaluation() {
-            console.log('Função saveEvaluation chamada');
-            console.log('State atual:', state);
             try {
-                const dataToSave = JSON.stringify(state);
-                console.log('JSON gerado:', dataToSave.substring(0, 100) + '...');
-                localStorage.setItem('bankComparisonState', dataToSave);
-                console.log('Salvo no localStorage com sucesso');
-                showNotification('Avaliação salva com sucesso! Suas notas e observações estão seguras.', 'success');
+                localStorage.setItem('bankComparisonState', JSON.stringify(state));
+                showNotification('Avaliação salva com sucesso!', 'success');
             } catch (error) {
-                console.error('Erro ao salvar:', error);
                 showNotification('Erro ao salvar: ' + error.message, 'error');
             }
         }
         
-        // Carregar avaliação do localStorage
         function loadEvaluation() {
             try {
                 const savedData = localStorage.getItem('bankComparisonState');
@@ -1893,99 +939,58 @@
                     showNotification('Nenhuma avaliação salva encontrada.', 'info');
                     return;
                 }
-                
-                if (confirm('⚠️ Isso irá substituir a avaliação atual. Deseja continuar?')) {
-                    state = JSON.parse(savedData);
-                    renderBanks();
-                    renderAllCriteria();
-                    showNotification('Avaliação carregada com sucesso!', 'success');
-                }
+                state = JSON.parse(savedData);
+                renderBanks();
+                renderAllCriteria();
+                showNotification('Avaliação carregada com sucesso!', 'success');
             } catch (error) {
                 showNotification('Erro ao carregar: ' + error.message, 'error');
             }
         }
         
-        // Exportar avaliação como JSON
         function exportEvaluation() {
-            console.log('Iniciando exportação...');
             try {
-                console.log('State a ser exportado:', state);
-                
-                // Criar cópia limpa do state sem referências circulares
                 const cleanState = {
                     banks: [...state.banks],
                     criteria: state.criteria.map(criterion => ({
                         name: criterion.name,
                         items: criterion.items.map(item => ({
-                            name: item.name,
-                            weight: item.weight,
-                            ratings: {...item.ratings},
-                            notes: {...item.notes}
+                            name: item.name, weight: item.weight, ratings: {...item.ratings}, notes: {...item.notes}
                         }))
                     }))
                 };
-                
-                console.log('State limpo:', cleanState);
-                
                 const dataToExport = JSON.stringify(cleanState, null, 2);
-                console.log('JSON gerado, tamanho:', dataToExport.length);
-                
                 const blob = new Blob([dataToExport], { type: 'application/json' });
-                console.log('Blob criado');
-                
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
                 link.download = 'avaliacao_bancos_' + new Date().toISOString().split('T')[0] + '.json';
-                
-                // Adicionar ao DOM temporariamente (alguns navegadores precisam disso)
                 document.body.appendChild(link);
-                console.log('Link adicionado ao DOM');
-                
-                // Tentar forçar o download
                 link.click();
-                console.log('Click executado');
-                
-                // Remover do DOM após um delay
                 setTimeout(() => {
                     document.body.removeChild(link);
                     URL.revokeObjectURL(link.href);
-                    console.log('Link removido do DOM');
                 }, 100);
-                
-                showNotification('Arquivo JSON exportado com sucesso! Verifique sua pasta de Downloads.', 'success');
+                showNotification('Arquivo exportado! Verifique seus Downloads.', 'success');
             } catch (error) {
-                console.error('Erro detalhado:', error);
-                console.error('Stack:', error.stack);
-                showNotification('Erro ao exportar: ' + error.message + '. Use o botão "Copiar JSON".', 'error');
+                showNotification('Erro ao exportar: ' + error.message, 'error');
             }
         }
         
-        // Copiar JSON para área de transferência
         function copyJSON() {
-            console.log('Copiando JSON...');
             try {
-                // Criar cópia limpa do state
                 const cleanState = {
                     banks: [...state.banks],
                     criteria: state.criteria.map(criterion => ({
                         name: criterion.name,
                         items: criterion.items.map(item => ({
-                            name: item.name,
-                            weight: item.weight,
-                            ratings: {...item.ratings},
-                            notes: {...item.notes}
+                            name: item.name, weight: item.weight, ratings: {...item.ratings}, notes: {...item.notes}
                         }))
                     }))
                 };
-                
                 const dataToExport = JSON.stringify(cleanState, null, 2);
-                
-                // Copiar para área de transferência
                 navigator.clipboard.writeText(dataToExport).then(() => {
                     showNotification('JSON copiado para área de transferência!', 'success');
-                    console.log('JSON copiado com sucesso');
-                }).catch(err => {
-                    // Fallback para navegadores antigos
+                }).catch(() => {
                     const textarea = document.createElement('textarea');
                     textarea.value = dataToExport;
                     textarea.style.position = 'fixed';
@@ -1994,214 +999,74 @@
                     textarea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textarea);
-                    showNotification('JSON copiado para área de transferência!', 'success');
+                    showNotification('JSON copiado!', 'success');
                 });
             } catch (error) {
-                console.error('Erro ao copiar:', error);
                 showNotification('Erro ao copiar: ' + error.message, 'error');
             }
         }
         
-        // Mostrar modal de importação
         function showImportModal() {
             document.getElementById('importModal').classList.add('active');
             document.getElementById('importJson').value = '';
             document.getElementById('importFile').value = '';
         }
         
-        // Fechar modal de importação
         function closeImportModal() {
             document.getElementById('importModal').classList.remove('active');
         }
         
-        // Importar avaliação de arquivo JSON
         function importFromFile() {
-            console.log('importFromFile chamada');
             const fileInput = document.getElementById('importFile');
-            console.log('fileInput:', fileInput);
-            console.log('fileInput.files:', fileInput.files);
-            console.log('fileInput.files.length:', fileInput.files.length);
-            
             const file = fileInput.files[0];
-            console.log('file:', file);
-            
             if (!file) {
-                console.log('Nenhum arquivo selecionado');
-                showNotification('Por favor, selecione um arquivo JSON.', 'warning');
+                showNotification('Selecione um arquivo JSON.', 'warning');
                 return;
             }
-            
-            console.log('Lendo arquivo:', file.name);
             const reader = new FileReader();
-            
             reader.onload = function(e) {
-                console.log('Arquivo lido com sucesso');
                 try {
-                    const jsonText = e.target.result;
-                    console.log('Conteúdo do arquivo (primeiros 100 chars):', jsonText.substring(0, 100));
-                    const importedState = JSON.parse(jsonText);
-                    console.log('JSON parseado com sucesso');
-                    
-                    // Validação básica
+                    const importedState = JSON.parse(e.target.result);
                     if (!importedState.banks || !importedState.criteria) {
-                        console.log('JSON inválido - faltam banks ou criteria');
-                        showNotification('JSON inválido. Certifique-se de que contém "banks" e "criteria".', 'error');
+                        showNotification('JSON inválido.', 'error');
                         return;
                     }
-                    
-                    console.log('JSON válido, perguntando confirmação');
-                    if (confirm('⚠️ Isso irá substituir a avaliação atual. Deseja continuar?')) {
-                        console.log('Usuário confirmou, importando...');
-                        state = importedState;
-                        renderBanks();
-                        renderAllCriteria();
-                        closeImportModal();
-                        showNotification('Avaliação importada com sucesso do arquivo!', 'success');
-                        console.log('Importação concluída');
-                    } else {
-                        console.log('Usuário cancelou a importação');
-                    }
+                    state = importedState;
+                    closeImportModal();
+                    renderBanks();
+                    renderAllCriteria();
+                    showNotification('Avaliação importada do arquivo!', 'success');
                 } catch (error) {
-                    console.error('Erro ao processar arquivo:', error);
-                    showNotification('Erro ao importar arquivo: ' + error.message, 'error');
+                    showNotification('Erro ao importar: ' + error.message, 'error');
                 }
             };
-            
-            reader.onerror = function() {
-                console.error('Erro ao ler o arquivo');
-                showNotification('Erro ao ler o arquivo.', 'error');
-            };
-            
-            console.log('Iniciando leitura do arquivo...');
             reader.readAsText(file);
         }
         
-        // Importar avaliação de JSON colado
         function importFromText() {
             try {
                 const jsonText = document.getElementById('importJson').value.trim();
                 if (!jsonText) {
-                    showNotification('Por favor, cole o JSON da avaliação.', 'warning');
+                    showNotification('Cole o JSON da avaliação.', 'warning');
                     return;
                 }
-                
                 const importedState = JSON.parse(jsonText);
-                
-                // Validação básica
                 if (!importedState.banks || !importedState.criteria) {
-                    showNotification('JSON inválido. Certifique-se de que contém "banks" e "criteria".', 'error');
+                    showNotification('JSON inválido.', 'error');
                     return;
                 }
-                
-                if (confirm('⚠️ Isso irá substituir a avaliação atual. Deseja continuar?')) {
-                    state = importedState;
-                    renderBanks();
-                    renderAllCriteria();
-                    closeImportModal();
-                    showNotification('Avaliação importada com sucesso!', 'success');
-                }
+                state = importedState;
+                closeImportModal();
+                renderBanks();
+                renderAllCriteria();
+                showNotification('Avaliação importada!', 'success');
             } catch (error) {
                 showNotification('Erro ao importar: ' + error.message, 'error');
             }
         }
         
-        // Auto-carregar ao iniciar (se existir)
-        function autoLoadOnStart() {
-            const savedData = localStorage.getItem('bankComparisonState');
-            if (savedData) {
-                try {
-                    const loadedState = JSON.parse(savedData);
-                    // Verifica se tem dados significativos (não só a estrutura padrão)
-                    const hasCustomData = loadedState.criteria.some(criterion => 
-                        criterion.items.some(item => 
-                            Object.values(item.notes).some(note => note && note.trim() !== '')
-                        )
-                    );
-                    
-                    if (hasCustomData && confirm('📂 Encontramos uma avaliação salva anteriormente.\n\nDeseja carregá-la?')) {
-                        state = loadedState;
-                        renderBanks();
-                        renderAllCriteria();
-                    }
-                } catch (error) {
-                    console.error('Erro ao auto-carregar:', error);
-                }
-            }
-        }
-        
-        // Exportar para CSV
-        function exportToCSV() {
-            let csv = 'SIMULADOR DE COMPARAÇÃO DE BANCOS\n\n';
-            
-            // Bancos
-            csv += 'BANCOS ANALISADOS\n';
-            csv += state.banks.join(',') + '\n\n';
-            
-            // Cada critério
-            state.criteria.forEach((criterion, critIndex) => {
-                csv += `CRITÉRIO ${critIndex + 1}: ${criterion.name}\n`;
-                csv += 'Item,Peso,' + state.banks.join(',') + '\n';
-                
-                criterion.items.forEach(item => {
-                    csv += `"${item.name}",${item.weight}`;
-                    state.banks.forEach(bank => {
-                        const note = item.notes[bank] ? ` [${item.notes[bank]}]` : '';
-                        csv += `,"${item.ratings[bank]}${note}"`;
-                    });
-                    csv += '\n';
-                });
-                csv += '\n';
-            });
-            
-            // Resultados
-            const results = {};
-            state.banks.forEach(bank => {
-                results[bank] = { criteriaScores: [], total: 0 };
-                state.criteria.forEach(criterion => {
-                    let totalPoints = 0;
-                    let maxPoints = 0;
-                    criterion.items.forEach(item => {
-                        const rating = item.ratings[bank] || 1;
-                        totalPoints += rating * item.weight;
-                        maxPoints += 4 * item.weight;
-                    });
-                    const normalizedScore = (totalPoints / maxPoints) * 10;
-                    results[bank].criteriaScores.push(normalizedScore);
-                    results[bank].total += normalizedScore;
-                });
-            });
-            
-            csv += 'RESULTADOS FINAIS\n';
-            csv += 'Critério,' + state.banks.join(',') + '\n';
-            state.criteria.forEach((criterion, index) => {
-                csv += `"${criterion.name}"`;
-                state.banks.forEach(bank => {
-                    csv += `,${results[bank].criteriaScores[index].toFixed(2)}`;
-                });
-                csv += '\n';
-            });
-            
-            csv += 'TOTAL';
-            state.banks.forEach(bank => {
-                csv += `,${results[bank].total.toFixed(2)}`;
-            });
-            csv += '\n';
-            
-            // Download
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'comparacao_bancos.csv';
-            link.click();
-        }
-        
-        // Inicializar aplicação
-        initializeDefaultRatings();
         renderBanks();
         renderAllCriteria();
-        
-        // Executar auto-load após inicialização
-        setTimeout(autoLoadOnStart, 500);
     </script>
 </body>
 </html>
