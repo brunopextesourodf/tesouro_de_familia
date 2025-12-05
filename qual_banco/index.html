@@ -3,368 +3,560 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Comparação de Bancos</title>
+    <title>Simulador de Comparação de Bancos - Dados Carregados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            min-height: 100vh;
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --primary-dark: #5568d3;
+            --background: #f8f9fe;
+            --card-bg: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --border-color: #e2e8f0;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --danger: #f56565;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
+            padding: 20px;
         }
-        
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        header {
+            background: var(--primary-gradient);
             color: white;
-            padding: 30px;
-            text-align: center;
+            padding: 30px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-lg);
         }
-        
-        .header h1 {
-            font-size: 2.5em;
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
             margin-bottom: 10px;
         }
-        
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 300;
         }
-        
-        .header-buttons {
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
             margin-top: 20px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
         }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #e0e0e0;
-            flex-wrap: wrap;
-        }
-        
-        .tab {
-            padding: 15px 25px;
-            background: #f5f5f5;
+
+        .btn {
+            padding: 10px 20px;
             border: none;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            border-radius: 10px 10px 0 0;
-            transition: all 0.3s;
-            color: #666;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Poppins', sans-serif;
         }
-        
-        .tab:hover {
-            background: #e0e0e0;
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
         }
-        
-        .tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
             color: white;
         }
-        
+
+        .btn-success:hover {
+            background: #38a169;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            background: white;
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tab:hover {
+            background: var(--background);
+        }
+
+        .tab.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .content-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
         .tab-content {
             display: none;
         }
-        
+
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.3s;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .section {
-            background: #f9f9f9;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            border: 2px solid #e0e0e0;
-        }
-        
-        .section h2 {
-            color: #667eea;
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
             margin-bottom: 20px;
-            font-size: 1.8em;
+            color: var(--text-primary);
         }
-        
-        .banks-management {
+
+        .item-list {
             display: flex;
+            flex-direction: column;
             gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
         }
-        
-        .bank-chip {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
+
+        .item-card {
+            background: var(--background);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
         }
-        
-        .bank-chip button {
-            background: rgba(255,255,255,0.3);
-            border: none;
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .add-bank {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .add-bank input {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            font-size: 1em;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-        }
-        
-        .item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid #667eea;
-        }
-        
+
         .item-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
-        
+
         .item-name {
             font-weight: 600;
-            color: #333;
-            flex: 1;
+            font-size: 1.1rem;
+            color: var(--text-primary);
         }
-        
-        .weight-badge {
-            background: #667eea;
+
+        .item-weight {
+            background: var(--primary-gradient);
             color: white;
             padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            font-weight: 600;
-            margin-left: 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
-        
+
         .ratings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
-        
-        .rating-cell {
-            text-align: center;
+
+        .rating-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-        
-        .rating-cell label {
-            display: block;
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 5px;
-            font-weight: 600;
+
+        .rating-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
-        
-        .rating-cell select {
-            width: 100%;
-            padding: 8px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 1em;
-            background: white;
-            cursor: pointer;
+
+        .rating-label-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .note-icon {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: #667eea;
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            margin-left: 5px;
-        }
-        
-        .note-icon.has-note {
-            background: #28a745;
-        }
-        
-        .note-input {
-            width: 100%;
-            padding: 8px;
-            border: 2px solid #667eea;
+
+        .btn-note-icon {
+            padding: 2px 6px;
+            border: none;
             border-radius: 6px;
-            font-size: 0.9em;
-            margin-top: 5px;
-            font-family: inherit;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            opacity: 0.5;
+            line-height: 1;
+        }
+
+        .btn-note-icon:hover {
+            opacity: 1;
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.1);
+        }
+
+        .rating-select {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .rating-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .notes-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
             resize: vertical;
             min-height: 60px;
+            margin-top: 10px;
         }
-        
-        .note-display {
-            background: #fff3cd;
-            border-left: 3px solid #ffc107;
-            padding: 8px;
-            margin-top: 5px;
-            font-size: 0.85em;
-            border-radius: 4px;
-            font-style: italic;
-            color: #856404;
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        
+
+        .bank-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .bank-item {
+            background: var(--background);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid var(--border-color);
+        }
+
+        .bank-name {
+            font-weight: 500;
+        }
+
+        .btn-small {
+            padding: 5px 12px;
+            font-size: 0.85rem;
+        }
+
+        .add-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-field {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
         .results-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             background: white;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
         }
-        
+
         .results-table th,
         .results-table td {
             padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
-        
+
         .results-table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--primary-gradient);
             color: white;
             font-weight: 600;
         }
-        
+
+        .results-table tr:hover {
+            background: var(--background);
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
         .score-high {
-            background: #d4edda;
-            color: #155724;
-            font-weight: 700;
-            padding: 8px;
-            border-radius: 8px;
+            background: #c6f6d5;
+            color: #22543d;
         }
-        
+
         .score-medium {
-            background: #fff3cd;
-            color: #856404;
-            font-weight: 700;
-            padding: 8px;
-            border-radius: 8px;
+            background: #feebc8;
+            color: #7c2d12;
         }
-        
+
         .score-low {
-            background: #f8d7da;
-            color: #721c24;
-            font-weight: 700;
-            padding: 8px;
-            border-radius: 8px;
+            background: #fed7d7;
+            color: #742a2a;
         }
-        
-        .ranking {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .rank-item {
-            background: white;
+
+        .ranking-card {
+            background: var(--background);
             padding: 20px;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border: 2px solid #e0e0e0;
+            margin-bottom: 15px;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
         }
-        
-        .rank-position {
-            font-size: 2.5em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .ranking-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow);
+        }
+
+        .ranking-card.rank-1 {
+            border-color: #ffd700;
+            background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
+        }
+
+        .ranking-card.rank-2 {
+            border-color: #c0c0c0;
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+        }
+
+        .ranking-card.rank-3 {
+            border-color: #cd7f32;
+            background: linear-gradient(135deg, #fff3e6 0%, #ffffff 100%);
+        }
+
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .rank-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .bank-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .score-display {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            min-width: 60px;
+            background-clip: text;
         }
-        
-        .rank-details {
-            flex: 1;
+
+        .criteria-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
-        
-        .rank-bank {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: #333;
+
+        .criterion-score {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
         }
-        
-        .rank-score {
-            font-size: 1.1em;
-            color: #666;
+
+        .criterion-name {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
         }
-        
+
+        .criterion-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        .notification.info {
+            background: #4299e1;
+        }
+
+        .detail-toggle {
+            cursor: pointer;
+            user-select: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            font-weight: 500;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .detail-toggle:hover {
+            color: #5568d3;
+        }
+
+        .detail-content {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .detail-table th,
+        .detail-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .detail-table th {
+            background: var(--background);
+            font-weight: 600;
+        }
+
+        .note-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 5px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -372,701 +564,637 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal.active {
             display: flex;
         }
-        
+
         .modal-content {
             background: white;
             padding: 30px;
-            border-radius: 20px;
-            max-width: 500px;
+            border-radius: 15px;
+            max-width: 600px;
             width: 90%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
         }
-        
+
         .modal-header {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #667eea;
-            font-weight: 700;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+            font-size: 1.5rem;
             font-weight: 600;
-            color: #333;
+            margin-bottom: 20px;
         }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 1em;
-        }
-        
+
         .modal-actions {
             display: flex;
             gap: 10px;
             margin-top: 20px;
+            justify-content: flex-end;
         }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 10000;
-            animation: slideIn 0.3s, slideOut 0.3s 2.7s;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .notification.success {
-            background: #28a745;
-            color: white;
-        }
-        
-        .notification.error {
-            background: #dc3545;
-            color: white;
-        }
-        
-        .notification.info {
-            background: #17a2b8;
-            color: white;
-        }
-        
-        .notification.warning {
-            background: #ffc107;
-            color: #333;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateX(400px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(400px); opacity: 0; }
-        }
-        
-        .expandable-row {
-            cursor: pointer;
-        }
-        
-        .expand-icon {
-            display: inline-block;
-            transition: transform 0.3s;
-            margin-right: 8px;
-        }
-        
-        .expand-icon.expanded {
-            transform: rotate(90deg);
-        }
-        
-        .details-row {
-            display: none;
-            background: #f8f9fa;
-        }
-        
-        .details-row.visible {
-            display: table-row;
-        }
-        
-        .items-table {
+
+        .json-textarea {
             width: 100%;
-            border-collapse: collapse;
-            background: white;
+            height: 300px;
+            padding: 15px;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
-            overflow: hidden;
-            margin: 10px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
         }
-        
-        .items-table th {
-            background: #667eea;
-            color: white;
-            padding: 10px;
-            font-size: 0.85em;
-        }
-        
-        .items-table td {
-            padding: 10px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .items-table td:first-child {
-            text-align: left;
-            font-weight: 500;
-        }
-        
-        .item-score {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-        
-        .weight-display {
-            background: #764ba2;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8em;
-            margin-left: 5px;
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .header-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header>
             <h1>🏦 Simulador de Comparação de Bancos</h1>
-            <p>Sistema interativo de avaliação e pontuação</p>
-            <p style="margin-top: 15px; font-size: 0.95em; opacity: 0.9;">💾 Salve suas avaliações | 📤 Exporte para JSON | 📋 Copie dados | 📥 Importe configurações</p>
-            <div class="header-buttons">
-                <button class="btn" onclick="saveEvaluation()" style="background: #28a745;">💾 Salvar</button>
-                <button class="btn" onclick="loadEvaluation()" style="background: #17a2b8;">📂 Carregar</button>
-                <button class="btn" onclick="exportEvaluation()" style="background: #ffc107; color: #333;">📤 Exportar</button>
-                <button class="btn" onclick="copyJSON()" style="background: #6f42c1;">📋 Copiar</button>
-                <button class="btn" onclick="showImportModal()" style="background: #6c757d;">📥 Importar</button>
+            <p class="subtitle">Sistema de pontuação ponderada para avaliar e comparar bancos</p>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="saveEvaluation()">💾 Salvar Avaliação</button>
+                <button class="btn btn-secondary" onclick="loadEvaluation()">📂 Carregar Avaliação</button>
+                <button class="btn btn-secondary" onclick="exportJSON()">📤 Exportar JSON</button>
+                <button class="btn btn-secondary" onclick="copyJSON()">📋 Copiar JSON</button>
+                <button class="btn btn-secondary" onclick="openImportModal()">📥 Importar JSON</button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab" onclick="showTab('banks')">🏛️ Bancos</button>
+            <button class="tab" onclick="showTab('criteria-0')">📊 Praticidade</button>
+            <button class="tab" onclick="showTab('criteria-1')">💰 Economia</button>
+            <button class="tab" onclick="showTab('criteria-2')">👨‍👩‍👧‍👦 Gestão Familiar</button>
+            <button class="tab" onclick="showTab('criteria-3')">🔒 Segurança</button>
+            <button class="tab active" onclick="showTab('results')">🏆 Resultados</button>
+        </div>
+
+        <div id="banks" class="tab-content">
+            <div class="content-card">
+                <h2 class="section-title">Gerenciar Bancos</h2>
+                <div id="banksList" class="bank-list"></div>
+                <div class="add-form">
+                    <input type="text" id="newBankName" class="input-field" placeholder="Nome do novo banco">
+                    <button class="btn btn-success" onclick="addBank()">➕ Adicionar Banco</button>
+                </div>
             </div>
         </div>
-        
-        <div class="content">
-            <div class="tabs">
-                <button class="tab active" onclick="switchTab('bancos')">🏛️ Bancos</button>
-                <button class="tab" onclick="switchTab('criterio1')">📊 Praticidade</button>
-                <button class="tab" onclick="switchTab('criterio2')">💰 Economia</button>
-                <button class="tab" onclick="switchTab('criterio3')">👨‍👩‍👧‍👦 Gestão Familiar</button>
-                <button class="tab" onclick="switchTab('criterio4')">🔒 Segurança</button>
-                <button class="tab" onclick="switchTab('resultados')">🏆 Resultados</button>
-            </div>
-            
-            <div id="tab-bancos" class="tab-content active">
-                <div class="section">
-                    <h2>🏛️ Gerenciar Bancos</h2>
-                    <div class="banks-management" id="banksList"></div>
-                    <div class="add-bank">
-                        <input type="text" id="newBankName" placeholder="Nome do novo banco" />
-                        <button class="btn" onclick="addBank()">➕ Adicionar</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="tab-criterio1" class="tab-content">
-                <div class="section">
-                    <h2>📊 Praticidade e Usabilidade</h2>
-                    <div id="criterio1-items"></div>
-                    <button class="btn" onclick="showAddItemModal(0)">➕ Adicionar Item</button>
-                </div>
-            </div>
-            
-            <div id="tab-criterio2" class="tab-content">
-                <div class="section">
-                    <h2>💰 Economia e Custos</h2>
-                    <div id="criterio2-items"></div>
-                    <button class="btn" onclick="showAddItemModal(1)">➕ Adicionar Item</button>
-                </div>
-            </div>
-            
-            <div id="tab-criterio3" class="tab-content">
-                <div class="section">
-                    <h2>👨‍👩‍👧‍👦 Gestão e Controle Familiar</h2>
-                    <div id="criterio3-items"></div>
-                    <button class="btn" onclick="showAddItemModal(2)">➕ Adicionar Item</button>
-                </div>
-            </div>
-            
-            <div id="tab-criterio4" class="tab-content">
-                <div class="section">
-                    <h2>🔒 Segurança</h2>
-                    <div id="criterio4-items"></div>
-                    <button class="btn" onclick="showAddItemModal(3)">➕ Adicionar Item</button>
-                </div>
-            </div>
-            
-            <div id="tab-resultados" class="tab-content">
-                <div class="section">
-                    <h2>🏆 Ranking Final</h2>
-                    <div id="ranking"></div>
-                </div>
-                <div class="section">
-                    <h2>📈 Tabela Detalhada</h2>
-                    <div id="detailedResults"></div>
-                </div>
+
+        <div id="criteria-0" class="tab-content"></div>
+        <div id="criteria-1" class="tab-content"></div>
+        <div id="criteria-2" class="tab-content"></div>
+        <div id="criteria-3" class="tab-content"></div>
+
+        <div id="results" class="tab-content active">
+            <div class="content-card">
+                <h2 class="section-title">🏆 Ranking Final</h2>
+                <div id="rankingResults"></div>
             </div>
         </div>
     </div>
-    
-    <div id="addItemModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">Adicionar Item</div>
-            <div class="form-group">
-                <label>Nome:</label>
-                <input type="text" id="newItemName" />
-            </div>
-            <div class="form-group">
-                <label>Peso:</label>
-                <select id="newItemWeight">
-                    <option value="1">1 - Indiferente</option>
-                    <option value="2">2 - Importante</option>
-                    <option value="3">3 - Fundamental</option>
-                </select>
-            </div>
-            <div class="modal-actions">
-                <button class="btn" onclick="addItem()">✅ Adicionar</button>
-                <button class="btn btn-secondary" onclick="closeModal()">❌ Cancelar</button>
-            </div>
-        </div>
-    </div>
-    
+
+    <!-- Import Modal -->
     <div id="importModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">Importar Avaliação</div>
-            <div class="form-group">
-                <label>Opção 1: Upload</label>
-                <input type="file" id="importFile" accept=".json" />
-                <button class="btn" onclick="importFromFile()" style="margin-top: 10px; width: 100%;">📁 Importar Arquivo</button>
-            </div>
-            <div style="text-align: center; margin: 15px 0;">OU</div>
-            <div class="form-group">
-                <label>Opção 2: Colar JSON</label>
-                <textarea id="importJson" style="height: 150px; font-family: monospace;"></textarea>
-                <button class="btn" onclick="importFromText()" style="margin-top: 10px; width: 100%;">📋 Importar Texto</button>
-            </div>
+            <h2 class="modal-header">📥 Importar Dados JSON</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 15px;">
+                Cole o JSON abaixo ou use o botão para carregar um arquivo:
+            </p>
+            <textarea id="importJsonText" class="json-textarea" placeholder='{"banks": [...], "criteria": [...]}'></textarea>
+            <input type="file" id="importJsonFile" accept=".json" style="display: none;" onchange="handleFileImport(event)">
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeImportModal()">❌ Fechar</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('importJsonFile').click()">📁 Carregar Arquivo</button>
+                <button class="btn btn-success" onclick="importFromText()">✓ Importar</button>
+                <button class="btn btn-danger" onclick="closeImportModal()">✕ Cancelar</button>
             </div>
         </div>
     </div>
-    
+
     <script>
-        let state = {
-            banks: ["Nubank", "Inter", "C6", "BTG", "Banco do Brasil", "Bradesco", "Santander", "Itaú"],
-            criteria: [
-                {
-                    name: "Praticidade e Usabilidade",
-                    items: [
-                        {name: "Contas integradas Brasil (c/c + RF + RV)", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 2, "Santander": 3, "Itaú": 3}, notes: {"Bradesco": "Conta a Ágora"}},
-                        {name: "Contas integradas Exterior (c/c global + RF + RV)", weight: 3, ratings: {"Nubank": 2, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {"Nubank": "Tem que ser Ultravioleta e o processo de se tornar é obscuro, depende de algoritmo."}},
-                        {name: "Usabilidade (facilidade dos apps)", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 3, "Banco do Brasil": 2, "Bradesco": 2, "Santander": 3, "Itaú": 3}, notes: {}},
-                        {name: "100% digital (sem agência)", weight: 2, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 1, "Bradesco": 2, "Santander": 2, "Itaú": 2}, notes: {}},
-                        {name: "Atendimento eficiente", weight: 2, ratings: {"Nubank": 1, "Inter": 3, "C6": 2, "BTG": 4, "Banco do Brasil": 2, "Bradesco": 2, "Santander": 2, "Itaú": 2}, notes: {}}
-                    ]
-                },
-                {
-                    name: "Economia e Custos",
-                    items: [
-                        {name: "Zero tarifas (sem taxas)", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {}},
-                        {name: "Zero corretagem (investir sem custo)", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 3, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {}},
-                        {name: "Cartão internacional sem anuidade + fidelidade", weight: 2, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {"Inter": "Tem inclusive cartão de crédito em dólar."}}
-                    ]
-                },
-                {
-                    name: "Gestão e Controle Familiar",
-                    items: [
-                        {name: "Gestão dos filhos (centralizar contas)", weight: 3, ratings: {"Nubank": 3, "Inter": 3, "C6": 3, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {}},
-                        {name: "Conta compartilhada (transparência casal)", weight: 3, ratings: {"Nubank": 2, "Inter": 3, "C6": 3, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {"Nubank": "Só pra Ultravioleta", "Inter": "Conta conjunta", "C6": "Diz que tem, mas vi muita reclamação de que não funciona.", "BTG": "É possível você compartilhar sua conta com qq pessoa."}},
-                        {name: "Menor investindo (educação financeira)", weight: 2, ratings: {"Nubank": 3, "Inter": 3, "C6": 3, "BTG": 3, "Banco do Brasil": 1, "Bradesco": 3, "Santander": 3, "Itaú": 3}, notes: {"Banco do Brasil": "Só tem conta poupança."}},
-                        {name: "Cartões dependentes sem custo + controle limite", weight: 2, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {}},
-                        {name: "Limite cartão alto para pagar contas", weight: 2, ratings: {"Nubank": 2, "Inter": 4, "C6": 2, "BTG": 4, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {"Nubank": "Uma novela mexicana para conceder limite. Ficam depois em tentar vc investir no CDB Mais Limite.", "C6": "Uma novela mexicana para conceder limite. Ficam depois em tentar vc investir no CDB Mais Limite."}}
-                    ]
-                },
-                {
-                    name: "Segurança",
-                    items: [
-                        {name: "App com funcionalidades de segurança", weight: 3, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 3, "Bradesco": 3, "Santander": 3, "Itaú": 4}, notes: {}},
-                        {name: "Cartão virtual", weight: 2, ratings: {"Nubank": 4, "Inter": 4, "C6": 4, "BTG": 4, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {}},
-                        {name: "Banco seguro (percepção)", weight: 3, ratings: {"Nubank": 3, "Inter": 3, "C6": 3, "BTG": 3, "Banco do Brasil": 4, "Bradesco": 4, "Santander": 4, "Itaú": 4}, notes: {}}
-                    ]
-                }
-            ],
-            currentCriterionForNewItem: 0
-        };
-        
+        // Dados pré-carregados do usuário
+        let appData = {"banks":["Nubank","Inter","C6","BTG","Banco do Brasil","Bradesco","Santander","Itaú"],"criteria":[{"name":"Praticidade e Usabilidade","items":[{"name":"Contas integradas Brasil (c/c + RF + RV)","weight":3,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":4,"Banco do Brasil":3,"Bradesco":2,"Santander":3,"Itaú":3},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"Conta a Ágora","Santander":"","Itaú":""}},{"name":"Contas integradas Exterior (c/c global + RF + RV)","weight":3,"ratings":{"Nubank":2,"Inter":4,"C6":4,"BTG":4,"Banco do Brasil":3,"Bradesco":3,"Santander":3,"Itaú":3},"notes":{"Nubank":"Tem que ser Ultravioleta e o processo de se tornar é obscuro, depende de algoritmo.","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Usabilidade (facilidade dos apps)","weight":3,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":3,"Banco do Brasil":2,"Bradesco":2,"Santander":3,"Itaú":3},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"100% digital (sem agência)","weight":2,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":4,"Banco do Brasil":1,"Bradesco":2,"Santander":2,"Itaú":2},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Atendimento eficiente","weight":2,"ratings":{"Nubank":1,"Inter":3,"C6":2,"BTG":4,"Banco do Brasil":2,"Bradesco":2,"Santander":2,"Itaú":2},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}}]},{"name":"Economia e Custos","items":[{"name":"Zero tarifas (sem taxas)","weight":3,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":4,"Banco do Brasil":4,"Bradesco":4,"Santander":4,"Itaú":4},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Zero corretagem (investir sem custo)","weight":3,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":3,"Banco do Brasil":3,"Bradesco":3,"Santander":3,"Itaú":3},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Cartão internacional sem anuidade + fidelidade","weight":2,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":4,"Banco do Brasil":3,"Bradesco":3,"Santander":3,"Itaú":3},"notes":{"Nubank":"","Inter":"Tem inclusive cartão de crédito em dólar.","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}}]},{"name":"Gestão e Controle Familiar","items":[{"name":"Gestão dos filhos (centralizar contas)","weight":3,"ratings":{"Nubank":3,"Inter":3,"C6":3,"BTG":4,"Banco do Brasil":3,"Bradesco":3,"Santander":3,"Itaú":3},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Conta compartilhada (transparência casal)","weight":3,"ratings":{"Nubank":2,"Inter":3,"C6":3,"BTG":4,"Banco do Brasil":3,"Bradesco":3,"Santander":3,"Itaú":3},"notes":{"Nubank":"Só pra Ultravioleta","Inter":"Conta conjunta","C6":"Diz que tem, mas vi muita reclamação de que não funciona.","BTG":"É possível você compartilhar sua conta com qq pessoa.","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Menor investindo (educação financeira)","weight":2,"ratings":{"Nubank":3,"Inter":3,"C6":3,"BTG":3,"Banco do Brasil":1,"Bradesco":3,"Santander":3,"Itaú":3},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"Só tem conta poupança.","Bradesco":"","Santander":"","Itaú":""}},{"name":"Cartões dependentes sem custo + controle limite","weight":2,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":4,"Banco do Brasil":4,"Bradesco":4,"Santander":4,"Itaú":4},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Limite cartão alto para pagar contas","weight":2,"ratings":{"Nubank":2,"Inter":4,"C6":2,"BTG":4,"Banco do Brasil":4,"Bradesco":4,"Santander":4,"Itaú":4},"notes":{"Nubank":"Uma novela mexicana para conceder limite. Ficam depois em tentar vc investir no CDB Mais Limite.","Inter":"","C6":"Uma novela mexicana para conceder limite. Ficam depois em tentar vc investir no CDB Mais Limite.","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}}]},{"name":"Segurança","items":[{"name":"App com funcionalidades de segurança","weight":3,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":4,"Banco do Brasil":3,"Bradesco":3,"Santander":3,"Itaú":4},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Cartão virtual","weight":2,"ratings":{"Nubank":4,"Inter":4,"C6":4,"BTG":4,"Banco do Brasil":4,"Bradesco":4,"Santander":4,"Itaú":4},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}},{"name":"Banco seguro (percepção)","weight":3,"ratings":{"Nubank":3,"Inter":3,"C6":3,"BTG":3,"Banco do Brasil":4,"Bradesco":4,"Santander":4,"Itaú":4},"notes":{"Nubank":"","Inter":"","C6":"","BTG":"","Banco do Brasil":"","Bradesco":"","Santander":"","Itaú":""}}]}]};
+
+        // Inicialização
+        function init() {
+            renderBanks();
+            renderCriteria();
+            calculateResults();
+        }
+
+        // Gerenciamento de abas
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabId === 'results') {
+                calculateResults();
+            }
+        }
+
+        // Notificações
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
-            notification.innerHTML = `<span style="font-size: 1.5em;">${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}</span><span>${message}</span>`;
+            notification.textContent = message;
             document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
         }
-        
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('tab-' + tabName).classList.add('active');
-            if (tabName === 'resultados') calculateResults();
-        }
-        
+
+        // Gerenciamento de bancos
         function renderBanks() {
-            document.getElementById('banksList').innerHTML = state.banks.map(bank => 
-                `<div class="bank-chip">${bank}<button onclick="removeBank('${bank}')">×</button></div>`
-            ).join('');
+            const banksList = document.getElementById('banksList');
+            banksList.innerHTML = '';
+
+            appData.banks.forEach(bank => {
+                const bankItem = document.createElement('div');
+                bankItem.className = 'bank-item';
+                bankItem.innerHTML = `
+                    <span class="bank-name">${bank}</span>
+                    <button class="btn btn-danger btn-small" onclick="removeBank('${bank}')">✕</button>
+                `;
+                banksList.appendChild(bankItem);
+            });
         }
-        
+
         function addBank() {
             const input = document.getElementById('newBankName');
             const bankName = input.value.trim();
-            if (!bankName || state.banks.includes(bankName)) {
-                showNotification('Nome inválido ou banco já existe', 'warning');
+
+            if (!bankName) {
+                showNotification('Por favor, insira um nome para o banco', 'error');
                 return;
             }
-            state.banks.push(bankName);
-            state.criteria.forEach(criterion => {
+
+            if (appData.banks.includes(bankName)) {
+                showNotification('Este banco já existe', 'error');
+                return;
+            }
+
+            appData.banks.push(bankName);
+            
+            // Adicionar ratings vazios para este banco em todos os itens
+            appData.criteria.forEach(criterion => {
                 criterion.items.forEach(item => {
+                    if (!item.ratings) item.ratings = {};
+                    if (!item.notes) item.notes = {};
                     item.ratings[bankName] = 1;
                     item.notes[bankName] = '';
                 });
             });
+
             input.value = '';
             renderBanks();
-            renderAllCriteria();
+            renderCriteria();
+            showNotification(`Banco "${bankName}" adicionado com sucesso!`);
         }
-        
+
         function removeBank(bankName) {
-            if (!confirm(`Remover ${bankName}?`)) return;
-            state.banks = state.banks.filter(b => b !== bankName);
-            state.criteria.forEach(criterion => {
+            if (!confirm(`Tem certeza que deseja remover o banco "${bankName}"?`)) {
+                return;
+            }
+
+            appData.banks = appData.banks.filter(b => b !== bankName);
+            
+            // Remover ratings deste banco de todos os itens
+            appData.criteria.forEach(criterion => {
                 criterion.items.forEach(item => {
                     delete item.ratings[bankName];
                     delete item.notes[bankName];
                 });
             });
+
             renderBanks();
-            renderAllCriteria();
+            renderCriteria();
+            showNotification(`Banco "${bankName}" removido com sucesso!`);
         }
-        
-        function renderCriterionItems(criterionIndex) {
-            const criterion = state.criteria[criterionIndex];
-            const container = document.getElementById(`criterio${criterionIndex + 1}-items`);
-            container.innerHTML = criterion.items.map((item, itemIndex) => `
-                <div class="item">
+
+        // Gerenciamento de critérios
+        function renderCriteria() {
+            appData.criteria.forEach((criterion, index) => {
+                const container = document.getElementById(`criteria-${index}`);
+                container.innerHTML = `
+                    <div class="content-card">
+                        <h2 class="section-title">${criterion.name}</h2>
+                        <div id="items-${index}" class="item-list"></div>
+                        <div class="add-form">
+                            <input type="text" id="newItemName-${index}" class="input-field" placeholder="Nome do novo item">
+                            <select id="newItemWeight-${index}" class="rating-select" style="max-width: 150px;">
+                                <option value="1">Peso 1 - Indiferente</option>
+                                <option value="2">Peso 2 - Importante</option>
+                                <option value="3" selected>Peso 3 - Fundamental</option>
+                            </select>
+                            <button class="btn btn-success" onclick="addItem(${index})">➕ Adicionar Item</button>
+                        </div>
+                    </div>
+                `;
+
+                renderItems(index);
+            });
+        }
+
+        function renderItems(criterionIndex) {
+            const itemsContainer = document.getElementById(`items-${criterionIndex}`);
+            const criterion = appData.criteria[criterionIndex];
+            
+            itemsContainer.innerHTML = '';
+
+            criterion.items.forEach((item, itemIndex) => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
+                
+                let ratingsHTML = '';
+                appData.banks.forEach(bank => {
+                    const rating = item.ratings[bank] || 1;
+                    const note = item.notes[bank] || '';
+                    const hasNote = note.trim().length > 0;
+                    const noteId = `note-${criterionIndex}-${itemIndex}-${bank.replace(/\s+/g, '-')}`;
+                    
+                    ratingsHTML += `
+                        <div class="rating-item">
+                            <div class="rating-label-wrapper">
+                                <label class="rating-label">${bank}</label>
+                                ${!hasNote ? `
+                                    <button class="btn-note-icon" onclick="showNoteField('${noteId}')" title="Adicionar observação">
+                                        📝
+                                    </button>
+                                ` : ''}
+                            </div>
+                            <select class="rating-select" onchange="updateRating(${criterionIndex}, ${itemIndex}, '${bank}', this.value)">
+                                <option value="1" ${rating == 1 ? 'selected' : ''}>1 - Não atende</option>
+                                <option value="2" ${rating == 2 ? 'selected' : ''}>2 - Atende parcialmente</option>
+                                <option value="3" ${rating == 3 ? 'selected' : ''}>3 - Atende bem</option>
+                                <option value="4" ${rating == 4 ? 'selected' : ''}>4 - Atende plenamente</option>
+                            </select>
+                            <textarea id="${noteId}" class="notes-textarea" placeholder="Observações..." 
+                                ${!hasNote ? 'style="display: none;"' : ''}
+                                onchange="updateNote(${criterionIndex}, ${itemIndex}, '${bank}', this.value)">${note}</textarea>
+                        </div>
+                    `;
+                });
+
+                itemCard.innerHTML = `
                     <div class="item-header">
-                        <div class="item-name">${item.name}</div>
-                        <div><span class="weight-badge">Peso: ${item.weight}</span>
-                        <button class="btn" style="padding: 5px 15px; margin-left: 10px; background: #dc3545;" onclick="removeItem(${criterionIndex}, ${itemIndex})">🗑️</button></div>
+                        <span class="item-name">${item.name}</span>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span class="item-weight">Peso ${item.weight}</span>
+                            <button class="btn btn-danger btn-small" onclick="removeItem(${criterionIndex}, ${itemIndex})">✕ Remover</button>
+                        </div>
                     </div>
                     <div class="ratings-grid">
-                        ${state.banks.map(bank => `
-                            <div class="rating-cell">
-                                <label>${bank}<span class="note-icon ${item.notes[bank] ? 'has-note' : ''}" onclick="toggleNote(${criterionIndex}, ${itemIndex}, '${bank}')">📝</span></label>
-                                <select onchange="updateRating(${criterionIndex}, ${itemIndex}, '${bank}', this.value)">
-                                    <option value="1" ${item.ratings[bank] === 1 ? 'selected' : ''}>1 - Não atende</option>
-                                    <option value="2" ${item.ratings[bank] === 2 ? 'selected' : ''}>2 - Atende parcialmente</option>
-                                    <option value="3" ${item.ratings[bank] === 3 ? 'selected' : ''}>3 - Atende bem</option>
-                                    <option value="4" ${item.ratings[bank] === 4 ? 'selected' : ''}>4 - Atende plenamente</option>
-                                </select>
-                                <div id="note-container-${criterionIndex}-${itemIndex}-${bank}" style="display: none;">
-                                    <textarea class="note-input" placeholder="Observação..." onchange="updateNote(${criterionIndex}, ${itemIndex}, '${bank}', this.value)">${item.notes[bank] || ''}</textarea>
-                                </div>
-                                ${item.notes[bank] ? `<div class="note-display">${item.notes[bank]}</div>` : ''}
-                            </div>
-                        `).join('')}
+                        ${ratingsHTML}
                     </div>
-                </div>
-            `).join('');
+                `;
+
+                itemsContainer.appendChild(itemCard);
+            });
         }
-        
-        function renderAllCriteria() {
-            for (let i = 0; i < state.criteria.length; i++) renderCriterionItems(i);
-        }
-        
-        function updateRating(criterionIndex, itemIndex, bank, rating) {
-            state.criteria[criterionIndex].items[itemIndex].ratings[bank] = parseInt(rating);
-        }
-        
-        function toggleNote(criterionIndex, itemIndex, bank) {
-            const container = document.getElementById(`note-container-${criterionIndex}-${itemIndex}-${bank}`);
-            container.style.display = container.style.display === 'none' ? 'block' : 'none';
-        }
-        
-        function updateNote(criterionIndex, itemIndex, bank, note) {
-            state.criteria[criterionIndex].items[itemIndex].notes[bank] = note.trim();
-            renderCriterionItems(criterionIndex);
-        }
-        
-        function showAddItemModal(criterionIndex) {
-            state.currentCriterionForNewItem = criterionIndex;
-            document.getElementById('addItemModal').classList.add('active');
-        }
-        
-        function closeModal() {
-            document.getElementById('addItemModal').classList.remove('active');
-        }
-        
-        function addItem() {
-            const name = document.getElementById('newItemName').value.trim();
-            const weight = parseInt(document.getElementById('newItemWeight').value);
-            if (!name) return;
-            const newItem = {name: name, weight: weight, ratings: {}, notes: {}};
-            state.banks.forEach(bank => {
+
+        function addItem(criterionIndex) {
+            const nameInput = document.getElementById(`newItemName-${criterionIndex}`);
+            const weightSelect = document.getElementById(`newItemWeight-${criterionIndex}`);
+            
+            const itemName = nameInput.value.trim();
+            const itemWeight = parseInt(weightSelect.value);
+
+            if (!itemName) {
+                showNotification('Por favor, insira um nome para o item', 'error');
+                return;
+            }
+
+            const newItem = {
+                name: itemName,
+                weight: itemWeight,
+                ratings: {},
+                notes: {}
+            };
+
+            // Inicializar ratings para todos os bancos
+            appData.banks.forEach(bank => {
                 newItem.ratings[bank] = 1;
                 newItem.notes[bank] = '';
             });
-            state.criteria[state.currentCriterionForNewItem].items.push(newItem);
-            renderCriterionItems(state.currentCriterionForNewItem);
-            closeModal();
+
+            appData.criteria[criterionIndex].items.push(newItem);
+            
+            nameInput.value = '';
+            renderItems(criterionIndex);
+            showNotification(`Item "${itemName}" adicionado com sucesso!`);
         }
-        
+
         function removeItem(criterionIndex, itemIndex) {
-            if (!confirm('Remover item?')) return;
-            state.criteria[criterionIndex].items.splice(itemIndex, 1);
-            renderCriterionItems(criterionIndex);
-        }
-        
-        function calculateResults() {
-            const results = {};
-            state.banks.forEach(bank => {
-                results[bank] = {criteriaScores: [], total: 0};
-                state.criteria.forEach(criterion => {
-                    let totalPoints = 0, maxPoints = 0;
-                    criterion.items.forEach(item => {
-                        const rating = item.ratings[bank] || 1;
-                        totalPoints += rating * item.weight;
-                        maxPoints += 4 * item.weight;
-                    });
-                    const normalizedScore = (totalPoints / maxPoints) * 10;
-                    results[bank].criteriaScores.push(normalizedScore);
-                    results[bank].total += normalizedScore;
-                });
-            });
-            renderResults(results);
-        }
-        
-        function renderResults(results) {
-            const ranking = Object.entries(results).sort((a, b) => b[1].total - a[1].total).map(([bank, data], index) => ({
-                position: index + 1, bank: bank, score: data.total.toFixed(2), percentage: ((data.total / 40) * 100).toFixed(1)
-            }));
-            const medals = ['🥇', '🥈', '🥉'];
-            document.getElementById('ranking').innerHTML = ranking.map(item => `
-                <div class="rank-item">
-                    <div class="rank-position">${item.position}º</div>
-                    <div class="rank-details">
-                        <div class="rank-bank">${item.bank}</div>
-                        <div class="rank-score">${item.score} pontos (${item.percentage}%)</div>
-                    </div>
-                    ${item.position <= 3 ? `<div style="font-size: 3em;">${medals[item.position - 1]}</div>` : ''}
-                </div>
-            `).join('');
-            
-            const sortedBanks = Object.entries(results).sort((a, b) => b[1].total - a[1].total).map(([bank]) => bank);
-            let tableHTML = '<table class="results-table"><thead><tr><th style="width: 300px;">Critério</th>';
-            sortedBanks.forEach(bank => tableHTML += `<th>${bank}</th>`);
-            tableHTML += '</tr></thead><tbody>';
-            
-            state.criteria.forEach((criterion, index) => {
-                tableHTML += `<tr class="expandable-row" onclick="toggleCriterionDetails(${index})">
-                    <td style="text-align: left; font-weight: 600;"><span class="expand-icon" id="expand-icon-${index}">▶</span>${criterion.name}</td>`;
-                sortedBanks.forEach(bank => {
-                    const score = results[bank].criteriaScores[index];
-                    let scoreClass = score >= 8 ? 'score-high' : score >= 6 ? 'score-medium' : 'score-low';
-                    tableHTML += `<td><span class="${scoreClass}">${score.toFixed(2)}</span></td>`;
-                });
-                tableHTML += '</tr>';
-                
-                tableHTML += `<tr class="details-row" id="details-${index}"><td colspan="${sortedBanks.length + 1}">
-                    <table class="items-table"><thead><tr><th style="text-align: left;">Item</th>${sortedBanks.map(bank => `<th>${bank}</th>`).join('')}</tr></thead><tbody>`;
-                criterion.items.forEach(item => {
-                    tableHTML += `<tr><td style="text-align: left;">${item.name}<span class="weight-display">Peso: ${item.weight}</span></td>`;
-                    sortedBanks.forEach(bank => {
-                        const rating = item.ratings[bank] || 1;
-                        const points = rating * item.weight;
-                        const note = item.notes[bank] || '';
-                        let scoreClass = rating >= 4 ? 'score-high' : rating >= 3 ? 'score-medium' : 'score-low';
-                        tableHTML += `<td><span class="item-score ${scoreClass}">${rating} (${points}pts)</span>${note ? `<div class="note-display" style="margin-top: 5px;">${note}</div>` : ''}</td>`;
-                    });
-                    tableHTML += '</tr>';
-                });
-                tableHTML += '</tbody></table></td></tr>';
-            });
-            
-            tableHTML += '<tr style="background: #f0f0f0; font-weight: 700;"><td style="text-align: left;">TOTAL</td>';
-            sortedBanks.forEach(bank => {
-                const total = results[bank].total;
-                let scoreClass = total >= 32 ? 'score-high' : total >= 24 ? 'score-medium' : 'score-low';
-                tableHTML += `<td><span class="${scoreClass}">${total.toFixed(2)}</span></td>`;
-            });
-            tableHTML += '</tr></tbody></table>';
-            document.getElementById('detailedResults').innerHTML = tableHTML;
-        }
-        
-        function toggleCriterionDetails(index) {
-            const detailsRow = document.getElementById(`details-${index}`);
-            const expandIcon = document.getElementById(`expand-icon-${index}`);
-            if (detailsRow.classList.contains('visible')) {
-                detailsRow.classList.remove('visible');
-                expandIcon.classList.remove('expanded');
-            } else {
-                detailsRow.classList.add('visible');
-                expandIcon.classList.add('expanded');
-            }
-        }
-        
-        function saveEvaluation() {
-            try {
-                localStorage.setItem('bankComparisonState', JSON.stringify(state));
-                showNotification('Avaliação salva com sucesso!', 'success');
-            } catch (error) {
-                showNotification('Erro ao salvar: ' + error.message, 'error');
-            }
-        }
-        
-        function loadEvaluation() {
-            try {
-                const savedData = localStorage.getItem('bankComparisonState');
-                if (!savedData) {
-                    showNotification('Nenhuma avaliação salva encontrada.', 'info');
-                    return;
-                }
-                state = JSON.parse(savedData);
-                renderBanks();
-                renderAllCriteria();
-                showNotification('Avaliação carregada com sucesso!', 'success');
-            } catch (error) {
-                showNotification('Erro ao carregar: ' + error.message, 'error');
-            }
-        }
-        
-        function exportEvaluation() {
-            try {
-                const cleanState = {
-                    banks: [...state.banks],
-                    criteria: state.criteria.map(criterion => ({
-                        name: criterion.name,
-                        items: criterion.items.map(item => ({
-                            name: item.name, weight: item.weight, ratings: {...item.ratings}, notes: {...item.notes}
-                        }))
-                    }))
-                };
-                const dataToExport = JSON.stringify(cleanState, null, 2);
-                const blob = new Blob([dataToExport], { type: 'application/json' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'avaliacao_bancos_' + new Date().toISOString().split('T')[0] + '.json';
-                document.body.appendChild(link);
-                link.click();
-                setTimeout(() => {
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(link.href);
-                }, 100);
-                showNotification('Arquivo exportado! Verifique seus Downloads.', 'success');
-            } catch (error) {
-                showNotification('Erro ao exportar: ' + error.message, 'error');
-            }
-        }
-        
-        function copyJSON() {
-            try {
-                const cleanState = {
-                    banks: [...state.banks],
-                    criteria: state.criteria.map(criterion => ({
-                        name: criterion.name,
-                        items: criterion.items.map(item => ({
-                            name: item.name, weight: item.weight, ratings: {...item.ratings}, notes: {...item.notes}
-                        }))
-                    }))
-                };
-                const dataToExport = JSON.stringify(cleanState, null, 2);
-                navigator.clipboard.writeText(dataToExport).then(() => {
-                    showNotification('JSON copiado para área de transferência!', 'success');
-                }).catch(() => {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = dataToExport;
-                    textarea.style.position = 'fixed';
-                    textarea.style.opacity = '0';
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    showNotification('JSON copiado!', 'success');
-                });
-            } catch (error) {
-                showNotification('Erro ao copiar: ' + error.message, 'error');
-            }
-        }
-        
-        function showImportModal() {
-            document.getElementById('importModal').classList.add('active');
-            document.getElementById('importJson').value = '';
-            document.getElementById('importFile').value = '';
-        }
-        
-        function closeImportModal() {
-            document.getElementById('importModal').classList.remove('active');
-        }
-        
-        function importFromFile() {
-            const fileInput = document.getElementById('importFile');
-            const file = fileInput.files[0];
-            if (!file) {
-                showNotification('Selecione um arquivo JSON.', 'warning');
+            const item = appData.criteria[criterionIndex].items[itemIndex];
+            if (!confirm(`Tem certeza que deseja remover o item "${item.name}"?`)) {
                 return;
             }
+
+            appData.criteria[criterionIndex].items.splice(itemIndex, 1);
+            renderItems(criterionIndex);
+            showNotification(`Item "${item.name}" removido com sucesso!`);
+        }
+
+        function updateRating(criterionIndex, itemIndex, bank, value) {
+            appData.criteria[criterionIndex].items[itemIndex].ratings[bank] = parseInt(value);
+        }
+
+        function updateNote(criterionIndex, itemIndex, bank, value) {
+            appData.criteria[criterionIndex].items[itemIndex].notes[bank] = value;
+        }
+
+        function showNoteField(noteId) {
+            const textarea = document.getElementById(noteId);
+            const button = textarea.previousElementSibling.querySelector('.btn-note-icon');
+            
+            if (button) button.style.display = 'none';
+            textarea.style.display = 'block';
+            textarea.focus();
+        }
+
+        // Cálculos e resultados
+        function calculateResults() {
+            const results = [];
+
+            appData.banks.forEach(bank => {
+                let totalScore = 0;
+                const criteriaScores = [];
+
+                appData.criteria.forEach(criterion => {
+                    let criterionScore = 0;
+                    let maxCriterionScore = 0;
+
+                    criterion.items.forEach(item => {
+                        const rating = item.ratings[bank] || 1;
+                        const weight = item.weight;
+                        criterionScore += rating * weight;
+                        maxCriterionScore += 4 * weight; // Máximo = 4 pontos × peso
+                    });
+
+                    // Normalizar para 0-10
+                    const normalizedScore = maxCriterionScore > 0 
+                        ? (criterionScore / maxCriterionScore) * 10 
+                        : 0;
+
+                    criteriaScores.push({
+                        name: criterion.name,
+                        score: normalizedScore,
+                        rawScore: criterionScore,
+                        maxScore: maxCriterionScore
+                    });
+
+                    totalScore += normalizedScore;
+                });
+
+                results.push({
+                    bank: bank,
+                    totalScore: totalScore,
+                    criteriaScores: criteriaScores
+                });
+            });
+
+            // Ordenar por pontuação total (maior para menor)
+            results.sort((a, b) => b.totalScore - a.totalScore);
+
+            renderResults(results);
+        }
+
+        function renderResults(results) {
+            const container = document.getElementById('rankingResults');
+            container.innerHTML = '';
+
+            results.forEach((result, index) => {
+                const rank = index + 1;
+                const rankClass = rank <= 3 ? `rank-${rank}` : '';
+                
+                const card = document.createElement('div');
+                card.className = `ranking-card ${rankClass}`;
+                
+                let criteriaHTML = '';
+                result.criteriaScores.forEach(cs => {
+                    const scoreClass = cs.score >= 7 ? 'score-high' : cs.score >= 5 ? 'score-medium' : 'score-low';
+                    criteriaHTML += `
+                        <div class="criterion-score">
+                            <div class="criterion-name">${cs.name}</div>
+                            <div class="criterion-value">
+                                <span class="score-badge ${scoreClass}">${cs.score.toFixed(1)}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Detalhes por critério
+                let detailsHTML = '<div class="detail-content" style="display: none;">';
+                
+                appData.criteria.forEach((criterion, critIndex) => {
+                    detailsHTML += `
+                        <h3 style="margin-top: 20px; margin-bottom: 10px; color: var(--text-primary);">
+                            ${criterion.name}
+                        </h3>
+                        <table class="detail-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Peso</th>
+                                    <th>Avaliação</th>
+                                    <th>Pontos</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    criterion.items.forEach(item => {
+                        const rating = item.ratings[result.bank] || 1;
+                        const points = rating * item.weight;
+                        const note = item.notes[result.bank] || '-';
+                        const ratingText = ['', 'Não atende', 'Atende parcialmente', 'Atende bem', 'Atende plenamente'][rating];
+
+                        detailsHTML += `
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.weight}</td>
+                                <td>${rating} - ${ratingText}</td>
+                                <td><strong>${points}</strong></td>
+                                <td style="font-size: 0.85rem;">${note}</td>
+                            </tr>
+                        `;
+                    });
+
+                    detailsHTML += `
+                            </tbody>
+                        </table>
+                    `;
+                });
+
+                detailsHTML += '</div>';
+
+                card.innerHTML = `
+                    <div class="ranking-header">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <span class="rank-number">#${rank}</span>
+                            <span class="bank-title">${result.bank}</span>
+                        </div>
+                        <span class="score-display">${result.totalScore.toFixed(1)}/40</span>
+                    </div>
+                    <div class="criteria-breakdown">
+                        ${criteriaHTML}
+                    </div>
+                    <div class="detail-toggle" onclick="toggleDetails(this)">
+                        ▼ Ver detalhes completos
+                    </div>
+                    ${detailsHTML}
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function toggleDetails(element) {
+            const content = element.nextElementSibling;
+            const isVisible = content.style.display !== 'none';
+            
+            content.style.display = isVisible ? 'none' : 'block';
+            element.textContent = isVisible ? '▼ Ver detalhes completos' : '▲ Ocultar detalhes';
+        }
+
+        // Persistência de dados
+        function saveEvaluation() {
+            try {
+                localStorage.setItem('bankComparison', JSON.stringify(appData));
+                showNotification('Avaliação salva com sucesso!');
+            } catch (e) {
+                showNotification('Erro ao salvar avaliação: ' + e.message, 'error');
+            }
+        }
+
+        function loadEvaluation() {
+            try {
+                const saved = localStorage.getItem('bankComparison');
+                if (!saved) {
+                    showNotification('Nenhuma avaliação salva encontrada', 'info');
+                    return;
+                }
+
+                appData = JSON.parse(saved);
+                init();
+                showNotification('Avaliação carregada com sucesso!');
+            } catch (e) {
+                showNotification('Erro ao carregar avaliação: ' + e.message, 'error');
+            }
+        }
+
+        function exportJSON() {
+            try {
+                const dataStr = JSON.stringify(appData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `comparacao-bancos-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+                showNotification('JSON exportado com sucesso!');
+            } catch (e) {
+                showNotification('Erro ao exportar JSON: ' + e.message, 'error');
+            }
+        }
+
+        function copyJSON() {
+            try {
+                const dataStr = JSON.stringify(appData, null, 2);
+                navigator.clipboard.writeText(dataStr).then(() => {
+                    showNotification('JSON copiado para área de transferência!');
+                }).catch(err => {
+                    showNotification('Erro ao copiar JSON: ' + err.message, 'error');
+                });
+            } catch (e) {
+                showNotification('Erro ao copiar JSON: ' + e.message, 'error');
+            }
+        }
+
+        function openImportModal() {
+            document.getElementById('importModal').classList.add('active');
+        }
+
+        function closeImportModal() {
+            document.getElementById('importModal').classList.remove('active');
+            document.getElementById('importJsonText').value = '';
+        }
+
+        function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const importedState = JSON.parse(e.target.result);
-                    if (!importedState.banks || !importedState.criteria) {
-                        showNotification('JSON inválido.', 'error');
-                        return;
-                    }
-                    state = importedState;
+                    const imported = JSON.parse(e.target.result);
+                    appData = imported;
+                    init();
                     closeImportModal();
-                    renderBanks();
-                    renderAllCriteria();
-                    showNotification('Avaliação importada do arquivo!', 'success');
+                    showNotification('Dados importados com sucesso!');
                 } catch (error) {
-                    showNotification('Erro ao importar: ' + error.message, 'error');
+                    showNotification('Erro ao importar arquivo: ' + error.message, 'error');
                 }
             };
             reader.readAsText(file);
         }
-        
+
         function importFromText() {
             try {
-                const jsonText = document.getElementById('importJson').value.trim();
-                if (!jsonText) {
-                    showNotification('Cole o JSON da avaliação.', 'warning');
+                const text = document.getElementById('importJsonText').value.trim();
+                if (!text) {
+                    showNotification('Por favor, cole o JSON no campo de texto', 'error');
                     return;
                 }
-                const importedState = JSON.parse(jsonText);
-                if (!importedState.banks || !importedState.criteria) {
-                    showNotification('JSON inválido.', 'error');
-                    return;
-                }
-                state = importedState;
+
+                const imported = JSON.parse(text);
+                appData = imported;
+                init();
                 closeImportModal();
-                renderBanks();
-                renderAllCriteria();
-                showNotification('Avaliação importada!', 'success');
-            } catch (error) {
-                showNotification('Erro ao importar: ' + error.message, 'error');
+                showNotification('Dados importados com sucesso!');
+            } catch (e) {
+                showNotification('Erro ao importar JSON: ' + e.message, 'error');
             }
         }
-        
-        renderBanks();
-        renderAllCriteria();
+
+        // Inicializar aplicação com dados pré-carregados
+        init();
     </script>
 </body>
 </html>
